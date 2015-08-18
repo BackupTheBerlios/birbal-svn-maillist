@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r34 - in trunk/birbal: births/apps/register/models docs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r34%20-%20in%20trunk/birbal%3A%20births/apps/register/models%20docs&In-Reply-To=%3C200512170700.jBH70IaG021242%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000028.html">
+   <LINK REL="Next"  HREF="000030.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r34 - in trunk/birbal: births/apps/register/models docs</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r34%20-%20in%20trunk/birbal%3A%20births/apps/register/models%20docs&In-Reply-To=%3C200512170700.jBH70IaG021242%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r34 - in trunk/birbal: births/apps/register/models docs">lawgon at berlios.de
+       </A><BR>
+    <I>Sat Dec 17 08:00:18 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000028.html">[Birbal-svn] r33 - trunk/birbal/births/apps/register/models
+</A></li>
+        <LI>Next message: <A HREF="000030.html">[Birbal-svn] r35 - trunk/birbal/births/apps/register/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-17 08:00:12 +0100 (Sat, 17 Dec 2005)
+New Revision: 34
+
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/docs/births_db_schema.txt
+Log:
+adding models
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-16 12:36:14 UTC (rev 33)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-17 07:00:12 UTC (rev 34)
+@@ -16,7 +16,7 @@
+         list_display = ('name',),
+             search_fields = ['name'],)
+     def __repr__(self):
+-            return &quot;%s&quot; %(_(self.name))
++            return &quot;%s&quot; %(self.name)
+ 
+ class Status(meta.Model):
+     name = meta.CharField(_(&quot;Status&quot;),maxlength=50,unique=True)
+@@ -26,7 +26,7 @@
+         list_display = ('name',),
+             search_fields = ['name'],)
+     def __repr__(self):
+-            return &quot;%s&quot; %(_(self.name))
++            return &quot;%s&quot; %(self.name)
+ 
+ class Official(meta.Model):
+     rank = meta.CharField(_(&quot;Rank&quot;),maxlength=50,unique=True)
+@@ -53,6 +53,58 @@
+ 
+ # master tables for actual data
+ 
++class Area(meta.Model):
++    name = meta.CharField(_(&quot;Area&quot;),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return &quot;%s&quot; %(self.name)
++
++        
++
++class Street(meta.Model):
++    name = meta.CharField(_(&quot;Street&quot;),maxlength=50,unique=True)
++    area = meta.ForeignKey(Area)
++    class META:
++        admin = meta.Admin(
++        list_display = ('name','area',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return _(&quot;Street: %s Area %s&quot;) %(self.name,self.get_area)
++
++class Deathplace(meta.Model):
++    name = meta.CharField(_(&quot;Area&quot;),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return &quot;%s&quot; %(self.name)
++
++class Birthplace(meta.Model):
++    name = meta.CharField(_(&quot;Area&quot;),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return &quot;%s&quot; %(self.name)
++
++class Reporttype(meta.Model):
++    name = meta.CharField(_(&quot;Area&quot;),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return &quot;%s&quot; %(self.name)
++
+ ##############################################end of actual data master
+ 
+ 
+
+Modified: trunk/birbal/docs/births_db_schema.txt
+===================================================================
+--- trunk/birbal/docs/births_db_schema.txt	2005-12-16 12:36:14 UTC (rev 33)
++++ trunk/birbal/docs/births_db_schema.txt	2005-12-17 07:00:12 UTC (rev 34)
+@@ -2,8 +2,7 @@
+ 
+ master tables:
+ 1. areas - could be wards in a municipality or villages in rural areas
+-2. authority (scrutinise, verify, add,
+-approve)
++
+ 2. officials - name, designation, status
+ 3. birthplacetypes - home, hospital, nursinghome etc
+ 4. deathplacetypes - same thing
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000028.html">[Birbal-svn] r33 - trunk/birbal/births/apps/register/models
+</A></li>
+	<LI>Next message: <A HREF="000030.html">[Birbal-svn] r35 - trunk/birbal/births/apps/register/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,414 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r29 - in trunk/birbal: births births/apps/register births/apps/register/models births/sitemedia/css births/templates/register docs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r29%20-%20in%20trunk/birbal%3A%20births%20births/apps/register%20births/apps/register/models%20births/sitemedia/css%20births/templates/register%20docs&In-Reply-To=%3C200512151359.jBFDxYkZ025518%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000024.html">
+   <LINK REL="Next"  HREF="000026.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r29 - in trunk/birbal: births births/apps/register births/apps/register/models births/sitemedia/css births/templates/register docs</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r29%20-%20in%20trunk/birbal%3A%20births%20births/apps/register%20births/apps/register/models%20births/sitemedia/css%20births/templates/register%20docs&In-Reply-To=%3C200512151359.jBFDxYkZ025518%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r29 - in trunk/birbal: births births/apps/register births/apps/register/models births/sitemedia/css births/templates/register docs">lawgon at berlios.de
+       </A><BR>
+    <I>Thu Dec 15 14:59:34 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000024.html">[Birbal-svn] r28 - trunk/birbal/births/sitemedia/css
+</A></li>
+        <LI>Next message: <A HREF="000026.html">[Birbal-svn] r30 - trunk/birbal/docs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-15 14:59:33 +0100 (Thu, 15 Dec 2005)
+New Revision: 29
+
+Added:
+   trunk/birbal/births/templates/register/fac.html
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+   trunk/birbal/births/sitemedia/css/layout.css
+   trunk/birbal/births/urls.py
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+the next stage
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-15 13:59:33 UTC (rev 29)
+@@ -15,3 +15,37 @@
+         unique_together = ((&quot;title&quot;,&quot;date&quot;),)
+     def __repr__(self):
+             return &quot;%s, Date: %s&quot; %(self.title.capitalize(),self.date)
++
++
++facility_types =(
++    ('HM', 'Home'),
++    ('FQ', 'Faq'),
++    ('DC', 'Documentation'),
++    
++    )
++
++layout_types =(
++    ('TB', 'TopBottom'),
++    ('LR', 'LeftRight'),
++    ('RL', 'RightLeft'),
++    )
++
++class Facility(meta.Model):
++    title = meta.CharField('Title',maxlength=250)
++    type = meta.CharField('Entry Type',maxlength=2,choices=facility_types)
++    layout = meta.CharField('Layout',maxlength=2,choices=layout_types)
++    photo = meta.ImageField('Photo',upload_to='images/',blank=True,null=True)
++    blurb = meta.CharField('Blurb for photo',maxlength=250,blank=True,null=True)
++    matter = meta.TextField('Matter',blank=True,null=True)
++    priority = meta.IntegerField('Priority',default=1)
++    class META:
++        unique_together = ((&quot;title&quot;,&quot;type&quot;),)
++        ordering = ['type','priority']
++        admin = meta.Admin(
++        list_display = ('title','type','layout','priority'),
++            search_fields = ['type'],
++        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
++    def __repr__(self):
++            return &quot;%s, Type: %s, Priority: %d, layout: %s\
++            &quot; %(self.title.capitalize(),self.get_type_display(),self.priority,\
++                self.get_layout_display())
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/apps/register/views.py	2005-12-15 13:59:33 UTC (rev 29)
+@@ -1,18 +1,24 @@
+ from django.core import template_loader
+ from django.core.extensions import DjangoContext as Context
+ from django.utils.httpwrappers import HttpResponse
+-from births.apps.register.models.register import advertisements
++from births.apps.register.models.register import advertisements,facilitys
+ import datetime
+ from django.core.exceptions import Http404
+ 
+ menu_items = [
+-              {'name':'Home','url':'','id':''},
+-              {'name':'Mission','url':'mission/','id':''},
+-              {'name':'News','url':'news/NW/','id':''},
+-              
++                {'name':'Home','url':'fac/HM/','id':''},
++              {'name':'FAQ','url':'fac/FQ/','id':''},
++              {'name':'Documents','url':'fac/DC/','id':''},
+               ]
+ 
++fac_types ={
++    'HM': 'Home',
++    'FQ': 'Faq',
++    'DC': 'Documentation',
++    'AM': 'Amenities'
++    }
+ 
++
+         
+ 
+ def extract():
+@@ -33,4 +39,15 @@
+     
+     return HttpResponse(t.render(c))
+ 
++def fac(request,type):
++    list = facilitys.get_list(type__exact=type,)
++    t = template_loader.get_template('register/fac')
++    c = Context(request,
++                {'list':list,'tp':type,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
+ 
++
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-15 13:59:33 UTC (rev 29)
+@@ -226,6 +226,7 @@
+ 		margin-top: 10px;
+ 		width:16%;
+ 		margin-bottom:10px;
++		background:#2586d7;
+ 		}
+ 		
+ 	
+@@ -247,6 +248,7 @@
+ 		Arial, sans-serif;
+ 		background-color: #90bade;
+ 		color: #333;
++		font-size: 80%;
+ 		}
+ 		
+ 	#button ul {
+
+Added: trunk/birbal/births/templates/register/fac.html
+===================================================================
+--- trunk/birbal/births/templates/register/fac.html	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/templates/register/fac.html	2005-12-15 13:59:33 UTC (rev 29)
+@@ -0,0 +1,79 @@
++{% extends &quot;base&quot; %}
++{% block centercontent %}
++{% if list %}
++    {% for p in list %}
++    	&lt;h2&gt;{{ p.title }}&lt;/h2&gt;
++	&lt;br/&gt;
++	{% ifequal p.layout &quot;TB&quot; %}
++		{% if p.photo %}
++		&lt;div id=&quot;newsimage&quot;&gt;
++		&lt;img src=&quot;{{ p.get_photo_url }}&quot; width=&quot;75%&quot;&gt;
++		&lt;/div&gt;
++		{% endif %}
++		{% if p.blurb %}
++		&lt;div id=&quot;blurb&quot;&gt;
++		{{ p.blurb }}
++		&lt;/div&gt;
++		&lt;br/&gt;
++		&lt;br/&gt;
++		{% endif %}
++		{{ p.matter }}
++	{% endifequal %}
++	
++	{% ifequal p.layout &quot;LR&quot; %}
++		&lt;table&gt;
++		&lt;tr&gt;
++		&lt;TD width=&quot;65%&quot;&gt;
++			{% if p.photo %}
++			&lt;img src=&quot;{{ p.get_photo_url }}&quot; width=&quot;450&quot;/&gt;
++			{% endif %}
++		&lt;/TD&gt;
++		&lt;TD rowspan=&quot;2&quot;&gt;
++			{{ p.matter }}
++		&lt;/TD&gt;
++		&lt;/tr&gt;
++		&lt;tr&gt;&lt;TD&gt;
++			{% if p.blurb %}
++			&lt;div id=&quot;blurb&quot;&gt;
++			{{ p.blurb }}
++			&lt;/div&gt;
++			{% endif %}
++		&lt;/TD&gt;
++		
++		&lt;/tr&gt;
++		&lt;/table&gt;	
++	{% endifequal %}
++	
++	{% ifequal p.layout &quot;RL&quot; %}
++		&lt;table&gt;
++		&lt;tr&gt;
++		&lt;TD rowspan=&quot;2&quot;&gt;
++			{{ p.matter }}
++		&lt;/TD&gt;
++		&lt;TD width=&quot;65%&quot;&gt;
++			{% if p.photo %}
++			&lt;img src=&quot;{{ p.get_photo_url }}&quot; width=&quot;450&quot;/&gt;
++			{% endif %}
++		&lt;/TD&gt;
++		
++		&lt;/tr&gt;
++		&lt;tr&gt;
++		
++		&lt;TD&gt;
++			{% if p.blurb %}
++			&lt;div id=&quot;blurb&quot;&gt;
++			{{ p.blurb }}
++			&lt;/div&gt;
++			{% endif %}
++		&lt;/TD&gt;
++		
++		&lt;/tr&gt;
++		&lt;/table&gt;	
++	{% endifequal %}
++	
++
++    {% endfor %}
++{% else %}
++    &lt;h2&gt;Still Under Construction&lt;/h2&gt;
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/urls.py	2005-12-15 13:59:33 UTC (rev 29)
+@@ -7,5 +7,6 @@
+     # Uncomment this for admin:
+      (r'^births/admin/', include('django.contrib.admin.urls.admin')),
+     (r'^births/$', 'births.apps.register.views.index'),
+-    (r'^brths/ads/(?P&lt;id&gt;\d+)/$', 'births.apps.register.views.ads'),
++    (r'^births/ads/(?P&lt;id&gt;\d+)/$', 'births.apps.register.views.ads'),
++    (r'^births/fac/(?P&lt;type&gt;\w+)/$', 'births.apps.register.views.fac'),
+ )
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-15 13:59:33 UTC (rev 29)
+@@ -39,118 +39,3 @@
+ Provision has to be made for paying the fee - either online or offline.
+ 
+ 12. Birth and death statistics can be generated.
+-
+-Database schema:
+-
+-master tables:
+-1. areas - could be wards in a municipality or villages in rural areas
+-2. officials - name, designation, authority (scrutinise, verify, add,
+-approve)
+-3. birthplacetypes - home, hospital, nursinghome etc
+-4. deathplacetypes - same thing
+-5. reportypes - form, letter, phone, oral, web etc
+-6. transactiontypes - openingfile, scrutiny, returning, verification,
+-approval, deletion, modification, certificateissue, certificaterefusal
+-
+-Reportsregister (births):
+-
+-id
+-date opened
+-informant name
+-reportytpe - fk to reportypes
+-filenumber
+-physical location of report
+-location of digital copy of report
+-name
+-fathers name
+-mothers name
+-address
+-area
+-date of birth
+-date registered
+-sex
+-birthplace - foreignkey to birthplaces
+-accepted/rejected
+-dateclosed
+-
+-(some information is duplicated in both tables, but this is necessary for
+-audit trail)
+-
+-birthregister:
+-
+-id
+-name
+-fathers name
+-mothers name
+-address
+-area
+-report - foreignkey to reports table
+-date of birth
+-date registered
+-sex
+-identity code number
+-birthplace - foreignkey to birthplaces
+-
+-Reportsregister (deaths):
+-
+-id
+-informant name
+-date opened
+-reportytpe - fk to reportypes
+-filenumber
+-physical location of report
+-location of digital copy of report
+-fname
+-lname
+-fathers name
+-address
+-area
+-date of death
+-sex
+-deathplace - foreignkey to deathplaces
+-cause of death
+-accepted/rejected
+-dateclosed
+-
+-deathregister:
+-
+-id
+-firstname
+-lastname
+-fathers/husbands/mothers name
+-date of death
+-deathplace - foreign key to deathplaces
+-place of death
+-cause of death
+-area - fk to areas
+-addresss
+-date registered
+-report - foreign key to reports table
+-
+-Transactions: 
+-
+-reporthandling
+-
+-report - fk to reports table
+-transactiontype - fk to transactiontypes
+-date
+-official - fk to officials
+-note - text
+-
+-registerhandling
+-
+-register - fk to register
+-transactiontype - fk to transactiontypes
+-date
+-official - fk to officials
+-note - text
+-
+-certificatehandling
+-
+-report - fk to reports table
+-date
+-approved/rejected
+-note
+-do we need to store to whom issued?
+-Since people will pay for the certificates, I guess we should store the
+-name of the person to whom it was issued, money taken, date, etc. too.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000024.html">[Birbal-svn] r28 - trunk/birbal/births/sitemedia/css
+</A></li>
+	<LI>Next message: <A HREF="000026.html">[Birbal-svn] r30 - trunk/birbal/docs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

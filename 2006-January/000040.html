@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r48 - trunk/birbal/births
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r48%20-%20trunk/birbal/births&In-Reply-To=%3C200601030721.k037Lb4o000388%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000041.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r48 - trunk/birbal/births</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r48%20-%20trunk/birbal/births&In-Reply-To=%3C200601030721.k037Lb4o000388%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r48 - trunk/birbal/births">lawgon at berlios.de
+       </A><BR>
+    <I>Tue Jan  3 08:21:37 CET 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000041.html">[Birbal-svn] r49 - in trunk/birbal/births: . apps/website apps/website/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2006-01-03 08:21:01 +0100 (Tue, 03 Jan 2006)
+New Revision: 48
+
+Added:
+   trunk/birbal/births/settings.bak
+Log:
+added a model settings file
+
+Added: trunk/birbal/births/settings.bak
+===================================================================
+--- trunk/birbal/births/settings.bak	2005-12-31 14:38:33 UTC (rev 47)
++++ trunk/birbal/births/settings.bak	2006-01-03 07:21:01 UTC (rev 48)
+@@ -0,0 +1,75 @@
++# Django settings for births project.
++
++DEBUG = True
++TEMPLATE_DEBUG = DEBUG
++
++ADMINS = (
++    # ('Your Name', '<A HREF="https://lists.berlios.de/mailman/listinfo/birbal-svn">your_email at domain.com</A>'),
++)
++
++MANAGERS = ADMINS
++
++DATABASE_ENGINE = 'postgresql' # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
++DATABASE_NAME = 'births'             # Or path to database file if using sqlite3.
++DATABASE_USER = 'lawgon'             # Not used with sqlite3.
++DATABASE_PASSWORD = ''         # Not used with sqlite3.
++DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
++DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
++
++# Local time zone for this installation. All choices can be found here:
++# <A HREF="http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE">http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE</A>
++TIME_ZONE = 'Asia/Calcutta'
++
++DATE_FORMAT = 'd/m/Y'
++
++# Language code for this installation. All choices can be found here:
++# <A HREF="http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes">http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes</A>
++# <A HREF="http://blogs.law.harvard.edu/tech/stories/storyReader$15">http://blogs.law.harvard.edu/tech/stories/storyReader$15</A>
++LANGUAGE_CODE = 'en-us'
++
++SITE_ID = 1
++
++# Absolute path to the directory that holds media.
++# Example: &quot;/home/media/media.lawrence.com/&quot;
++MEDIA_ROOT = '/home/birbal/media/'
++
++# URL that handles the media served from MEDIA_ROOT.
++# Example: &quot;<A HREF="http://media.lawrence.com">http://media.lawrence.com</A>&quot;
++MEDIA_URL = '<A HREF="http://birbal.org.in/smedia/">http://birbal.org.in/smedia/</A>'
++
++# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
++# trailing slash.
++# Examples: &quot;<A HREF="http://foo.com/media/">http://foo.com/media/</A>&quot;, &quot;/media/&quot;.
++ADMIN_MEDIA_PREFIX = '/media/'
++
++# Make this unique, and don't share it with anybody.
++SECRET_KEY = ''
++
++# List of callables that know how to import templates from various sources.
++TEMPLATE_LOADERS = (
++    'django.core.template.loaders.filesystem.load_template_source',
++    'django.core.template.loaders.app_directories.load_template_source',
++#     'django.core.template.loaders.eggs.load_template_source',
++)
++
++MIDDLEWARE_CLASSES = (
++    &quot;django.middleware.common.CommonMiddleware&quot;,
++    &quot;django.middleware.sessions.SessionMiddleware&quot;,
++    &quot;django.middleware.doc.XViewMiddleware&quot;,
++)
++
++ROOT_URLCONF = 'births.urls'
++
++TEMPLATE_DIRS = (
++    # Put strings here, like &quot;/home/html/django_templates&quot;.
++    '/home/birbal/births/templates/',
++)
++
++INSTALLED_APPS = (
++    'django.contrib.admin',
++    'births.apps.register',
++    'births.apps.accounts',
++    'births.apps.website',
++    'births.apps.payroll',
++    'births.apps.address',
++)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000041.html">[Birbal-svn] r49 - in trunk/birbal/births: . apps/website apps/website/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

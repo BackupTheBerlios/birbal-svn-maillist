@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r56 - in trunk/birbal/births/thumbnails: . templatetags
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r56%20-%20in%20trunk/birbal/births/thumbnails%3A%20.%20templatetags&In-Reply-To=%3C200601060442.k064gQj6028192%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000047.html">
+   <LINK REL="Next"  HREF="000049.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r56 - in trunk/birbal/births/thumbnails: . templatetags</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r56%20-%20in%20trunk/birbal/births/thumbnails%3A%20.%20templatetags&In-Reply-To=%3C200601060442.k064gQj6028192%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r56 - in trunk/birbal/births/thumbnails: . templatetags">lawgon at berlios.de
+       </A><BR>
+    <I>Fri Jan  6 05:42:26 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000047.html">[Birbal-svn] r55 - trunk/birbal/births/thumbnails
+</A></li>
+        <LI>Next message: <A HREF="000049.html">[Birbal-svn] r57 - in trunk/birbal/births: apps/website/models templates/website
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2006-01-06 05:42:24 +0100 (Fri, 06 Jan 2006)
+New Revision: 56
+
+Added:
+   trunk/birbal/births/thumbnails/templatetags/
+   trunk/birbal/births/thumbnails/templatetags/__init__.py
+   trunk/birbal/births/thumbnails/templatetags/thumbnails.py
+Log:
+now done?
+
+Added: trunk/birbal/births/thumbnails/templatetags/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/thumbnails/templatetags/thumbnails.py
+===================================================================
+--- trunk/birbal/births/thumbnails/templatetags/thumbnails.py	2006-01-06 04:39:47 UTC (rev 55)
++++ trunk/birbal/births/thumbnails/templatetags/thumbnails.py	2006-01-06 04:42:24 UTC (rev 56)
+@@ -0,0 +1,105 @@
++&quot;&quot;&quot; image related filters &quot;&quot;&quot;
++
++##################################################
++## DEPENDENCIES ##
++
++from django.core import template
++from django.core.template import TemplateSyntaxError
++from births.thumbnails.utils import make_thumbnail, get_image_size
++
++##################################################
++## FILTERS ##
++
++def thumbnail(url, args=''):
++    &quot;&quot;&quot; Returns thumbnail URL and create it if not already exists.
++
++.. note:: requires PIL_,
++    if PIL_ is not found or thumbnail can not be created returns original URL.
++
++.. _PIL: <A HREF="http://www.pythonware.com/products/pil/">http://www.pythonware.com/products/pil/</A>
++
++Usage::
++
++    {{ url|thumbnail:&quot;width=10,height=20&quot; }}
++    {{ url|thumbnail:&quot;width=10&quot; }}
++    {{ url|thumbnail:&quot;height=20&quot; }}
++
++Parameters:
++
++width
++    requested image width
++
++height
++    requested image height
++
++Image is **proportionally** resized to dimension which is no greather than ``width x height``.
++
++Thumbnail file is saved in the same location as the original image
++and his name is constructed like this::
++
++    %(dirname)s/%(basename)s_t[_w%(width)d][_h%(height)d].%(extension)s
++
++or if only a width is requested (to be compatibile with admin interface)::
++
++    %(dirname)s/%(basename)s_t%(width)d.%(extension)s
++
++&quot;&quot;&quot;
++    
++    kwargs = {}
++    if args:
++        if ',' not in args:
++            # ensure at least one ','
++            args += ','
++        for arg in args.split(','):
++            arg = arg.strip()
++            if arg == '': continue
++            kw, val = arg.split('=', 1)
++            kw = kw.lower()
++            try:
++                val = int(val) # convert all ints
++            except ValueError:
++                raise template.TemplateSyntaxError, &quot;thumbnail filter: argument %r is invalid integer (%r)&quot; % (kw, val)
++            kwargs[kw] = val
++        # for
++    #
++    
++    if ('width' not in kwargs) and ('height' not in kwargs):
++        raise template.TemplateSyntaxError, &quot;thumbnail filter requires arguments (width and/or height)&quot;
++    
++    ret = make_thumbnail(url, **kwargs)
++    if ret is None:
++        return url
++    else:
++        return ret
++#
++
++def image_width(url):
++    &quot;&quot;&quot; Returns image width.
++
++Usage:
++    {{ url|image_width }}
++&quot;&quot;&quot;
++    
++    width, height = get_image_size(url)
++    return width
++#
++
++def image_height(url):
++    &quot;&quot;&quot; Returns image height.
++
++Usage:
++    {{ url|image_width }}
++&quot;&quot;&quot;
++    
++    width, height = get_image_size(url)
++    return height
++#
++
++##################################################
++## FILTER REGISTRATION ##
++
++register = template.Library()
++
++register.filter('thumbnail', thumbnail)
++register.filter('image_width', image_width)
++register.filter('image_height', image_height)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000047.html">[Birbal-svn] r55 - trunk/birbal/births/thumbnails
+</A></li>
+	<LI>Next message: <A HREF="000049.html">[Birbal-svn] r57 - in trunk/birbal/births: apps/website/models templates/website
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

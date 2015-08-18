@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r17 - trunk/birbal/births/sitemedia/css
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r17%20-%20trunk/birbal/births/sitemedia/css&In-Reply-To=%3C200512130605.jBD65cm3026626%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000012.html">
+   <LINK REL="Next"  HREF="000014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r17 - trunk/birbal/births/sitemedia/css</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r17%20-%20trunk/birbal/births/sitemedia/css&In-Reply-To=%3C200512130605.jBD65cm3026626%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r17 - trunk/birbal/births/sitemedia/css">lawgon at berlios.de
+       </A><BR>
+    <I>Tue Dec 13 07:05:38 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000012.html">[Birbal-svn] r16 - in trunk/birbal: . births births/sitemedia
+</A></li>
+        <LI>Next message: <A HREF="000014.html">[Birbal-svn] r18 - in trunk/birbal/births: . apps apps/register apps/register/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-13 07:05:34 +0100 (Tue, 13 Dec 2005)
+New Revision: 17
+
+Removed:
+   trunk/birbal/births/sitemedia/css/layout.css~
+Log:
+restructuring
+
+Deleted: trunk/birbal/births/sitemedia/css/layout.css~
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css~	2005-12-13 05:59:22 UTC (rev 16)
++++ trunk/birbal/births/sitemedia/css/layout.css~	2005-12-13 06:05:34 UTC (rev 17)
+@@ -1,313 +0,0 @@
+-	body {
+-    		font: 90% &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
+-    		background-color: White;
+-    		color: Black;
+-    		margin: 0;
+-    		padding: 0;
+-		}
+-		
+-table {
+-    font-size: 100%;
+-}
+-
+-th {
+-    background:#d5c99f;
+-    border-top: 1px solid #388050;
+-    border-bottom: 1px solid #388050;
+-    border-right: 1px solid #388050;
+-    font-weight: bold;
+-    padding: 0em 1em 0em 1em;
+-}
+-
+-#newsimage {
+-	text-align:center;
+-	padding: 2em 2em 2em 2em;
+-	};
+-	
+-
+-	
+-td {
+-    border-right: 1px solid #388050;
+-    padding: 0em 1em;
+-    text-align: left;
+-    font-weight:bold;
+-}
+-
+-#num {
+-    text-align: right;
+-}
+-
+-table .odd {
+-    /*every second line should be shaded */
+-    background-color: transparent;
+-}
+-table .even {
+-    background-color: #f7f9fa;
+-}
+-
+-a {
+-    text-decoration: none;
+-    color: #436976;
+-    background-color: transparent;
+-}
+-img {
+-    border: none;
+-    vertical-align: middle;
+-}
+-p {
+-    margin: 0.5em 0em 1em 0em;
+-    line-height: 1.5em;
+-}
+-p a {
+-    text-decoration: underline;
+-}
+-p a:visited {
+-    color: Purple;
+-    background-color: transparent;
+-}
+-p a:active {
+-    color: Red;
+-    background-color: transparent;
+-}
+-p img {
+-    border: 0;
+-    margin: 0;
+-}
+-
+-hr {
+-    height: 1px;
+-    color: #388050;
+-    background-color: transparent;
+-}
+-
+-
+-h1, h2, h3, h4, h5, h6 {
+-    color: #388050;
+-    background-color: transparent;
+-    font-family: &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
+-    font-size: 100%;
+-    font-weight: normal;
+-    margin: 0;
+-    padding-top: 0.5em;
+-    border-bottom: 1px solid #388050;
+-}
+-
+-h1 a,
+-h2 a,
+-h3 a,
+-h4 a,
+-h5 a,
+-h6 a {
+-    color: Black ! important; 
+-}
+-
+-h1 {
+-    font-size: 160%;
+-    padding-right: 4em;
+-}
+-
+-h2 {
+-    font-size: 150%;
+-}
+-
+-h3 {
+-    font-size: 140%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-h4 {
+-    font-size: 120%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-h5 {
+-    font-size: 100%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-h6 {
+-    font-size: 85%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-
+-ul { 
+-    line-height: 1.5em;
+-    list-style-type: square;
+-    margin: 0.5em 0 0 1.5em;
+-    padding: 0;
+-    
+-}
+-
+-ol {
+-    line-height: 1.5em;
+-    margin: 0.5em 0 0 1.5em;
+-    padding: 0;
+-}
+-ul a, ol a {
+-    text-decoration: underline;
+-}
+-li {
+-    margin-bottom: 1em;
+-}
+-dt {
+-    font-weight: bold;    
+-}
+-dt a {
+-    text-decoration: underline;
+-}
+-
+-dd {
+-    line-height: 1.5em;
+-    margin-bottom: 1em;
+-}
+-dd a {
+-    text-decoration: underline;
+-}
+-
+-dd.link a {
+-    text-decoration: none;
+-    color: Black;
+-}
+-	
+-	
+-
+-		
+-	#centertop {
+-		margin-top:10px;
+-		float:left;
+-		width:97%;
+-		margin-left:1%;
+-		margin-right:1%;
+-		height:120px;
+-		background:#d5c99f;
+-		voice-family: &quot;\&quot;}\&quot;&quot;;
+-		voice-family: inherit;
+-		text-align: center; 
+-		margin-bottom:10px;
+-		border-bottom: 3px solid #388050
+-		clear:both;
+-		}
+-
+-	#centercontent {
+-		float:left;
+-		width:78%;
+-		margin-top: 10px;
+-		margin-left:1%;
+-		margin-right:1%;
+-		background:#fff;
+-		voice-family: &quot;\&quot;}\&quot;&quot;;
+-		voice-family: inherit;
+-		margin-bottom:10px;
+-		padding:5px;
+-		}
+-		
+-
+-
+-
+-	#leftcontent {
+-		float:left;
+-		overflow: hidden;
+-		margin-top: 10px;
+-		margin-left:2%;
+-		width:15%;
+-		margin-bottom:10px;
+-		}
+-		
+-	
+-	h1 {
+-		background:#d5c99f;
+-		}
+-	h1 span
+-		{
+-		font-size:120%;
+-		}
+-		
+-	#navsite ul
+-		{
+-		margin: 0;
+-		padding: 0;
+-		list-style: none;
+-		width: 150px;
+-		border-bottom: 1px solid #ccc;
+-		}
+-		
+-	#navsite ul li
+-		{
+-		position: relative;
+-		}
+-		
+-	#navsite li ul 
+-		{
+-		position: absolute;
+-		left: 149px;
+-		top: 0;
+-		display: none;
+-		}
+-		
+-	#navsite ul li a 
+-		{
+-		display: block;
+-		text-decoration: none;
+-		color: #abcdef;
+-		background: #eeefff;
+-		padding: 5px;
+-		border: 1px solid #ccc;
+-		
+-		}
+-		
+-	#navsite li:hover ul { display: block; }
+-	
+-	
+-		
+-	#footer
+-		{
+-		width:95%
+-		float:left;
+-		clear:both;
+-		padding:1px;
+-		border-top:3px solid #d5c99f;
+-		font-size:xx-small;
+-		font-weight:bold;
+-		color:green;
+-		text-align:center;
+-		margin-left:1%;
+-		margin-right:1%;
+-		margin-top:15px;
+-		}
+-		
+-	#more
+-		{
+-		font-weight:bold;
+-		text-align:right;
+-		margin-right:5%;
+-		margin-top:3px;
+-		}
+-		
+-	#blurb
+-		{
+-		font-weight:bold;
+-		text-align:center;
+-		margin-top:3px;
+-		margin-bottom:5px;
+-		}
+-	#more a
+-		{color:&quot;green&quot;;}
+-		
+-	#warning p
+-		{
+-		font-weight:bold;
+-		color:red;
+-		}
+-		
+-	#warning li
+-		{
+-		font-weight:bold;
+-		color:red;
+-		}
+-		
+-	
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000012.html">[Birbal-svn] r16 - in trunk/birbal: . births births/sitemedia
+</A></li>
+	<LI>Next message: <A HREF="000014.html">[Birbal-svn] r18 - in trunk/birbal/births: . apps apps/register apps/register/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r46 - in trunk/birbal/births: . apps/address/models apps/register/models
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r46%20-%20in%20trunk/birbal/births%3A%20.%20apps/address/models%20apps/register/models&In-Reply-To=%3C200512310831.jBV8VWLw015427%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000037.html">
+   <LINK REL="Next"  HREF="000039.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r46 - in trunk/birbal/births: . apps/address/models apps/register/models</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r46%20-%20in%20trunk/birbal/births%3A%20.%20apps/address/models%20apps/register/models&In-Reply-To=%3C200512310831.jBV8VWLw015427%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r46 - in trunk/birbal/births: . apps/address/models apps/register/models">lawgon at berlios.de
+       </A><BR>
+    <I>Sat Dec 31 09:31:32 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000037.html">[Birbal-svn] r45 - in trunk/birbal/births/apps: . address address/models
+</A></li>
+        <LI>Next message: <A HREF="000039.html">[Birbal-svn] r47 - trunk/birbal/births/apps/payroll/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-31 09:31:31 +0100 (Sat, 31 Dec 2005)
+New Revision: 46
+
+Modified:
+   trunk/birbal/births/DIRECTORY_STRUCTURE.txt
+   trunk/birbal/births/apps/address/models/address.py
+   trunk/birbal/births/apps/register/models/register.py
+Log:
+restructuring into something that looks sane
+
+Modified: trunk/birbal/births/DIRECTORY_STRUCTURE.txt
+===================================================================
+--- trunk/birbal/births/DIRECTORY_STRUCTURE.txt	2005-12-31 07:57:32 UTC (rev 45)
++++ trunk/birbal/births/DIRECTORY_STRUCTURE.txt	2005-12-31 08:31:31 UTC (rev 46)
+@@ -2,6 +2,12 @@
+ 
+ Under apps, a series of apps
+ 
++idea being that since production and development are going side by side,
++there will be constant tinkering with the db - if split up, sqlreset can be
++freely used without disturbing more mature apps like the main website which
++is complete. Have to be careful to import stuff across apps, but that is
++do-able 
++
+ website - specfic to website, documentation, advertisements faqs etc
+ 
+ payroll - people management
+@@ -10,8 +16,4 @@
+ 
+ register - the main births and deaths module
+ 
+-should we go the whole hog and make one more for addresses?
+-
+-yep
+-
+-address - town and street mapping (to do)
+\ No newline at end of file
++address - town and street mapping
+\ No newline at end of file
+
+Modified: trunk/birbal/births/apps/address/models/address.py
+===================================================================
+--- trunk/birbal/births/apps/address/models/address.py	2005-12-31 07:57:32 UTC (rev 45)
++++ trunk/birbal/births/apps/address/models/address.py	2005-12-31 08:31:31 UTC (rev 46)
+@@ -1,3 +1,31 @@
+ from django.core import meta
+ 
+-# Create your models here.
++# All address related data here. There should be a clickable map
++# to populate the Area and Street tables/fields
++
++class Area(meta.Model):
++    &quot;&quot;&quot; Each jurisdiction is divided into areas. Areas can be wards,
++        mohallas, sectors etc
++        &quot;&quot;&quot;
++    name = meta.CharField(_(&quot;Area&quot;),maxlength=50,unique=True)
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return &quot;%s&quot; %(self.name)
++
++
++class Street(meta.Model):
++    &quot;&quot;&quot; Streets may be streets or colonies or slums or whatever
++        they have to be unique in an area
++        &quot;&quot;&quot;
++    name = meta.CharField(_(&quot;Street&quot;),maxlength=50)
++    area = meta.ForeignKey(Area)
++    class META:
++        unique_together = ((&quot;name&quot;,&quot;area&quot;),)
++        admin = meta.Admin(
++        list_display = ('name','area',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return _(&quot;Street: %s Area %s&quot;) %(self.name,self.get_area)
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-31 07:57:32 UTC (rev 45)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-31 08:31:31 UTC (rev 46)
+@@ -1,5 +1,6 @@
+ from django.core import meta
+ from births.apps.payroll.models.payroll import *
++from births.apps.address.models.address import *
+ 
+ 
+ #######################################################################
+@@ -12,33 +13,8 @@
+ 
+ # master tables for actual data
+ 
+-class Area(meta.Model):
+-    &quot;&quot;&quot; Each jurisdiction is divided into areas. Areas can be wards,
+-        mohallas, sectors etc
+-        &quot;&quot;&quot;
+-    name = meta.CharField(_(&quot;Area&quot;),maxlength=50,unique=True)
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return &quot;%s&quot; %(self.name)
+ 
+ 
+-class Street(meta.Model):
+-    &quot;&quot;&quot; Streets may be streets or colonies or slums or whatever
+-        they have to be unique in an area
+-        &quot;&quot;&quot;
+-    name = meta.CharField(_(&quot;Street&quot;),maxlength=50)
+-    area = meta.ForeignKey(Area)
+-    class META:
+-        unique_together = ((&quot;name&quot;,&quot;area&quot;),)
+-        admin = meta.Admin(
+-        list_display = ('name','area',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return _(&quot;Street: %s Area %s&quot;) %(self.name,self.get_area)
+-
+ class Deathplace(Area):
+     &quot;&quot;&quot; Type of death place - at home, hospital, on the street ...
+         &quot;&quot;&quot;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000037.html">[Birbal-svn] r45 - in trunk/birbal/births/apps: . address address/models
+</A></li>
+	<LI>Next message: <A HREF="000039.html">[Birbal-svn] r47 - trunk/birbal/births/apps/payroll/models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

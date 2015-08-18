@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r60 - in trunk/birbal: births/apps/accounts/models births/apps/website births/templates/website docs/accounting
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r60%20-%20in%20trunk/birbal%3A%20births/apps/accounts/models%20births/apps/website%20births/templates/website%20docs/accounting&In-Reply-To=%3C200601190756.k0J7ufvG025752%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000051.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r60 - in trunk/birbal: births/apps/accounts/models births/apps/website births/templates/website docs/accounting</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r60%20-%20in%20trunk/birbal%3A%20births/apps/accounts/models%20births/apps/website%20births/templates/website%20docs/accounting&In-Reply-To=%3C200601190756.k0J7ufvG025752%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r60 - in trunk/birbal: births/apps/accounts/models births/apps/website births/templates/website docs/accounting">lawgon at berlios.de
+       </A><BR>
+    <I>Thu Jan 19 08:56:41 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000051.html">[Birbal-svn] r59 - trunk/birbal/docs/accounting
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#52">[ date ]</a>
+              <a href="thread.html#52">[ thread ]</a>
+              <a href="subject.html#52">[ subject ]</a>
+              <a href="author.html#52">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2006-01-19 08:56:41 +0100 (Thu, 19 Jan 2006)
+New Revision: 60
+
+Modified:
+   trunk/birbal/births/apps/accounts/models/accounts.py
+   trunk/birbal/births/apps/website/views.py
+   trunk/birbal/births/templates/website/gal.html
+   trunk/birbal/docs/accounting/policies.txt
+Log:
+test
+
+Modified: trunk/birbal/births/apps/accounts/models/accounts.py
+===================================================================
+--- trunk/birbal/births/apps/accounts/models/accounts.py	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/births/apps/accounts/models/accounts.py	2006-01-19 07:56:41 UTC (rev 60)
+@@ -1,3 +1,46 @@
+ from django.core import meta
+ 
+-# Create your models here.
++# Create your models here
++
++class Category(meta.Model):
++    category_name = meta.CharField(maxlength=50)
++    parent = meta.ForeignKey('self', blank=True, null=True,
++                             related_name='child')
++
++    def _recurse_for_parents(self, cat_obj):
++        p_list = []
++        if cat_obj.parent_id:
++            p = cat_obj.get_parent()
++            p_list.append(p.category_name)
++            more = self._recurse_for_parents(p)
++            p_list.extend(more)
++        if cat_obj == self and p_list:
++            p_list.reverse()
++        return p_list
++
++    def get_separator(self):
++        return ' :: '
++
++    def _parents_repr(self):
++        p_list = self._recurse_for_parents(self)
++        return self.get_separator().join(p_list)
++    _parents_repr.short_description = &quot;Category parents&quot;
++
++
++    def _pre_save(self):
++        p_list = self._recurse_for_parents(self)
++        if self.category_name in p_list:
++            raise &quot;You must not save a category in itself!&quot;
++
++    def __repr__(self):
++        p_list = self._recurse_for_parents(self)
++        p_list.append(self.category_name)
++        return self.get_separator().join(p_list)
++
++    class META:
++        admin = meta.Admin(
++            list_display = ('category_name', '_parents_repr'),
++            search_fields = ['category_name'],
++        )
++        module_name = 'categories'
++
+
+Modified: trunk/birbal/births/apps/website/views.py
+===================================================================
+--- trunk/birbal/births/apps/website/views.py	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/births/apps/website/views.py	2006-01-19 07:56:41 UTC (rev 60)
+@@ -34,6 +34,8 @@
+     return list
+ 
+ 
++
++
+ def index(request):
+     &quot;&quot;&quot; Not used
+         &quot;&quot;&quot;
+@@ -65,9 +67,10 @@
+     &quot;&quot;&quot; View for display of the thumbnails
+         in the gallery
+         &quot;&quot;&quot;
+-    if not gall:
+-        gall = 1
+-    list = photos.get_list(tag__id__exact=gall)
++    if gall:
++        list = photos.get_list(tag__id__exact=gall)
++    else:
++        list = []
+     gals = tags.get_list()
+     gal = tags.get_object(id__exact=gall)
+     t = template_loader.get_template('website/gallall')
+@@ -95,3 +98,5 @@
+                  
+                  })
+     return HttpResponse(t.render(c))
++
++
+
+Modified: trunk/birbal/births/templates/website/gal.html
+===================================================================
+--- trunk/birbal/births/templates/website/gal.html	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/births/templates/website/gal.html	2006-01-19 07:56:41 UTC (rev 60)
+@@ -28,7 +28,7 @@
+ &lt;tr&gt;&lt;td align=&quot;center&quot;&gt;
+ {{ p.date|date:&quot;d-m-Y&quot; }}
+ &lt;/td&gt;&lt;/tr&gt;
+-&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;
++&lt;tr&gt;&lt;td width=&quot;75%&quot;&gt;
+ {{ p.blurb }}
+ &lt;/td&gt;&lt;/tr&gt;
+ &lt;tr&gt;&lt;td align=&quot;center&quot;&gt;
+
+Modified: trunk/birbal/docs/accounting/policies.txt
+===================================================================
+--- trunk/birbal/docs/accounting/policies.txt	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/docs/accounting/policies.txt	2006-01-19 07:56:41 UTC (rev 60)
+@@ -1,8 +1,13 @@
+ Questions
+ 
+-1. coded accounting or codeless accounting?
++1. coded accounting or codeless accounting? This is a fundamental decision,
++in codeless accounting there is the possibilty of changing positions of
++accounts by drag and drop, whereas in coded accounting the whole thing has
++to be done manually. What are the pros and cons.
+ 
+-2. Heads of account to be unique and in tree form?
++2. Heads of account to be unique and in tree form? If the name of the head
++of account is not unique, then a combination of the head+parent has to be
++unique. 
+ 
+ 3. Names of accounts and heads to be 
+ 	a. fixed and not alterable
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000051.html">[Birbal-svn] r59 - trunk/birbal/docs/accounting
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#52">[ date ]</a>
+              <a href="thread.html#52">[ thread ]</a>
+              <a href="subject.html#52">[ subject ]</a>
+              <a href="author.html#52">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,1634 @@
+From lawgon at berlios.de  Tue Jan  3 08:21:37 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 3 Jan 2006 08:21:37 +0100
+Subject: [Birbal-svn] r48 - trunk/birbal/births
+Message-ID: <200601030721.k037Lb4o000388@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-03 08:21:01 +0100 (Tue, 03 Jan 2006)
+New Revision: 48
+
+Added:
+   trunk/birbal/births/settings.bak
+Log:
+added a model settings file
+
+Added: trunk/birbal/births/settings.bak
+===================================================================
+--- trunk/birbal/births/settings.bak	2005-12-31 14:38:33 UTC (rev 47)
++++ trunk/birbal/births/settings.bak	2006-01-03 07:21:01 UTC (rev 48)
+@@ -0,0 +1,75 @@
++# Django settings for births project.
++
++DEBUG = True
++TEMPLATE_DEBUG = DEBUG
++
++ADMINS = (
++    # ('Your Name', 'your_email at domain.com'),
++)
++
++MANAGERS = ADMINS
++
++DATABASE_ENGINE = 'postgresql' # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
++DATABASE_NAME = 'births'             # Or path to database file if using sqlite3.
++DATABASE_USER = 'lawgon'             # Not used with sqlite3.
++DATABASE_PASSWORD = ''         # Not used with sqlite3.
++DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
++DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
++
++# Local time zone for this installation. All choices can be found here:
++# http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
++TIME_ZONE = 'Asia/Calcutta'
++
++DATE_FORMAT = 'd/m/Y'
++
++# Language code for this installation. All choices can be found here:
++# http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
++# http://blogs.law.harvard.edu/tech/stories/storyReader$15
++LANGUAGE_CODE = 'en-us'
++
++SITE_ID = 1
++
++# Absolute path to the directory that holds media.
++# Example: "/home/media/media.lawrence.com/"
++MEDIA_ROOT = '/home/birbal/media/'
++
++# URL that handles the media served from MEDIA_ROOT.
++# Example: "http://media.lawrence.com"
++MEDIA_URL = 'http://birbal.org.in/smedia/'
++
++# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
++# trailing slash.
++# Examples: "http://foo.com/media/", "/media/".
++ADMIN_MEDIA_PREFIX = '/media/'
++
++# Make this unique, and don't share it with anybody.
++SECRET_KEY = ''
++
++# List of callables that know how to import templates from various sources.
++TEMPLATE_LOADERS = (
++    'django.core.template.loaders.filesystem.load_template_source',
++    'django.core.template.loaders.app_directories.load_template_source',
++#     'django.core.template.loaders.eggs.load_template_source',
++)
++
++MIDDLEWARE_CLASSES = (
++    "django.middleware.common.CommonMiddleware",
++    "django.middleware.sessions.SessionMiddleware",
++    "django.middleware.doc.XViewMiddleware",
++)
++
++ROOT_URLCONF = 'births.urls'
++
++TEMPLATE_DIRS = (
++    # Put strings here, like "/home/html/django_templates".
++    '/home/birbal/births/templates/',
++)
++
++INSTALLED_APPS = (
++    'django.contrib.admin',
++    'births.apps.register',
++    'births.apps.accounts',
++    'births.apps.website',
++    'births.apps.payroll',
++    'births.apps.address',
++)
+
+
+
+From lawgon at berlios.de  Thu Jan  5 15:01:58 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 5 Jan 2006 15:01:58 +0100
+Subject: [Birbal-svn] r49 - in trunk/birbal/births: . apps/website apps/website/models
+Message-ID: <200601051401.k05E1wIw014317@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-05 15:01:57 +0100 (Thu, 05 Jan 2006)
+New Revision: 49
+
+Modified:
+   trunk/birbal/births/apps/website/models/website.py
+   trunk/birbal/births/apps/website/views.py
+   trunk/birbal/births/urls.py
+Log:
+gallery
+
+Modified: trunk/birbal/births/apps/website/models/website.py
+===================================================================
+--- trunk/birbal/births/apps/website/models/website.py	2006-01-03 07:21:01 UTC (rev 48)
++++ trunk/birbal/births/apps/website/models/website.py	2006-01-05 14:01:57 UTC (rev 49)
+@@ -1,4 +1,6 @@
+ from django.core import meta
++import glob, PIL, os
++from births.thumbnails.field import *
+ 
+ # Create your models here.
+ 
+@@ -7,6 +9,20 @@
+ 
+ # Website specific stuff
+ 
++
++
++class Tag(meta.Model):
++    """ Names of photo galleries
++        """
++    name = meta.CharField(_("Tag"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
+ class Advertisement(meta.Model):
+     """ advertisements and announcements for the site
+         """
+@@ -59,3 +75,28 @@
+             " %(self.title.capitalize(),self.get_type_display(),self.priority,\
+                 self.get_layout_display())
+ 
++class Photo(meta.Model):
++    """ Photo Gallery - self explanatory
++        """
++    tag = meta.ManyToManyField(Tag,verbose_name=_("Tags"))
++    title = meta.CharField(_("Title"),maxlength=250)
++    photo = ImageWithThumbnailField(_("Photo"),upload_to='images/')
++    blurb = meta.CharField(_("Blurb for photo"),maxlength=250,blank=True,null=True)
++    priority = meta.IntegerField(_("Priority"),default=1)
++    class META:
++        ordering = ['priority']
++        admin = meta.Admin(
++        list_display = ('title','priority'),
++            search_fields = ['title'],
++        )
++    def _post_delete(self):
++        # remove thumbnails
++        from births.thumbnails.utils import remove_model_thumbnails
++        remove_model_thumbnails(self)
++
++   
++    
++    def __repr__(self):
++            return "%s, Priority: %d \
++            " %(self.title.capitalize(),self.priority)
++
+
+Modified: trunk/birbal/births/apps/website/views.py
+===================================================================
+--- trunk/birbal/births/apps/website/views.py	2006-01-03 07:21:01 UTC (rev 48)
++++ trunk/birbal/births/apps/website/views.py	2006-01-05 14:01:57 UTC (rev 49)
+@@ -10,7 +10,7 @@
+               {'name':'Home','url':'fac/HM/','id':''},
+               {'name':'FAQ','url':'fac/FQ/','id':''},
+               {'name':'Documents','url':'fac/DC/','id':''},
+-              {'name':'Officials','url':'officials/','id':''},
++              {'name':'Gallery','url':'galls//','id':''},
+               ]
+ 
+ fac_types ={
+@@ -58,3 +58,40 @@
+                  })
+     
+     return HttpResponse(t.render(c))
++
++
++
++def gallall(request,gall=''):
++    """ View for display of the thumbnails
++        in the gallery
++        """
++    if not gall:
++        gall = 1
++    list = photos.get_list(tag__id__exact=gall)
++    gals = tags.get_list()
++    gal = tags.get_object(id__exact=gall)
++    t = template_loader.get_template('website/gallall')
++    c = Context(request,
++                {'list':list,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 'gals':gals,
++                 'gal':gal,
++                 })
++    return HttpResponse(t.render(c))
++
++def gal(request,id):
++    """ View for display of the thumbnails
++        in the gallery
++        """
++    list = photos.get_list(pk=id)
++    gals = tags.get_list()
++    t = template_loader.get_template('website/gal')
++    c = Context(request,
++                {'list':list,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 'gals':gals,
++                 
++                 })
++    return HttpResponse(t.render(c))
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2006-01-03 07:21:01 UTC (rev 48)
++++ trunk/birbal/births/urls.py	2006-01-05 14:01:57 UTC (rev 49)
+@@ -7,7 +7,8 @@
+     # Uncomment this for admin:
+      (r'^births/admin/', include('django.contrib.admin.urls.admin')),
+     (r'^births/$', 'births.apps.website.views.index'),
+-    (r'^births/officials/$', 'births.apps.register.views.dutyroster'),
++    (r'^births/galls/(?P<gall>\d*)/$', 'births.apps.website.views.gallall'),
+     (r'^births/ads/(?P<id>\d+)/$', 'births.apps.website.views.ads'),
+     (r'^births/fac/(?P<type>\w+)/$', 'births.apps.website.views.fac'),
++    (r'^births/gal/(?P<id>\d+)/$', 'births.apps.website.views.gal'),
+ )
+
+
+
+From lawgon at berlios.de  Thu Jan  5 15:10:36 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 5 Jan 2006 15:10:36 +0100
+Subject: [Birbal-svn] r50 - in trunk/birbal/births: apps templates templates/website
+Message-ID: <200601051410.k05EAatm015236@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-05 15:10:35 +0100 (Thu, 05 Jan 2006)
+New Revision: 50
+
+Added:
+   trunk/birbal/births/apps/change.sql
+   trunk/birbal/births/templates/base.html~
+   trunk/birbal/births/templates/website/
+   trunk/birbal/births/templates/website/gal.html
+   trunk/birbal/births/templates/website/gallall.html
+   trunk/birbal/births/templates/website/table.html
+Log:
+tags and galleries
+
+Added: trunk/birbal/births/apps/change.sql
+===================================================================
+--- trunk/birbal/births/apps/change.sql	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/apps/change.sql	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,32 @@
++BEGIN;
++CREATE TABLE "website_advertisements" (
++    "id" serial NOT NULL PRIMARY KEY,
++    "title" varchar(250) NOT NULL,
++    "date" timestamp with time zone NOT NULL,
++    "expires" date NULL,
++    "lead" varchar(250) NOT NULL,
++    "photo" varchar(100) NULL,
++    "matter" text NULL,
++    UNIQUE ("title", "date")
++);
++CREATE TABLE "website_facilitys" (
++    "id" serial NOT NULL PRIMARY KEY,
++    "title" varchar(250) NOT NULL,
++    "type" varchar(2) NOT NULL,
++    "layout" varchar(2) NOT NULL,
++    "photo" varchar(100) NULL,
++    "blurb" varchar(250) NULL,
++    "matter" text NULL,
++    "priority" integer NOT NULL,
++    UNIQUE ("title", "type")
++);
++INSERT INTO "packages" ("label", "name") VALUES ('website', 'website');
++INSERT INTO "content_types" ("name", "package", "python_module_name") VALUES ('advertisement', 'website', 'advertisements');
++INSERT INTO "auth_permissions" ("name", "package", "codename") VALUES ('Can add advertisement', 'website', 'add_advertisement');
++INSERT INTO "auth_permissions" ("name", "package", "codename") VALUES ('Can change advertisement', 'website', 'change_advertisement');
++INSERT INTO "auth_permissions" ("name", "package", "codename") VALUES ('Can delete advertisement', 'website', 'delete_advertisement');
++INSERT INTO "content_types" ("name", "package", "python_module_name") VALUES ('facility', 'website', 'facilitys');
++INSERT INTO "auth_permissions" ("name", "package", "codename") VALUES ('Can add facility', 'website', 'add_facility');
++INSERT INTO "auth_permissions" ("name", "package", "codename") VALUES ('Can change facility', 'website', 'change_facility');
++INSERT INTO "auth_permissions" ("name", "package", "codename") VALUES ('Can delete facility', 'website', 'delete_facility');
++COMMIT;
+
+Added: trunk/birbal/births/templates/base.html~
+===================================================================
+--- trunk/birbal/births/templates/base.html~	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/base.html~	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,70 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++"DTD/xhtml1-transitional.dtd">
++<html><head>
++<LINK REL="stylesheet" type='text/css' href='/sitemedia/css/layout.css' title='default'>
++{% load i18n %}
++<title>{% trans "Birbal eGovernance Project" %}</title>
++</head>
++<body>
++
++<div id="centertop">
++	<br/>
++	<br/>
++	<h1><span>{% trans "Municipal Corporation of Tuglaqabad" %}</span></h1>
++	<h4>{% trans "Office of The Registrar of Births and Deaths" %}</h4>
++	</div>
++
++<div id="leftcontent">
++	<div id="button">  
++		<ul>
++		{% block navsite %}
++		{% for p in mn %}
++			<li >
++			<a href = "/births/{{ p.url }}" {{ p.id }}> {{ p.name }}
++			</a>
++			</li>
++		{% endfor %}
++		{% endblock %}
++		</ul>
++    </div>
++</div>
++
++
++
++
++<div id="centercontent">
++{% block centercontent %} {% endblock %}
++</div>
++
++<div id="rightcontent">
++	{% block rightcontent %}
++	<div id="rightbox">
++		<h4>{% trans "Classified" %}</h4>
++		{% block rightcontentads %}
++		{% if ads %}
++		{% for p in ads %}
++		<p>
++		<b>{{ p.title }}</b>
++		<div id="more">
++		<a href="/births/full/{{ p.id }}/">{% trans "details ..." %}</a>
++		</div>
++		</p>
++		{% endfor %}
++		{% else %}
++		<p> No recent items </P>
++		{% endif %}
++		{% endblock %}
++	</div>
++	{% endblock %}
++</div>
++
++
++<div id="footer">
++<p>Built by <a href="mailto:webmaster at birbal.org.in">XLQuest</a>, 
++powered by FreeBSD, Apache, Python, Postgresql and Django
++ copyright 2005  
++ <a href="mailto:webmaster at birbal.org.in">The Birbal Project</a></p>
++ </div>
++</div>
++</body>
++</html>
+\ No newline at end of file
+
+Added: trunk/birbal/births/templates/website/gal.html
+===================================================================
+--- trunk/birbal/births/templates/website/gal.html	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/website/gal.html	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,37 @@
++{% extends "base" %}
++{% load thumbnails %}
++{% block centercontent %}
++<h1>Tags:</h1>
++<h3>
++{% for g in gals %}
++<a href="/births/galls/{{ g.id }}/">
++{{ g.name }}
++</a>
++{% endfor %}
++</h3>
++{% if list %}
++
++{% for p in list %}
++ <table align='center'>
++<tr >
++<th align='center'> 
++{{ p.title }}
++</th>
++</tr>
++<tr>
++<td align='center'>
++
++<img src = "{{ p.get_photo_url }}" width = 75%/>
++
++</td>
++</tr>
++<tr><td align="center">
++{{ p.blurb }}
++</td></tr>
++</table>
++
++  {% endfor %}
++{% else %}
++    <p> photos not found</p>
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Added: trunk/birbal/births/templates/website/gallall.html
+===================================================================
+--- trunk/birbal/births/templates/website/gallall.html	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/website/gallall.html	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,48 @@
++{% extends "base" %}
++{% load thumbnails %}
++{% block centercontent %}
++<h1>Tags:</h1>
++<h3>
++{% for g in gals %}
++<a href="/births/galls/{{ g.id }}/">
++{{ g.name }}
++</a>
++{% endfor %}
++</h3>
++<br/>
++{% if list %}
++<h2>Tag Name: {{ gal }}</h2>
++ <table align='center'>
++{% for p in list %}
++{% if forloop.counter|add:"-1"|divisibleby:"4" %} 
++<tr>
++{% endif %}   
++
++<td>   
++<table>
++<tr >
++<th align='center' width=25%> 
++{{ p.title }}
++</th>
++</tr>
++<tr>
++<td align='center' width=25%>
++<a href="/births/gal/{{ p.id }}/">
++<img src = "{{ p.get_photo_url|thumbnail:"width=120" }}" width="120" height="120"/>
++</a>
++</td>
++</tr>
++
++</table>
++</td>
++{% if forloop.counter|divisibleby:"4" %} 
++<tr>
++{% endif %}
++
++
++    {% endfor %}
++</table>
++{% else %}
++    <p>No photos available</p>
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Added: trunk/birbal/births/templates/website/table.html
+===================================================================
+--- trunk/birbal/births/templates/website/table.html	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/website/table.html	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,29 @@
++<table align='center'>
++<dtml-in getpeople>
++{% ifequal (forloopcounter-1)%4 0 %} 
++<tr>
++{% endif %}
++<td>   
++<table>
++<tr >
++<td align='center' width=25%> 
++<dtml-if thumb>
++<img src="http://www.keystone-foundation.net/masimg?nme=<dtml-var id>&table=people&thumb=1"
++width=75 height=75>
++</dtml-if>
++</td>
++</tr>
++<tr>
++     <td align='center' width=25%><a href="http://www.keystone-foundation.net/people/displayperson?idu=<dtml-var id>"><dtml-var fname>
++     <dtml-var lname><a></td>
++</tr>
++<tr>
++<td align='center' width=25%><dtml-var designation></td>
++</tr>
++</table>
++</td>
++{% ifequal forloopcounter%4 0 %}
++</tr>
++{% endif %}
++
++</table>
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Thu Jan  5 16:05:05 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 5 Jan 2006 16:05:05 +0100
+Subject: [Birbal-svn] r51 - in trunk/birbal/births/apps/website: . templatetags
+Message-ID: <200601051505.k05F55AF028735@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-05 16:05:05 +0100 (Thu, 05 Jan 2006)
+New Revision: 51
+
+Added:
+   trunk/birbal/births/apps/website/templatetags/
+   trunk/birbal/births/apps/website/templatetags/__init__.py
+   trunk/birbal/births/apps/website/templatetags/thumbnails.py
+Log:
+think it is solved?
+
+Added: trunk/birbal/births/apps/website/templatetags/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/website/templatetags/thumbnails.py
+===================================================================
+--- trunk/birbal/births/apps/website/templatetags/thumbnails.py	2006-01-05 14:10:35 UTC (rev 50)
++++ trunk/birbal/births/apps/website/templatetags/thumbnails.py	2006-01-05 15:05:05 UTC (rev 51)
+@@ -0,0 +1,105 @@
++""" image related filters """
++
++##################################################
++## DEPENDENCIES ##
++
++from django.core import template
++from django.core.template import TemplateSyntaxError
++from births.thumbnails.utils import make_thumbnail, get_image_size
++
++##################################################
++## FILTERS ##
++
++def thumbnail(url, args=''):
++    """ Returns thumbnail URL and create it if not already exists.
++
++.. note:: requires PIL_,
++    if PIL_ is not found or thumbnail can not be created returns original URL.
++
++.. _PIL: http://www.pythonware.com/products/pil/
++
++Usage::
++
++    {{ url|thumbnail:"width=10,height=20" }}
++    {{ url|thumbnail:"width=10" }}
++    {{ url|thumbnail:"height=20" }}
++
++Parameters:
++
++width
++    requested image width
++
++height
++    requested image height
++
++Image is **proportionally** resized to dimension which is no greather than ``width x height``.
++
++Thumbnail file is saved in the same location as the original image
++and his name is constructed like this::
++
++    %(dirname)s/%(basename)s_t[_w%(width)d][_h%(height)d].%(extension)s
++
++or if only a width is requested (to be compatibile with admin interface)::
++
++    %(dirname)s/%(basename)s_t%(width)d.%(extension)s
++
++"""
++    
++    kwargs = {}
++    if args:
++        if ',' not in args:
++            # ensure at least one ','
++            args += ','
++        for arg in args.split(','):
++            arg = arg.strip()
++            if arg == '': continue
++            kw, val = arg.split('=', 1)
++            kw = kw.lower()
++            try:
++                val = int(val) # convert all ints
++            except ValueError:
++                raise template.TemplateSyntaxError, "thumbnail filter: argument %r is invalid integer (%r)" % (kw, val)
++            kwargs[kw] = val
++        # for
++    #
++    
++    if ('width' not in kwargs) and ('height' not in kwargs):
++        raise template.TemplateSyntaxError, "thumbnail filter requires arguments (width and/or height)"
++    
++    ret = make_thumbnail(url, **kwargs)
++    if ret is None:
++        return url
++    else:
++        return ret
++#
++
++def image_width(url):
++    """ Returns image width.
++
++Usage:
++    {{ url|image_width }}
++"""
++    
++    width, height = get_image_size(url)
++    return width
++#
++
++def image_height(url):
++    """ Returns image height.
++
++Usage:
++    {{ url|image_width }}
++"""
++    
++    width, height = get_image_size(url)
++    return height
++#
++
++##################################################
++## FILTER REGISTRATION ##
++
++register = template.Library()
++
++register.filter('thumbnail', thumbnail)
++register.filter('image_width', image_width)
++register.filter('image_height', image_height)
+
+
+
+From lawgon at berlios.de  Thu Jan  5 16:20:21 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 5 Jan 2006 16:20:21 +0100
+Subject: [Birbal-svn] r52 - in trunk/birbal/births: . thumbnails
+Message-ID: <200601051520.k05FKLcv031095@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-05 16:20:21 +0100 (Thu, 05 Jan 2006)
+New Revision: 52
+
+Added:
+   trunk/birbal/births/thumbnails/
+   trunk/birbal/births/thumbnails/__init__.py
+   trunk/birbal/births/thumbnails/decorators.py
+   trunk/birbal/births/thumbnails/field.py
+Log:
+solved?
+
+Added: trunk/birbal/births/thumbnails/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/thumbnails/decorators.py
+===================================================================
+--- trunk/birbal/births/thumbnails/decorators.py	2006-01-05 15:05:05 UTC (rev 51)
++++ trunk/birbal/births/thumbnails/decorators.py	2006-01-05 15:20:21 UTC (rev 52)
+@@ -0,0 +1,20 @@
++def debug(obj, msg, *args):
++    import sys
++    print >>sys.stderr, '[%s] %s' % (obj.__class__.__name__, (msg % args))
++#
++
++def thumbnail_cleanup(post_delete=None):
++    def new_post_delete(self):
++        from thumbnails.utils import remove_thumbnails
++        from django.core.meta.fields import ImageField
++        for obj in self._meta.fields:
++            if isinstance(obj, ImageField):
++                url = getattr(self, 'get_%s_url' % obj.name)()
++                remove_thumbnails(url)
++        #
++        if post_delete:
++            post_delete(self)
++    #
++    
++    return new_post_delete
++#
+
+Added: trunk/birbal/births/thumbnails/field.py
+===================================================================
+--- trunk/birbal/births/thumbnails/field.py	2006-01-05 15:05:05 UTC (rev 51)
++++ trunk/birbal/births/thumbnails/field.py	2006-01-05 15:20:21 UTC (rev 52)
+@@ -0,0 +1,19 @@
++from django.core.meta.fields import ImageField
++
++class ImageWithThumbnailField(ImageField):
++    def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, **kwargs):
++        super(ImageWithThumbnailField, self).__init__(verbose_name, name, width_field, height_field, **kwargs)
++    #
++
++    def get_internal_type(self):
++        return 'ImageField'
++    #
++    
++    def save_file(self, new_data, new_object, original_object, change, rel):
++        super(ImageWithThumbnailField, self).save_file(new_data, new_object, original_object, change, rel)
++#        if change:
++        url = getattr(new_object, 'get_%s_url' % self.name)()
++        from births.thumbnails.utils import make_thumbnail, _remove_thumbnails
++        _remove_thumbnails(url) # clear all of the old thumbnails
++        make_thumbnail(url, width=120) # make admin thumbnail
++    #
+
+
+
+From lawgon at berlios.de  Fri Jan  6 02:45:53 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 6 Jan 2006 02:45:53 +0100
+Subject: [Birbal-svn] r53 - trunk/birbal/births/apps/website
+Message-ID: <200601060145.k061jrCb014857@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-06 02:45:46 +0100 (Fri, 06 Jan 2006)
+New Revision: 53
+
+Removed:
+   trunk/birbal/births/apps/website/templatetags/
+Log:
+try again
+
+
+
+From lawgon at berlios.de  Fri Jan  6 02:54:06 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 6 Jan 2006 02:54:06 +0100
+Subject: [Birbal-svn] r54 - in trunk/birbal/births/apps/website: . templatetags
+Message-ID: <200601060154.k061s61i018336@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-06 02:53:50 +0100 (Fri, 06 Jan 2006)
+New Revision: 54
+
+Added:
+   trunk/birbal/births/apps/website/templatetags/
+   trunk/birbal/births/apps/website/templatetags/__init__.py
+   trunk/birbal/births/apps/website/templatetags/thumbnails.py
+Log:
+done?
+
+Added: trunk/birbal/births/apps/website/templatetags/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/website/templatetags/thumbnails.py
+===================================================================
+--- trunk/birbal/births/apps/website/templatetags/thumbnails.py	2006-01-06 01:45:46 UTC (rev 53)
++++ trunk/birbal/births/apps/website/templatetags/thumbnails.py	2006-01-06 01:53:50 UTC (rev 54)
+@@ -0,0 +1,105 @@
++""" image related filters """
++
++##################################################
++## DEPENDENCIES ##
++
++from django.core import template
++from django.core.template import TemplateSyntaxError
++from births.thumbnails.utils import make_thumbnail, get_image_size
++
++##################################################
++## FILTERS ##
++
++def thumbnail(url, args=''):
++    """ Returns thumbnail URL and create it if not already exists.
++
++.. note:: requires PIL_,
++    if PIL_ is not found or thumbnail can not be created returns original URL.
++
++.. _PIL: http://www.pythonware.com/products/pil/
++
++Usage::
++
++    {{ url|thumbnail:"width=10,height=20" }}
++    {{ url|thumbnail:"width=10" }}
++    {{ url|thumbnail:"height=20" }}
++
++Parameters:
++
++width
++    requested image width
++
++height
++    requested image height
++
++Image is **proportionally** resized to dimension which is no greather than ``width x height``.
++
++Thumbnail file is saved in the same location as the original image
++and his name is constructed like this::
++
++    %(dirname)s/%(basename)s_t[_w%(width)d][_h%(height)d].%(extension)s
++
++or if only a width is requested (to be compatibile with admin interface)::
++
++    %(dirname)s/%(basename)s_t%(width)d.%(extension)s
++
++"""
++    
++    kwargs = {}
++    if args:
++        if ',' not in args:
++            # ensure at least one ','
++            args += ','
++        for arg in args.split(','):
++            arg = arg.strip()
++            if arg == '': continue
++            kw, val = arg.split('=', 1)
++            kw = kw.lower()
++            try:
++                val = int(val) # convert all ints
++            except ValueError:
++                raise template.TemplateSyntaxError, "thumbnail filter: argument %r is invalid integer (%r)" % (kw, val)
++            kwargs[kw] = val
++        # for
++    #
++    
++    if ('width' not in kwargs) and ('height' not in kwargs):
++        raise template.TemplateSyntaxError, "thumbnail filter requires arguments (width and/or height)"
++    
++    ret = make_thumbnail(url, **kwargs)
++    if ret is None:
++        return url
++    else:
++        return ret
++#
++
++def image_width(url):
++    """ Returns image width.
++
++Usage:
++    {{ url|image_width }}
++"""
++    
++    width, height = get_image_size(url)
++    return width
++#
++
++def image_height(url):
++    """ Returns image height.
++
++Usage:
++    {{ url|image_width }}
++"""
++    
++    width, height = get_image_size(url)
++    return height
++#
++
++##################################################
++## FILTER REGISTRATION ##
++
++register = template.Library()
++
++register.filter('thumbnail', thumbnail)
++register.filter('image_width', image_width)
++register.filter('image_height', image_height)
+
+
+
+From lawgon at berlios.de  Fri Jan  6 05:39:48 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 6 Jan 2006 05:39:48 +0100
+Subject: [Birbal-svn] r55 - trunk/birbal/births/thumbnails
+Message-ID: <200601060439.k064dmIe027843@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-06 05:39:47 +0100 (Fri, 06 Jan 2006)
+New Revision: 55
+
+Added:
+   trunk/birbal/births/thumbnails/utils.py
+Log:
+still cleaning
+
+Added: trunk/birbal/births/thumbnails/utils.py
+===================================================================
+--- trunk/birbal/births/thumbnails/utils.py	2006-01-06 01:53:50 UTC (rev 54)
++++ trunk/birbal/births/thumbnails/utils.py	2006-01-06 04:39:47 UTC (rev 55)
+@@ -0,0 +1,285 @@
++import re, os, urlparse, fnmatch
++from django.conf.settings import MEDIA_ROOT, MEDIA_URL
++from django.core.meta.fields import ImageField
++from django.core.cache import get_cache
++  
++# expire in 1h
++image_cache = get_cache('locmem:///')
++
++_FILE_CACHE_TIMEOUT = 60 * 60 * 60 * 24 * 31 # 1 month
++_THUMBNAIL_GLOB = '%s_t*%s'
++
++# check for PIL
++try:
++    import Image
++    HAS_PIL = True
++except ImportError:
++    HAS_PIL = False
++
++def _get_thumbnail_path(path, width=None, height=None):
++    """ create thumbnail path from path and required width and/or height.
++    
++        thumbnail file name is constructed like this:
++            <basename>_t_[w<width>][_h<height>].<extension>
++    """
++    
++    # one of width/height is required
++    assert (width is not None) or (height is not None)
++
++    basedir = os.path.dirname(path) + '/'
++    base, ext = os.path.splitext(os.path.basename(path))
++    
++    # make thumbnail filename
++    th_name = base + '_t'
++    if (width is not None) and (height is not None):
++        th_name += '_w%d_h%d' % (width, height)
++    elif width is not None:
++        th_name += '%d' % width # for compatibility with admin
++    elif height is not None:
++        th_name += '_h%d' % height
++    th_name += ext
++    
++    return urlparse.urljoin(basedir, th_name)
++#
++
++def _get_path_from_url(url, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    """ make filesystem path from url """
++
++    if url.startswith(url_root):
++        url = url[len(url_root):] # strip media root url
++
++    return os.path.normpath(os.path.join(root, url))
++#
++
++def _get_url_from_path(path, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    """ make url from filesystem path """
++
++    if path.startswith(root):
++        path = path[len(root):] # strip media root
++    
++    return urlparse.urljoin(root, path.replace('\\', '/'))
++#
++
++def _has_thumbnail(photo_url, width=None, height=None, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    # one of width/height is required
++    assert (width is not None) or (height is not None)
++
++    return os.path.isfile(_get_path_from_url(_get_thumbnail_path(photo_url, width, height), root, url_root))
++#
++
++def make_thumbnail(photo_url, width=None, height=None, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    """ create thumbnail """
++    
++    # one of width/height is required
++    assert (width is not None) or (height is not None)
++    
++    if not HAS_PIL: return None # no PIL - no thumbnail
++    if not photo_url: return None
++
++    th_url = _get_thumbnail_path(photo_url, width, height)
++    th_path = _get_path_from_url(th_url, root, url_root)
++    photo_path = _get_path_from_url(photo_url, root, url_root)
++    
++    if _has_thumbnail(photo_url, width, height, root, url_root):
++        # thumbnail already exists
++        if not (os.path.getmtime(photo_path) > os.path.getmtime(th_path)):
++            # if photo mtime is newer than thumbnail recreate thumbnail
++            return th_url
++    
++    # make thumbnail
++    
++    # get original image size
++    orig_w, orig_h = get_image_size(photo_url, root, url_root)
++    if (orig_w is None) and (orig_h) is None:
++        # something is wrong with image
++        return photo_url
++    
++    # make proper size
++    if (width is not None) and (height is not None):
++        if (orig_w == width) and (orig_h == height):
++            # same dimensions
++            return None
++        size = (width, height)
++    elif width is not None:
++        if orig_w == width:
++            # same dimensions
++            return None
++        size = (width, orig_h)
++    elif height is not None:
++        if orig_h == height:
++            # same dimensions
++            return None
++        size = (orig_w, height)
++
++    try:
++        img = Image.open(photo_path).copy()
++        img.thumbnail(size, Image.ANTIALIAS)
++        img.save(th_path)
++    except Exception, err:
++        # this goes to webserver error log
++        import sys
++        print >>sys.stderr, '[MAKE THUMBNAIL] error %s for file %r' % (err, photo_url)
++        return photo_url
++
++    return th_url
++#
++
++def _remove_thumbnails(photo_url, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    if not photo_url: return # empty url
++
++    file_name = _get_path_from_url(photo_url, root, url_root)
++    import fnmatch, os
++    base, ext = os.path.splitext(os.path.basename(file_name))
++    basedir = os.path.dirname(file_name)
++    for file in fnmatch.filter(os.listdir(basedir), _THUMBNAIL_GLOB % (base, ext)):
++        path = os.path.join(basedir, file)
++        os.remove(path)
++        image_cache.delete(path) # delete from cache
++    #
++#
++
++def remove_model_thumbnails(model):
++    """ remove all thumbnails for all ImageFields (and subclasses) in the model """
++    
++    for obj in model._meta.fields:
++        if isinstance(obj, ImageField):
++            url = getattr(model, 'get_%s_url' % obj.name)()
++            _remove_thumbnails(url)
++    #
++#
++
++def _make_admin_thumbnail(url):
++    """ make thumbnails for admin interface """
++    make_thumbnail(url, width=120)
++#
++
++def make_admin_thumbnails(model):
++    """ create thumbnails for admin interface for all ImageFields (and subclasses) in the model """
++    
++    for obj in model._meta.fields:
++        if isinstance(obj, ImageField):
++            url = getattr(model, 'get_%s_url' % obj.name)()
++            make_thumbnail(url, width=120)
++    #
++#
++
++def _get_thumbnail_url(photo_url, width=None, height=None, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    """ return thumbnail URL for requested photo_url and required width and/or height
++    
++        if thumbnail file do not exists returns original URL
++    """
++
++    # one of width/height is required
++    assert (width is not None) or (height is not None)
++    
++    if _has_thumbnail(photo_url, width, height, root, url_root):
++        return _get_thumbnail_path(photo_url, width, height)
++    else:
++        return photo_url
++#
++
++def _no_pil_image_size(fname):
++    """
++        Determine the image type of FNAME and return its size.
++        ripped from draco
++        
++        returns tuple (width, height) or None
++    """
++    
++    try:
++        filehandle = file(fname, 'rb')
++    except IOError:
++        return None
++
++    head = filehandle.read(24)
++    if len(head) != 24:
++        return
++    if head[:4] == '\x89PNG':
++        # PNG
++        check = struct.unpack('>i', head[4:8])[0]
++        if check != 0x0d0a1a0a:
++            return
++        width, height = struct.unpack('>ii', head[16:24])
++    elif head[:6] in ('GIF87a', 'GIF89a'):
++        # GIF
++        width, height = struct.unpack('<HH', head[6:10])
++    elif head[:4] == '\xff\xd8\xff\xe0' and head[6:10] == 'JFIF':
++        # JPEG
++        filehandle.seek(0)  # Read 0xff next
++        size = 2
++        filetype = 0
++        while not 0xc0 <= filetype <= 0xcf:
++            filehandle.seek(size, 1)
++            byte = filehandle.read(1)
++            while ord(byte) == 0xff:
++                byte = filehandle.read(1)
++            filetype = ord(byte)
++            size = struct.unpack('>H', filehandle.read(2))[0] - 2
++        # We are at a SOFn block
++        filehandle.seek(1, 1)  # Skip `precision' byte.
++        height, width = struct.unpack('>HH', filehandle.read(4))
++    else:
++        return
++    return width, height
++#
++
++def _set_cached_file(path, value):
++    """ Store file dependent data in cache.
++        Timeout is set to _FILE_CACHE_TIMEOUT (1month).
++    """
++    
++    mtime = os.path.getmtime(path)
++    image_cache.set(path, (mtime, value,), _FILE_CACHE_TIMEOUT)
++#
++
++def _get_cached_file(path, default=None):
++    """ Get file content from cache.
++        If modification time differ return None and delete
++        data from cache.
++    """
++    
++    cached = image_cache.get(path, default)
++    if cached is None:
++        return None
++    mtime, value = cached
++    
++    if (not os.path.isfile(path)) or (os.path.getmtime(path) != mtime): # file is changed or deleted
++        image_cache.delete(path) # delete from cache
++        # remove thumbnails if exists
++        base, ext = os.path.splitext(os.path.basename(path))
++        basedir = os.path.dirname(file_name)
++        for file in fnmatch.filter(os.listdir(basedir), _THUMBNAIL_GLOB % (base, ext)):
++            os.remove(os.path.join(basedir, file))
++        return None
++    else:
++        return value
++#
++
++def get_image_size(photo_url, root=MEDIA_ROOT, url_root=MEDIA_URL):
++    """ returns image size, use PIL if present or _no_pil_image_size if no PIL is found.
++    
++        image sizes are cached (using separate locmem:/// cache instance)
++    """
++    
++    path = os.path.join(root, _get_path_from_url(photo_url, root, url_root))
++    
++    size = _get_cached_file(path)
++    if size is None:
++        try:
++            if HAS_PIL:
++                size = Image.open(path).size
++            else:
++                size = _no_pil_image_size(path)
++        except Exception, err:
++            # this goes to webserver error log
++            import sys
++            print >>sys.stderr, '[GET IMAGE SIZE] error %s for file %r' % (err, photo_url)
++            return None, None
++        #
++        if size is not None:
++            _set_cached_file(path, size)
++        else:
++            return None, None
++    #
++    return size
++#
+
+
+
+From lawgon at berlios.de  Fri Jan  6 05:42:26 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 6 Jan 2006 05:42:26 +0100
+Subject: [Birbal-svn] r56 - in trunk/birbal/births/thumbnails: . templatetags
+Message-ID: <200601060442.k064gQj6028192@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-06 05:42:24 +0100 (Fri, 06 Jan 2006)
+New Revision: 56
+
+Added:
+   trunk/birbal/births/thumbnails/templatetags/
+   trunk/birbal/births/thumbnails/templatetags/__init__.py
+   trunk/birbal/births/thumbnails/templatetags/thumbnails.py
+Log:
+now done?
+
+Added: trunk/birbal/births/thumbnails/templatetags/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/thumbnails/templatetags/thumbnails.py
+===================================================================
+--- trunk/birbal/births/thumbnails/templatetags/thumbnails.py	2006-01-06 04:39:47 UTC (rev 55)
++++ trunk/birbal/births/thumbnails/templatetags/thumbnails.py	2006-01-06 04:42:24 UTC (rev 56)
+@@ -0,0 +1,105 @@
++""" image related filters """
++
++##################################################
++## DEPENDENCIES ##
++
++from django.core import template
++from django.core.template import TemplateSyntaxError
++from births.thumbnails.utils import make_thumbnail, get_image_size
++
++##################################################
++## FILTERS ##
++
++def thumbnail(url, args=''):
++    """ Returns thumbnail URL and create it if not already exists.
++
++.. note:: requires PIL_,
++    if PIL_ is not found or thumbnail can not be created returns original URL.
++
++.. _PIL: http://www.pythonware.com/products/pil/
++
++Usage::
++
++    {{ url|thumbnail:"width=10,height=20" }}
++    {{ url|thumbnail:"width=10" }}
++    {{ url|thumbnail:"height=20" }}
++
++Parameters:
++
++width
++    requested image width
++
++height
++    requested image height
++
++Image is **proportionally** resized to dimension which is no greather than ``width x height``.
++
++Thumbnail file is saved in the same location as the original image
++and his name is constructed like this::
++
++    %(dirname)s/%(basename)s_t[_w%(width)d][_h%(height)d].%(extension)s
++
++or if only a width is requested (to be compatibile with admin interface)::
++
++    %(dirname)s/%(basename)s_t%(width)d.%(extension)s
++
++"""
++    
++    kwargs = {}
++    if args:
++        if ',' not in args:
++            # ensure at least one ','
++            args += ','
++        for arg in args.split(','):
++            arg = arg.strip()
++            if arg == '': continue
++            kw, val = arg.split('=', 1)
++            kw = kw.lower()
++            try:
++                val = int(val) # convert all ints
++            except ValueError:
++                raise template.TemplateSyntaxError, "thumbnail filter: argument %r is invalid integer (%r)" % (kw, val)
++            kwargs[kw] = val
++        # for
++    #
++    
++    if ('width' not in kwargs) and ('height' not in kwargs):
++        raise template.TemplateSyntaxError, "thumbnail filter requires arguments (width and/or height)"
++    
++    ret = make_thumbnail(url, **kwargs)
++    if ret is None:
++        return url
++    else:
++        return ret
++#
++
++def image_width(url):
++    """ Returns image width.
++
++Usage:
++    {{ url|image_width }}
++"""
++    
++    width, height = get_image_size(url)
++    return width
++#
++
++def image_height(url):
++    """ Returns image height.
++
++Usage:
++    {{ url|image_width }}
++"""
++    
++    width, height = get_image_size(url)
++    return height
++#
++
++##################################################
++## FILTER REGISTRATION ##
++
++register = template.Library()
++
++register.filter('thumbnail', thumbnail)
++register.filter('image_width', image_width)
++register.filter('image_height', image_height)
+
+
+
+From lawgon at berlios.de  Fri Jan  6 06:21:11 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 6 Jan 2006 06:21:11 +0100
+Subject: [Birbal-svn] r57 - in trunk/birbal/births: apps/website/models templates/website
+Message-ID: <200601060521.k065LB3R031307@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-06 06:21:09 +0100 (Fri, 06 Jan 2006)
+New Revision: 57
+
+Modified:
+   trunk/birbal/births/apps/website/models/website.py
+   trunk/birbal/births/templates/website/gal.html
+Log:
+made the gallery sane
+
+Modified: trunk/birbal/births/apps/website/models/website.py
+===================================================================
+--- trunk/birbal/births/apps/website/models/website.py	2006-01-06 04:42:24 UTC (rev 56)
++++ trunk/birbal/births/apps/website/models/website.py	2006-01-06 05:21:09 UTC (rev 57)
+@@ -78,15 +78,16 @@
+ class Photo(meta.Model):
+     """ Photo Gallery - self explanatory
+         """
++    date = meta.DateTimeField('Date',default=meta.LazyDate())
+     tag = meta.ManyToManyField(Tag,verbose_name=_("Tags"))
+-    title = meta.CharField(_("Title"),maxlength=250)
++    title = meta.CharField(_("Title"), maxlength=100)
+     photo = ImageWithThumbnailField(_("Photo"),upload_to='images/')
+-    blurb = meta.CharField(_("Blurb for photo"),maxlength=250,blank=True,null=True)
++    blurb = meta.TextField(_("Blurb for photo"),maxlength=250,blank=True,null=True)
+     priority = meta.IntegerField(_("Priority"),default=1)
+     class META:
+-        ordering = ['priority']
++        ordering = ['priority','date']
+         admin = meta.Admin(
+-        list_display = ('title','priority'),
++        list_display = ('title','priority','date'),
+             search_fields = ['title'],
+         )
+     def _post_delete(self):
+
+Modified: trunk/birbal/births/templates/website/gal.html
+===================================================================
+--- trunk/birbal/births/templates/website/gal.html	2006-01-06 04:42:24 UTC (rev 56)
++++ trunk/birbal/births/templates/website/gal.html	2006-01-06 05:21:09 UTC (rev 57)
+@@ -26,8 +26,17 @@
+ </td>
+ </tr>
+ <tr><td align="center">
++{{ p.date|date:"d-m-Y" }}
++</td></tr>
++<tr><td align="center">
+ {{ p.blurb }}
+ </td></tr>
++<tr><td align="center">
++<h3>Tags: </h3>
++ {% for m in p.get_tag_list %}
++    {{ m }},
++    {% endfor %}
++</td></tr>
+ </table>
+ 
+   {% endfor %}
+
+
+
+From lawgon at berlios.de  Mon Jan  9 11:53:40 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 9 Jan 2006 11:53:40 +0100
+Subject: [Birbal-svn] r58 - in trunk/birbal/docs: . accounting
+Message-ID: <200601091053.k09AreBQ015733@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-09 11:53:40 +0100 (Mon, 09 Jan 2006)
+New Revision: 58
+
+Added:
+   trunk/birbal/docs/accounting/
+   trunk/birbal/docs/accounting/reports.txt
+Log:
+starting accounts
+
+Added: trunk/birbal/docs/accounting/reports.txt
+===================================================================
+--- trunk/birbal/docs/accounting/reports.txt	2006-01-06 05:21:09 UTC (rev 57)
++++ trunk/birbal/docs/accounting/reports.txt	2006-01-09 10:53:40 UTC (rev 58)
+@@ -0,0 +1,39 @@
++Reports: for a trading company
++
++A report contains page/pages and each page contains columns and rows. These
++have to be detailed here
++
++1. Balance sheet
++
++
++2. Trial Balance
++
++3. Receipts/Payments report
++
++4. Profit and loss report
++
++5. Trading report
++
++6. Ledgers
++
++7. books of account
++
++8. Taxation reports
++
++9. audit trail reports
++
++10. inventory/stock reports
++
++11. Bills/Invoices
++
++12. aging
++
++13. cost center analysis
++
++14 purchase planning
++
++15 sales reports
++
++16 payroll and employee related reports
++
++17 statutory returns
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Mon Jan  9 12:03:11 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 9 Jan 2006 12:03:11 +0100
+Subject: [Birbal-svn] r59 - trunk/birbal/docs/accounting
+Message-ID: <200601091103.k09B3BjK016896@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-09 12:03:11 +0100 (Mon, 09 Jan 2006)
+New Revision: 59
+
+Added:
+   trunk/birbal/docs/accounting/policies.txt
+Log:
+some more accounts
+
+Added: trunk/birbal/docs/accounting/policies.txt
+===================================================================
+--- trunk/birbal/docs/accounting/policies.txt	2006-01-09 10:53:40 UTC (rev 58)
++++ trunk/birbal/docs/accounting/policies.txt	2006-01-09 11:03:11 UTC (rev 59)
+@@ -0,0 +1,18 @@
++Questions
++
++1. coded accounting or codeless accounting?
++
++2. Heads of account to be unique and in tree form?
++
++3. Names of accounts and heads to be 
++	a. fixed and not alterable
++	b. some fixed and not alterable (assets, liabilities for example)
++	c. All totally customisable
++	
++4. Accounting year - fixed or changeable
++
++5. Accounts for each year in different databases or same one
++
++6. editing of entries allowable? If so, to what extent and by whom
++
++7. serial nos of entries to be generated or manual?
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Thu Jan 19 08:56:41 2006
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 19 Jan 2006 08:56:41 +0100
+Subject: [Birbal-svn] r60 - in trunk/birbal: births/apps/accounts/models births/apps/website births/templates/website docs/accounting
+Message-ID: <200601190756.k0J7ufvG025752@sheep.berlios.de>
+
+Author: lawgon
+Date: 2006-01-19 08:56:41 +0100 (Thu, 19 Jan 2006)
+New Revision: 60
+
+Modified:
+   trunk/birbal/births/apps/accounts/models/accounts.py
+   trunk/birbal/births/apps/website/views.py
+   trunk/birbal/births/templates/website/gal.html
+   trunk/birbal/docs/accounting/policies.txt
+Log:
+test
+
+Modified: trunk/birbal/births/apps/accounts/models/accounts.py
+===================================================================
+--- trunk/birbal/births/apps/accounts/models/accounts.py	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/births/apps/accounts/models/accounts.py	2006-01-19 07:56:41 UTC (rev 60)
+@@ -1,3 +1,46 @@
+ from django.core import meta
+ 
+-# Create your models here.
++# Create your models here
++
++class Category(meta.Model):
++    category_name = meta.CharField(maxlength=50)
++    parent = meta.ForeignKey('self', blank=True, null=True,
++                             related_name='child')
++
++    def _recurse_for_parents(self, cat_obj):
++        p_list = []
++        if cat_obj.parent_id:
++            p = cat_obj.get_parent()
++            p_list.append(p.category_name)
++            more = self._recurse_for_parents(p)
++            p_list.extend(more)
++        if cat_obj == self and p_list:
++            p_list.reverse()
++        return p_list
++
++    def get_separator(self):
++        return ' :: '
++
++    def _parents_repr(self):
++        p_list = self._recurse_for_parents(self)
++        return self.get_separator().join(p_list)
++    _parents_repr.short_description = "Category parents"
++
++
++    def _pre_save(self):
++        p_list = self._recurse_for_parents(self)
++        if self.category_name in p_list:
++            raise "You must not save a category in itself!"
++
++    def __repr__(self):
++        p_list = self._recurse_for_parents(self)
++        p_list.append(self.category_name)
++        return self.get_separator().join(p_list)
++
++    class META:
++        admin = meta.Admin(
++            list_display = ('category_name', '_parents_repr'),
++            search_fields = ['category_name'],
++        )
++        module_name = 'categories'
++
+
+Modified: trunk/birbal/births/apps/website/views.py
+===================================================================
+--- trunk/birbal/births/apps/website/views.py	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/births/apps/website/views.py	2006-01-19 07:56:41 UTC (rev 60)
+@@ -34,6 +34,8 @@
+     return list
+ 
+ 
++
++
+ def index(request):
+     """ Not used
+         """
+@@ -65,9 +67,10 @@
+     """ View for display of the thumbnails
+         in the gallery
+         """
+-    if not gall:
+-        gall = 1
+-    list = photos.get_list(tag__id__exact=gall)
++    if gall:
++        list = photos.get_list(tag__id__exact=gall)
++    else:
++        list = []
+     gals = tags.get_list()
+     gal = tags.get_object(id__exact=gall)
+     t = template_loader.get_template('website/gallall')
+@@ -95,3 +98,5 @@
+                  
+                  })
+     return HttpResponse(t.render(c))
++
++
+
+Modified: trunk/birbal/births/templates/website/gal.html
+===================================================================
+--- trunk/birbal/births/templates/website/gal.html	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/births/templates/website/gal.html	2006-01-19 07:56:41 UTC (rev 60)
+@@ -28,7 +28,7 @@
+ <tr><td align="center">
+ {{ p.date|date:"d-m-Y" }}
+ </td></tr>
+-<tr><td align="center">
++<tr><td width="75%">
+ {{ p.blurb }}
+ </td></tr>
+ <tr><td align="center">
+
+Modified: trunk/birbal/docs/accounting/policies.txt
+===================================================================
+--- trunk/birbal/docs/accounting/policies.txt	2006-01-09 11:03:11 UTC (rev 59)
++++ trunk/birbal/docs/accounting/policies.txt	2006-01-19 07:56:41 UTC (rev 60)
+@@ -1,8 +1,13 @@
+ Questions
+ 
+-1. coded accounting or codeless accounting?
++1. coded accounting or codeless accounting? This is a fundamental decision,
++in codeless accounting there is the possibilty of changing positions of
++accounts by drag and drop, whereas in coded accounting the whole thing has
++to be done manually. What are the pros and cons.
+ 
+-2. Heads of account to be unique and in tree form?
++2. Heads of account to be unique and in tree form? If the name of the head
++of account is not unique, then a combination of the head+parent has to be
++unique. 
+ 
+ 3. Names of accounts and heads to be 
+ 	a. fixed and not alterable
+
+
+

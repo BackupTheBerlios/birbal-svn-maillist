@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r9 - trunk/birbal/docs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r9%20-%20trunk/birbal/docs&In-Reply-To=%3C200512120857.jBC8vYbT000869%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000004.html">
+   <LINK REL="Next"  HREF="000006.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r9 - trunk/birbal/docs</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r9%20-%20trunk/birbal/docs&In-Reply-To=%3C200512120857.jBC8vYbT000869%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r9 - trunk/birbal/docs">lawgon at berlios.de
+       </A><BR>
+    <I>Mon Dec 12 09:57:34 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000004.html">[Birbal-svn] r8 - trunk/birbal/docs
+</A></li>
+        <LI>Next message: <A HREF="000006.html">[Birbal-svn] r10 - trunk/birbal/docs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-12 09:57:13 +0100 (Mon, 12 Dec 2005)
+New Revision: 9
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 08:43:52 UTC (rev 8)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 08:57:13 UTC (rev 9)
+@@ -20,7 +20,7 @@
+ 
+ 6. when the report is complete, verification is done. A negative
+ verification will also NFA the file - verification remark is added and file
+-closed.
++closed. Part of verification is a check for duplicate.
+ 
+ 7. The complete and verified report is then scrutinised and approved
+ 
+@@ -49,8 +49,22 @@
+ 4. deathplacetypes - same thing
+ 5. reportypes - form, letter, phone, oral, web etc
+ 
++Reportsregister:
++
++id
++date opened
++reportytpe - fk to reportypes
++filenumber
++physical location of report
++location of digital copy of report
++accepted/rejected
++dateclosed
++
++
++
+ birthregister:
+ 
++id
+ name
+ fathers name
+ mothers name
+@@ -65,6 +79,7 @@
+ 
+ deathregister:
+ 
++id
+ firstname
+ lastname
+ fathers/husbands/mothers name
+@@ -72,4 +87,7 @@
+ deathplace - foreign key to deathplaces
+ cause of death
+ addresss
+-date registered
+\ No newline at end of file
++date registered
++report - foreign key to reports table
++
++Transactions:
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000004.html">[Birbal-svn] r8 - trunk/birbal/docs
+</A></li>
+	<LI>Next message: <A HREF="000006.html">[Birbal-svn] r10 - trunk/birbal/docs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

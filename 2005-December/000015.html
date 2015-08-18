@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r19 - in trunk/birbal: . births/sitemedia/css births/templates
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r19%20-%20in%20trunk/birbal%3A%20.%20births/sitemedia/css%20births/templates&In-Reply-To=%3C200512130755.jBD7tkuE004983%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000014.html">
+   <LINK REL="Next"  HREF="000016.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r19 - in trunk/birbal: . births/sitemedia/css births/templates</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r19%20-%20in%20trunk/birbal%3A%20.%20births/sitemedia/css%20births/templates&In-Reply-To=%3C200512130755.jBD7tkuE004983%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r19 - in trunk/birbal: . births/sitemedia/css births/templates">lawgon at berlios.de
+       </A><BR>
+    <I>Tue Dec 13 08:55:46 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000014.html">[Birbal-svn] r18 - in trunk/birbal/births: . apps apps/register apps/register/models
+</A></li>
+        <LI>Next message: <A HREF="000016.html">[Birbal-svn] r20 - trunk/birbal/births/sitemedia/css
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-13 08:55:39 +0100 (Tue, 13 Dec 2005)
+New Revision: 19
+
+Added:
+   trunk/birbal/births/templates/base.html
+Removed:
+   trunk/birbal/templates/
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+   trunk/birbal/births/sitemedia/css/test.html
+Log:
+restructuring
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 07:08:23 UTC (rev 18)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 07:55:39 UTC (rev 19)
+@@ -1,5 +1,6 @@
+ 	body {
+-    		font: 90% &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
++    		font: 90% &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial,
++sans-serif;
+     		background-color: White;
+     		color: Black;
+     		margin: 0;
+@@ -84,7 +85,8 @@
+ h1, h2, h3, h4, h5, h6 {
+     color: #388050;
+     background-color: transparent;
+-    font-family: &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
++    font-family: &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial,
++sans-serif;
+     font-size: 100%;
+     font-weight: normal;
+     margin: 0;
+@@ -136,7 +138,7 @@
+ 
+ 
+ ul { 
+-   # line-height: 1.5em;
++    line-height: 1.5em;
+     list-style-type: square;
+     margin: 0.5em 0 0 1.5em;
+     padding: 0;
+@@ -195,7 +197,7 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:78%;
++		width:65%;
+ 		margin-top: 10px;
+ 		margin-left:1%;
+ 		margin-right:1%;
+@@ -213,11 +215,20 @@
+ 		float:left;
+ 		overflow: hidden;
+ 		margin-top: 10px;
+-		margin-left:2%;
++		margin-left:1%;
+ 		width:15%;
+ 		margin-bottom:10px;
+ 		}
+ 		
++	#rightcontent {
++		float:left;
++		overflow: hidden;
++		margin-top: 10px;
++		margin-left:1%;
++		width:15%;
++		margin-bottom:10px;
++		}
++		
+ 	
+ 	h1 {
+ 		background:#d5c99f;
+@@ -227,43 +238,57 @@
+ 		font-size:120%;
+ 		}
+ 		
+-	#navsite ul
+-		{
+-		margin: 0;
+-		padding: 0;
+-		list-style: none;
+-		width: 150px;
+-		border-bottom: 1px solid #ccc;
++	#navsite 
++		{	
++		float:left;
++		margin-left:1%;
++		margin-right:1%;
++		margin-top:20px;
++		width:97%;
++		clear:both;
+ 		}
++	#navsite h5 {
++		display:none;
++		}
++	#navsite ul {
++		padding:3px 0;
++		margin-left: 0;
++		font: bold 12px Verdana, sans-serif;
++		}
+ 		
+-	#navsite ul li
+-		{
+-		position: relative;
++	#navsite ul li {
++		list-style:none;
++		margin:0;
+ 		}
+ 		
+-	#navsite li ul 
+-		{
+-		position: absolute;
+-		left: 149px;
+-		top: 0;
+-		display: none;
++	#navsite ul li a {
++		padding:3px 0.5em;
++		border:2px solid #388050;
++		background:#d5c99f;
++		text-decoration:none;
+ 		}
+ 		
+-	#navsite ul li a 
+-		{
+-		display: block;
+-		text-decoration: none;
+-		color: #abcdef;
+-		background: #eeefff;
+-		padding: 5px;
+-		border: 1px solid #ccc;
++	#navsite ul li a:link {
++		color:black;
++		}
+ 		
++	#navsite ul li a:visited {
++		color:#667;
+ 		}
+ 		
+-	#navsite li:hover ul { display: block; }
++	#navsite ul li a:link:hover,#navsite ul li a:link:visited:hover
++		{
++		color:#000;
++		background:#AAE;
++		border-color:#227;
++		}
++	#navsite ul li a#current
++		{
++		background:white;
++		border-right:3px solid white;
++		}
++		
+ 	
+-	
+-		
+ 	#footer
+ 		{
+ 		width:95%
+
+Modified: trunk/birbal/births/sitemedia/css/test.html
+===================================================================
+--- trunk/birbal/births/sitemedia/css/test.html	2005-12-13 07:08:23 UTC (rev 18)
++++ trunk/birbal/births/sitemedia/css/test.html	2005-12-13 07:55:39 UTC (rev 19)
+@@ -7,22 +7,16 @@
+   &lt;meta name=&quot;GENERATOR&quot; content=&quot;Quanta Plus&quot;&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
++&lt;div id=&quot;leftcontent&quot;&gt;
+ &lt;div id=&quot;navsite&quot;&gt;
+ &lt;ul&gt;
+ &lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
++&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
+ &lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;
+-	&lt;ul&gt;
+-	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
+-	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
+-	&lt;/ul&gt;&lt;/LI&gt;
+-&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;
+-&lt;ul&gt;
+-	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
+-	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
+-	&lt;/ul&gt;
+ &lt;/LI&gt;
+ &lt;/ul&gt;
+ &lt;/div&gt;
++&lt;/div&gt;
+ 
+ &lt;/body&gt;
+ &lt;/html&gt;
+
+Added: trunk/birbal/births/templates/base.html
+===================================================================
+--- trunk/birbal/births/templates/base.html	2005-12-13 07:08:23 UTC (rev 18)
++++ trunk/birbal/births/templates/base.html	2005-12-13 07:55:39 UTC (rev 19)
+@@ -0,0 +1,68 @@
++&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
++&quot;DTD/xhtml1-transitional.dtd&quot;&gt;
++&lt;html&gt;&lt;head&gt;
++&lt;LINK REL=&quot;stylesheet&quot; type='text/css' href='/sitemedia/css/layout.css' title='default'&gt;
++&lt;title&gt;{% trans &quot;Birbal eGovernance Project&quot; %}&lt;/title&gt;
++
++
++&lt;/head&gt;
++&lt;body&gt;
++
++&lt;div id=&quot;centertop&quot;&gt;
++	&lt;br/&gt;
++	&lt;img src=&quot;/sitemedia/pics/masthead.jpg&quot; width=&quot;800&quot;/&gt;
++	&lt;br/&gt;
++	&lt;h1&gt;&lt;span&gt;{% trans &quot;Open Source eGovernance&quot; %}&lt;/span&gt;&lt;/h1&gt;
++	&lt;/div&gt;
++
++&lt;div id=&quot;navsite&quot;&gt;
++  
++  &lt;h5&gt;Site Navigation&lt;/h5&gt;
++    &lt;ul&gt;
++     {% block navsite %}
++     {% for p in mn %}
++	&lt;li &gt;
++	&lt;a href = &quot;/bambanks/{{ p.url }}&quot; {{ p.id }}&gt; {{ p.name }}
++	&lt;/a&gt;
++	&lt;/li&gt;
++	{% endfor %}
++
++     {% endblock %}
++    &lt;/ul&gt;
++    
++&lt;/div&gt;
++&lt;div id=&quot;navsite2&quot;&gt;
++  
++  &lt;h5&gt;Site Navigation&lt;/h5&gt;
++    &lt;ul&gt;
++     {% block navsite2 %}
++     {% for p in mn2 %}
++	&lt;li &gt;
++	&lt;a href = &quot;/bambanks/{{ p.url }}&quot; {{ p.id }}&gt; {{ p.name }}
++	&lt;/a&gt;
++	&lt;/li&gt;
++	{% endfor %}
++
++     {% endblock %}
++    &lt;/ul&gt;
++    
++&lt;/div&gt;
++
++&lt;div id=&quot;leftcontent&quot;&gt;
++&lt;img src=&quot;/sitemedia/pics/bamboogreen.jpg&quot; width=&quot;140&quot; /&gt;
++&lt;/div&gt;
++
++&lt;div id=&quot;centercontent&quot;&gt;
++{% block centercontent %} {% endblock %}
++&lt;/div&gt;
++
++
++&lt;div id=&quot;footer&quot;&gt;
++&lt;p&gt;Built by &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/birbal-svn">lawgon at thenilgiris.com</A>&quot;&gt;XLQuest&lt;/a&gt;, 
++powered by FreeBSD, Apache, Python, Postgresql and Django
++ copyright 2005  
++ &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/birbal-svn">webmaster at bamboobanks.in</A>&quot;&gt;Bamboo Banks&lt;/a&gt;&lt;/p&gt;
++ &lt;/div&gt;
++&lt;/div&gt;
++&lt;/body&gt;
++&lt;/html&gt;
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000014.html">[Birbal-svn] r18 - in trunk/birbal/births: . apps apps/register apps/register/models
+</A></li>
+	<LI>Next message: <A HREF="000016.html">[Birbal-svn] r20 - trunk/birbal/births/sitemedia/css
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,833 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r15 - in trunk/birbal: docs sitemedia/css
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r15%20-%20in%20trunk/birbal%3A%20docs%20sitemedia/css&In-Reply-To=%3C200512130556.jBD5unMd022371%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000010.html">
+   <LINK REL="Next"  HREF="000012.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r15 - in trunk/birbal: docs sitemedia/css</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r15%20-%20in%20trunk/birbal%3A%20docs%20sitemedia/css&In-Reply-To=%3C200512130556.jBD5unMd022371%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r15 - in trunk/birbal: docs sitemedia/css">lawgon at berlios.de
+       </A><BR>
+    <I>Tue Dec 13 06:56:49 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000010.html">[Birbal-svn] r14 - trunk/birbal/docs
+</A></li>
+        <LI>Next message: <A HREF="000012.html">[Birbal-svn] r16 - in trunk/birbal: . births births/sitemedia
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#11">[ date ]</a>
+              <a href="thread.html#11">[ thread ]</a>
+              <a href="subject.html#11">[ subject ]</a>
+              <a href="author.html#11">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-13 06:55:41 +0100 (Tue, 13 Dec 2005)
+New Revision: 15
+
+Added:
+   trunk/birbal/sitemedia/css/layout.css
+   trunk/birbal/sitemedia/css/layout.css~
+   trunk/birbal/sitemedia/css/test.html
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+restructuring
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 05:55:41 UTC (rev 15)
+@@ -7,7 +7,7 @@
+ 2. Record keeping is essential for transparency. So we cant just have a
+ simple form to be added/edited, but have to lay an audit trail
+ 
+-3. Both births and deaths the process starts with a report from and
++3. Both births and deaths the process starts with a report from an
+ informant. The report may be in official form or in writing. It could also
+ be over the web, telephone or by email or oral.
+ 
+@@ -35,7 +35,8 @@
+ 
+ 11. Applications may be made for birth/death certificates. On verification,
+ if the party is entitled to it, the certificate is issued on payment of the
+-fee. Else it is refused and the application filed along with the remark
++fee. Else it is refused and the application filed along with the remark.
++Provision has to be made for paying the fee - either online or offline.
+ 
+ 12. Birth and death statistics can be generated.
+ 
+@@ -51,19 +52,30 @@
+ 6. transactiontypes - openingfile, scrutiny, returning, verification,
+ approval, deletion, modification, certificateissue, certificaterefusal
+ 
+-Reportsregister:
++Reportsregister (births):
+ 
+ id
+ date opened
++informant name
+ reportytpe - fk to reportypes
+ filenumber
+ physical location of report
+ location of digital copy of report
++name
++fathers name
++mothers name
++address
++area
++date of birth
++date registered
++sex
++birthplace - foreignkey to birthplaces
+ accepted/rejected
+ dateclosed
+ 
++(some information is duplicated in both tables, but this is necessary for
++audit trail)
+ 
+-
+ birthregister:
+ 
+ id
+@@ -79,6 +91,27 @@
+ identity code number
+ birthplace - foreignkey to birthplaces
+ 
++Reportsregister (deaths):
++
++id
++informant name
++date opened
++reportytpe - fk to reportypes
++filenumber
++physical location of report
++location of digital copy of report
++fname
++lname
++fathers name
++address
++area
++date of death
++sex
++deathplace - foreignkey to deathplaces
++cause of death
++accepted/rejected
++dateclosed
++
+ deathregister:
+ 
+ id
+
+Added: trunk/birbal/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/sitemedia/css/layout.css	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/sitemedia/css/layout.css	2005-12-13 05:55:41 UTC (rev 15)
+@@ -0,0 +1,313 @@
++	body {
++    		font: 90% &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
++    		background-color: White;
++    		color: Black;
++    		margin: 0;
++    		padding: 0;
++		}
++		
++table {
++    font-size: 100%;
++}
++
++th {
++    background:#d5c99f;
++    border-top: 1px solid #388050;
++    border-bottom: 1px solid #388050;
++    border-right: 1px solid #388050;
++    font-weight: bold;
++    padding: 0em 1em 0em 1em;
++}
++
++#newsimage {
++	text-align:center;
++	padding: 2em 2em 2em 2em;
++	};
++	
++
++	
++td {
++    border-right: 1px solid #388050;
++    padding: 0em 1em;
++    text-align: left;
++    font-weight:bold;
++}
++
++#num {
++    text-align: right;
++}
++
++table .odd {
++    /*every second line should be shaded */
++    background-color: transparent;
++}
++table .even {
++    background-color: #f7f9fa;
++}
++
++a {
++    text-decoration: none;
++    color: #436976;
++    background-color: transparent;
++}
++img {
++    border: none;
++    vertical-align: middle;
++}
++p {
++    margin: 0.5em 0em 1em 0em;
++    line-height: 1.5em;
++}
++p a {
++    text-decoration: underline;
++}
++p a:visited {
++    color: Purple;
++    background-color: transparent;
++}
++p a:active {
++    color: Red;
++    background-color: transparent;
++}
++p img {
++    border: 0;
++    margin: 0;
++}
++
++hr {
++    height: 1px;
++    color: #388050;
++    background-color: transparent;
++}
++
++
++h1, h2, h3, h4, h5, h6 {
++    color: #388050;
++    background-color: transparent;
++    font-family: &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
++    font-size: 100%;
++    font-weight: normal;
++    margin: 0;
++    padding-top: 0.5em;
++    border-bottom: 1px solid #388050;
++}
++
++h1 a,
++h2 a,
++h3 a,
++h4 a,
++h5 a,
++h6 a {
++    color: Black ! important; 
++}
++
++h1 {
++    font-size: 160%;
++    padding-right: 4em;
++}
++
++h2 {
++    font-size: 150%;
++}
++
++h3 {
++    font-size: 140%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h4 {
++    font-size: 120%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h5 {
++    font-size: 100%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h6 {
++    font-size: 85%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++
++ul { 
++   # line-height: 1.5em;
++    list-style-type: square;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++    
++}
++
++ol {
++    line-height: 1.5em;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++}
++ul a, ol a {
++    text-decoration: underline;
++}
++li {
++    margin-bottom: 1em;
++}
++dt {
++    font-weight: bold;    
++}
++dt a {
++    text-decoration: underline;
++}
++
++dd {
++    line-height: 1.5em;
++    margin-bottom: 1em;
++}
++dd a {
++    text-decoration: underline;
++}
++
++dd.link a {
++    text-decoration: none;
++    color: Black;
++}
++	
++	
++
++		
++	#centertop {
++		margin-top:10px;
++		float:left;
++		width:97%;
++		margin-left:1%;
++		margin-right:1%;
++		height:120px;
++		background:#d5c99f;
++		voice-family: &quot;\&quot;}\&quot;&quot;;
++		voice-family: inherit;
++		text-align: center; 
++		margin-bottom:10px;
++		border-bottom: 3px solid #388050
++		clear:both;
++		}
++
++	#centercontent {
++		float:left;
++		width:78%;
++		margin-top: 10px;
++		margin-left:1%;
++		margin-right:1%;
++		background:#fff;
++		voice-family: &quot;\&quot;}\&quot;&quot;;
++		voice-family: inherit;
++		margin-bottom:10px;
++		padding:5px;
++		}
++		
++
++
++
++	#leftcontent {
++		float:left;
++		overflow: hidden;
++		margin-top: 10px;
++		margin-left:2%;
++		width:15%;
++		margin-bottom:10px;
++		}
++		
++	
++	h1 {
++		background:#d5c99f;
++		}
++	h1 span
++		{
++		font-size:120%;
++		}
++		
++	#navsite ul
++		{
++		margin: 0;
++		padding: 0;
++		list-style: none;
++		width: 150px;
++		border-bottom: 1px solid #ccc;
++		}
++		
++	#navsite ul li
++		{
++		position: relative;
++		}
++		
++	#navsite li ul 
++		{
++		position: absolute;
++		left: 149px;
++		top: 0;
++		display: none;
++		}
++		
++	#navsite ul li a 
++		{
++		display: block;
++		text-decoration: none;
++		color: #abcdef;
++		background: #eeefff;
++		padding: 5px;
++		border: 1px solid #ccc;
++		
++		}
++		
++	#navsite li:hover ul { display: block; }
++	
++	
++		
++	#footer
++		{
++		width:95%
++		float:left;
++		clear:both;
++		padding:1px;
++		border-top:3px solid #d5c99f;
++		font-size:xx-small;
++		font-weight:bold;
++		color:green;
++		text-align:center;
++		margin-left:1%;
++		margin-right:1%;
++		margin-top:15px;
++		}
++		
++	#more
++		{
++		font-weight:bold;
++		text-align:right;
++		margin-right:5%;
++		margin-top:3px;
++		}
++		
++	#blurb
++		{
++		font-weight:bold;
++		text-align:center;
++		margin-top:3px;
++		margin-bottom:5px;
++		}
++	#more a
++		{color:&quot;green&quot;;}
++		
++	#warning p
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	#warning li
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	
+\ No newline at end of file
+
+Added: trunk/birbal/sitemedia/css/layout.css~
+===================================================================
+--- trunk/birbal/sitemedia/css/layout.css~	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/sitemedia/css/layout.css~	2005-12-13 05:55:41 UTC (rev 15)
+@@ -0,0 +1,313 @@
++	body {
++    		font: 90% &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
++    		background-color: White;
++    		color: Black;
++    		margin: 0;
++    		padding: 0;
++		}
++		
++table {
++    font-size: 100%;
++}
++
++th {
++    background:#d5c99f;
++    border-top: 1px solid #388050;
++    border-bottom: 1px solid #388050;
++    border-right: 1px solid #388050;
++    font-weight: bold;
++    padding: 0em 1em 0em 1em;
++}
++
++#newsimage {
++	text-align:center;
++	padding: 2em 2em 2em 2em;
++	};
++	
++
++	
++td {
++    border-right: 1px solid #388050;
++    padding: 0em 1em;
++    text-align: left;
++    font-weight:bold;
++}
++
++#num {
++    text-align: right;
++}
++
++table .odd {
++    /*every second line should be shaded */
++    background-color: transparent;
++}
++table .even {
++    background-color: #f7f9fa;
++}
++
++a {
++    text-decoration: none;
++    color: #436976;
++    background-color: transparent;
++}
++img {
++    border: none;
++    vertical-align: middle;
++}
++p {
++    margin: 0.5em 0em 1em 0em;
++    line-height: 1.5em;
++}
++p a {
++    text-decoration: underline;
++}
++p a:visited {
++    color: Purple;
++    background-color: transparent;
++}
++p a:active {
++    color: Red;
++    background-color: transparent;
++}
++p img {
++    border: 0;
++    margin: 0;
++}
++
++hr {
++    height: 1px;
++    color: #388050;
++    background-color: transparent;
++}
++
++
++h1, h2, h3, h4, h5, h6 {
++    color: #388050;
++    background-color: transparent;
++    font-family: &quot;Lucida Grande&quot;, Verdana, Lucida, Helvetica, Arial, sans-serif;
++    font-size: 100%;
++    font-weight: normal;
++    margin: 0;
++    padding-top: 0.5em;
++    border-bottom: 1px solid #388050;
++}
++
++h1 a,
++h2 a,
++h3 a,
++h4 a,
++h5 a,
++h6 a {
++    color: Black ! important; 
++}
++
++h1 {
++    font-size: 160%;
++    padding-right: 4em;
++}
++
++h2 {
++    font-size: 150%;
++}
++
++h3 {
++    font-size: 140%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h4 {
++    font-size: 120%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h5 {
++    font-size: 100%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h6 {
++    font-size: 85%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++
++ul { 
++    line-height: 1.5em;
++    list-style-type: square;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++    
++}
++
++ol {
++    line-height: 1.5em;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++}
++ul a, ol a {
++    text-decoration: underline;
++}
++li {
++    margin-bottom: 1em;
++}
++dt {
++    font-weight: bold;    
++}
++dt a {
++    text-decoration: underline;
++}
++
++dd {
++    line-height: 1.5em;
++    margin-bottom: 1em;
++}
++dd a {
++    text-decoration: underline;
++}
++
++dd.link a {
++    text-decoration: none;
++    color: Black;
++}
++	
++	
++
++		
++	#centertop {
++		margin-top:10px;
++		float:left;
++		width:97%;
++		margin-left:1%;
++		margin-right:1%;
++		height:120px;
++		background:#d5c99f;
++		voice-family: &quot;\&quot;}\&quot;&quot;;
++		voice-family: inherit;
++		text-align: center; 
++		margin-bottom:10px;
++		border-bottom: 3px solid #388050
++		clear:both;
++		}
++
++	#centercontent {
++		float:left;
++		width:78%;
++		margin-top: 10px;
++		margin-left:1%;
++		margin-right:1%;
++		background:#fff;
++		voice-family: &quot;\&quot;}\&quot;&quot;;
++		voice-family: inherit;
++		margin-bottom:10px;
++		padding:5px;
++		}
++		
++
++
++
++	#leftcontent {
++		float:left;
++		overflow: hidden;
++		margin-top: 10px;
++		margin-left:2%;
++		width:15%;
++		margin-bottom:10px;
++		}
++		
++	
++	h1 {
++		background:#d5c99f;
++		}
++	h1 span
++		{
++		font-size:120%;
++		}
++		
++	#navsite ul
++		{
++		margin: 0;
++		padding: 0;
++		list-style: none;
++		width: 150px;
++		border-bottom: 1px solid #ccc;
++		}
++		
++	#navsite ul li
++		{
++		position: relative;
++		}
++		
++	#navsite li ul 
++		{
++		position: absolute;
++		left: 149px;
++		top: 0;
++		display: none;
++		}
++		
++	#navsite ul li a 
++		{
++		display: block;
++		text-decoration: none;
++		color: #abcdef;
++		background: #eeefff;
++		padding: 5px;
++		border: 1px solid #ccc;
++		
++		}
++		
++	#navsite li:hover ul { display: block; }
++	
++	
++		
++	#footer
++		{
++		width:95%
++		float:left;
++		clear:both;
++		padding:1px;
++		border-top:3px solid #d5c99f;
++		font-size:xx-small;
++		font-weight:bold;
++		color:green;
++		text-align:center;
++		margin-left:1%;
++		margin-right:1%;
++		margin-top:15px;
++		}
++		
++	#more
++		{
++		font-weight:bold;
++		text-align:right;
++		margin-right:5%;
++		margin-top:3px;
++		}
++		
++	#blurb
++		{
++		font-weight:bold;
++		text-align:center;
++		margin-top:3px;
++		margin-bottom:5px;
++		}
++	#more a
++		{color:&quot;green&quot;;}
++		
++	#warning p
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	#warning li
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	
+\ No newline at end of file
+
+Added: trunk/birbal/sitemedia/css/test.html
+===================================================================
+--- trunk/birbal/sitemedia/css/test.html	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/sitemedia/css/test.html	2005-12-13 05:55:41 UTC (rev 15)
+@@ -0,0 +1,28 @@
++&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;<A HREF="http://www.w3.org/TR/html4/loose.dtd">http://www.w3.org/TR/html4/loose.dtd</A>&quot;&gt;
++&lt;html&gt;
++
++&lt;head&gt;
++  &lt;title&gt;&lt;/title&gt;
++  &lt;LINK REL=&quot;stylesheet&quot; type='text/css' href='layout.css' title='default'&gt;
++  &lt;meta name=&quot;GENERATOR&quot; content=&quot;Quanta Plus&quot;&gt;
++&lt;/head&gt;
++&lt;body&gt;
++&lt;div id=&quot;navsite&quot;&gt;
++&lt;ul&gt;
++&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
++&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;
++	&lt;ul&gt;
++	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
++	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
++	&lt;/ul&gt;&lt;/LI&gt;
++&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;
++&lt;ul&gt;
++	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
++	&lt;LI&gt;&lt;a href=&quot;something&quot;&gt;some menu&lt;/a&gt;&lt;/LI&gt;
++	&lt;/ul&gt;
++&lt;/LI&gt;
++&lt;/ul&gt;
++&lt;/div&gt;
++
++&lt;/body&gt;
++&lt;/html&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000010.html">[Birbal-svn] r14 - trunk/birbal/docs
+</A></li>
+	<LI>Next message: <A HREF="000012.html">[Birbal-svn] r16 - in trunk/birbal: . births births/sitemedia
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#11">[ date ]</a>
+              <a href="thread.html#11">[ thread ]</a>
+              <a href="subject.html#11">[ subject ]</a>
+              <a href="author.html#11">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

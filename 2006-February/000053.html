@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r61 - trunk/birbal/births/apps/website
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r61%20-%20trunk/birbal/births/apps/website&In-Reply-To=%3C200602091146.k19BkdcT015597%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r61 - trunk/birbal/births/apps/website</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r61%20-%20trunk/birbal/births/apps/website&In-Reply-To=%3C200602091146.k19BkdcT015597%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r61 - trunk/birbal/births/apps/website">lawgon at berlios.de
+       </A><BR>
+    <I>Thu Feb  9 12:46:39 CET 2006</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2006-02-09 12:46:38 +0100 (Thu, 09 Feb 2006)
+New Revision: 61
+
+Modified:
+   trunk/birbal/births/apps/website/views.py
+Log:
+it moves on
+
+Modified: trunk/birbal/births/apps/website/views.py
+===================================================================
+--- trunk/birbal/births/apps/website/views.py	2006-01-19 07:56:41 UTC (rev 60)
++++ trunk/birbal/births/apps/website/views.py	2006-02-09 11:46:38 UTC (rev 61)
+@@ -1,5 +1,7 @@
++# -*- coding: iso-8859-1 -*-
+ from django.core import template_loader
+ from django.core.extensions import DjangoContext as Context
++from django.parts.auth.formfields import AuthenticationForm
+ from django.utils.httpwrappers import HttpResponse
+ from births.apps.website.models.website import *
+ import datetime
+@@ -100,3 +102,36 @@
+     return HttpResponse(t.render(c))
+ 
+ 
++
++class LoginManipulator(AuthenticationForm):
++    def __init__(self, request):
++        AuthenticationForm.__init__(self, request)
++        self.fields.append(
++            formfields.CheckboxField(field_name=&quot;remember&quot;))
++
++def index(request):
++    manipulator = LoginManipulator(request)
++    redirect_to = request.REQUEST.get('next','')
++    if request.POST:
++        new_data = request.POST.copy()
++        errors = manipulator.get_validation_errors(new_data)
++        if not errors:
++            request.session[users.SESSION_KEY] = manipulator.get_user_id()
++            request.session.delete_test_cookie()
++            if request.REQUEST.has_key('next'):
++                return HttpResponseRedirect(request.REQUEST['next'])
++            else:
++                return HttpResponseRedirect(&quot;../home/&quot;)
++    else:
++        request.session.set_test_cookie()
++        errors = new_data = {}
++
++    form = formfields.FormWrapper(manipulator, new_data, errors)
++    return render_to_response('myapp/index',
++                              {'form': form,
++                               'signin_page': True,
++                               'redirect_to': redirect_to},
++                              context_instance=DjangoContext(request))
++
++
++
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

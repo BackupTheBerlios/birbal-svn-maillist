@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r36 - in trunk/birbal/births: . apps/register apps/register/models templates/register
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2005-December/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r36%20-%20in%20trunk/birbal/births%3A%20.%20apps/register%20apps/register/models%20templates/register&In-Reply-To=%3C200512191031.jBJAV0U6018585%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000030.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r36 - in trunk/birbal/births: . apps/register apps/register/models templates/register</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r36%20-%20in%20trunk/birbal/births%3A%20.%20apps/register%20apps/register/models%20templates/register&In-Reply-To=%3C200512191031.jBJAV0U6018585%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r36 - in trunk/birbal/births: . apps/register apps/register/models templates/register">lawgon at berlios.de
+       </A><BR>
+    <I>Mon Dec 19 11:31:00 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000030.html">[Birbal-svn] r35 - trunk/birbal/births/apps/register/models
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Birbal-svn] r40 - in trunk/birbal/births/apps/register: . models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2005-12-19 11:30:58 +0100 (Mon, 19 Dec 2005)
+New Revision: 36
+
+Added:
+   trunk/birbal/births/templates/register/officials.html
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+   trunk/birbal/births/urls.py
+Log:
+lot of new stuff
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-19 10:30:58 UTC (rev 36)
+@@ -3,6 +3,11 @@
+ 
+ #######################################################################
+ 
++sexes = (
++    ('M','Male'),
++    ('F','Female'),
++    )
++
+ # application specific stuff - website specific stuff at the end
+ 
+ #######################################################
+@@ -36,7 +41,7 @@
+         list_display = ('rank',),
+             search_fields = ['name'],)
+     def __repr__(self):
+-            return &quot;%s has %s powers&quot; %(self.rank,self.get_power_list())
++            return &quot;%s&quot; %(self.rank)
+ 
+ class Person(meta.Model):
+     name = meta.CharField(_(&quot;Name&quot;),maxlength=50,unique=True)
+@@ -47,7 +52,8 @@
+         list_display = ('name','rank','status',),
+             search_fields = ['name','rank'],)
+     def __repr__(self):
+-            return &quot;%s  %s&quot; %(self.name,self.get_rank())
++            return &quot;%s %s %s %s&quot;\
++            %(self.name,self.get_rank(),self.get_status())
+ 
+ #############################################end of persons
+ 
+@@ -66,9 +72,10 @@
+         
+ 
+ class Street(meta.Model):
+-    name = meta.CharField(_(&quot;Street&quot;),maxlength=50,unique=True)
++    name = meta.CharField(_(&quot;Street&quot;),maxlength=50)
+     area = meta.ForeignKey(Area)
+     class META:
++        unique_together = ((&quot;name&quot;,&quot;area&quot;),)
+         admin = meta.Admin(
+         list_display = ('name','area',),
+             search_fields = ['name'],)
+@@ -112,6 +119,49 @@
+ 
+ #birth reports, death reports, birth register death register
+ 
++class Birthreport(meta.Model):
++    fileno = meta.CharField(_(&quot;File Number&quot;),maxlength=50,unique=True)
++    dateopened = meta.DateTimeField(
++        _(&quot;Date Opened&quot;),default=meta.LazyDate(),editable=False)
++    reporttype = meta.ForeignKey(Reporttype,
++                    verbose_name=_(&quot;Report Type&quot;))
++    informant = meta.CharField(_(&quot;Informant&quot;),maxlength=50)
++    informantaddress = meta.TextField(_(&quot;Informants Address&quot;))
++    informantsarea = meta.ForeignKey(Area,
++                    verbose_name=_(&quot;Informants Area Address&quot;))
++    informantstreet = meta.ForeignKey(Street,
++                    verbose_name=_(&quot;Informants Street Address&quot;))
++    father = meta.CharField(_(&quot;Fathers Name&quot;),maxlength=80)
++    mother = meta.CharField(_(&quot;Mothers Name&quot;),maxlength=80)
++    address = meta.TextField(_(&quot;Childs Address&quot;))
++    area = meta.ForeignKey(Area,verbose_name=_(&quot;Childs Area&quot;))
++    street = meta.ForeignKey(Street,verbose_name=_(&quot;Childs Street&quot;))
++    dob = meta.DateField(_(&quot;Date of birth&quot;))
++    sex = meta.CharField('Sex',maxlength=2,choices=sexes)
++    birthplace = meta.CharField(_(&quot;Place of birth&quot;),maxlength=50)
++    birthaddress = meta.TextField(_(&quot;Birth Place Address&quot;))
++    birtharea = meta.ForeignKey(Area,
++                    verbose_name=_(&quot;Place of birth Area Address&quot;))
++    birthstreet = meta.ForeignKey(Street,
++                    verbose_name=_(&quot;Place of birth Street Address&quot;))
++    birthplacetype = meta.ForeignKey(Birthplace)
++    scrutinised = meta.BooleanField(_(&quot;Scrutinised&quot;),default=False)
++    verified = meta.BooleanField(_(&quot;Verified&quot;),default=False)
++    accepted = meta.BooleanField(_(&quot;Accepted&quot;),default=False)
++    open = meta.BooleanField(_(&quot;File Open&quot;),default=True,editable=False)
++    dateclosed = meta.DateField(_(&quot;Date Closed&quot;),
++                                blank=True,null=True,
++                                editable=False)
++    reportfile = meta.ImageField(_(&quot;Scanned Report&quot;),
++                                 upload_to='images/reports/',
++                                 blank=True,null=True)
++    class META:
++        admin = meta.Admin(
++        list_display = ('fileno',),
++            search_fields = ['fileno'],)
++    def __repr__(self):
++            return &quot;%s&quot; %(self.fileno)
++
+ ##############################################end of actual data details
+ 
+ # transaction tables
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/apps/register/views.py	2005-12-19 10:30:58 UTC (rev 36)
+@@ -1,14 +1,15 @@
+ from django.core import template_loader
+ from django.core.extensions import DjangoContext as Context
+ from django.utils.httpwrappers import HttpResponse
+-from births.apps.register.models.register import advertisements,facilitys
++from births.apps.register.models.register import *
+ import datetime
+ from django.core.exceptions import Http404
+ 
+ menu_items = [
+-                {'name':'Home','url':'fac/HM/','id':''},
++              {'name':'Home','url':'fac/HM/','id':''},
+               {'name':'FAQ','url':'fac/FQ/','id':''},
+               {'name':'Documents','url':'fac/DC/','id':''},
++              {'name':'Officials','url':'officials/','id':''},
+               ]
+ 
+ fac_types ={
+@@ -50,4 +51,15 @@
+     
+     return HttpResponse(t.render(c))
+ 
++def dutyroster(request):
++    list = persons.get_list()
++    t = template_loader.get_template('register/officials')
++    c = Context(request,
++                {'list':list,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
+ 
++
+
+Added: trunk/birbal/births/templates/register/officials.html
+===================================================================
+--- trunk/birbal/births/templates/register/officials.html	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/templates/register/officials.html	2005-12-19 10:30:58 UTC (rev 36)
+@@ -0,0 +1,32 @@
++{% extends &quot;base&quot; %}
++{% load i18n %}
++{% block centercontent %}
++&lt;h2&gt;List of Officials in the Office of The Registrar of Births and Deaths&lt;/h2&gt;
++&lt;br/&gt;
++{% if list %}
++    &lt;table border=&quot;1&quot;&gt;
++    &lt;TR&gt;
++    &lt;Th&gt;{% trans &quot;Name&quot; %}&lt;/Th&gt;
++    &lt;th&gt;{% trans &quot;Designation&quot; %}&lt;/th&gt;
++    &lt;th&gt;{% trans &quot;Powers&quot; %}&lt;/th&gt;
++    &lt;th&gt;{% trans &quot;Status&quot; %}&lt;/th&gt;
++    &lt;/TR&gt;
++    
++    {% for p in list %}
++    &lt;tr&gt;
++    &lt;td&gt;{{ p.name }}&lt;/td&gt;
++    &lt;td&gt;{{ p.get_rank }}&lt;/td&gt;
++    &lt;td&gt;
++    {% for m in p.get_rank.get_power_list %}
++    {{ m }}
++    {% endfor %}
++    &lt;/td&gt;
++    &lt;td&gt;{{ p.get_status }}&lt;/td&gt;
++    &lt;/tr&gt;		
++
++    {% endfor %}
++    &lt;/table&gt;
++{% else %}
++    &lt;h2&gt;List of officials not yet posted&lt;/h2&gt;
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/urls.py	2005-12-19 10:30:58 UTC (rev 36)
+@@ -7,6 +7,7 @@
+     # Uncomment this for admin:
+      (r'^births/admin/', include('django.contrib.admin.urls.admin')),
+     (r'^births/$', 'births.apps.register.views.index'),
++    (r'^births/officials/$', 'births.apps.register.views.dutyroster'),
+     (r'^births/ads/(?P&lt;id&gt;\d+)/$', 'births.apps.register.views.ads'),
+     (r'^births/fac/(?P&lt;type&gt;\w+)/$', 'births.apps.register.views.fac'),
+ )
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000030.html">[Birbal-svn] r35 - trunk/birbal/births/apps/register/models
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Birbal-svn] r40 - in trunk/birbal/births/apps/register: . models
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

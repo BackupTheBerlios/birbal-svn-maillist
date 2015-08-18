@@ -1,0 +1,325 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r50 - in trunk/birbal/births: apps templates templates/website
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r50%20-%20in%20trunk/birbal/births%3A%20apps%20templates%20templates/website&In-Reply-To=%3C200601051410.k05EAatm015236%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000041.html">
+   <LINK REL="Next"  HREF="000043.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r50 - in trunk/birbal/births: apps templates templates/website</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r50%20-%20in%20trunk/birbal/births%3A%20apps%20templates%20templates/website&In-Reply-To=%3C200601051410.k05EAatm015236%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r50 - in trunk/birbal/births: apps templates templates/website">lawgon at berlios.de
+       </A><BR>
+    <I>Thu Jan  5 15:10:36 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000041.html">[Birbal-svn] r49 - in trunk/birbal/births: . apps/website apps/website/models
+</A></li>
+        <LI>Next message: <A HREF="000043.html">[Birbal-svn] r51 - in trunk/birbal/births/apps/website: . templatetags
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2006-01-05 15:10:35 +0100 (Thu, 05 Jan 2006)
+New Revision: 50
+
+Added:
+   trunk/birbal/births/apps/change.sql
+   trunk/birbal/births/templates/base.html~
+   trunk/birbal/births/templates/website/
+   trunk/birbal/births/templates/website/gal.html
+   trunk/birbal/births/templates/website/gallall.html
+   trunk/birbal/births/templates/website/table.html
+Log:
+tags and galleries
+
+Added: trunk/birbal/births/apps/change.sql
+===================================================================
+--- trunk/birbal/births/apps/change.sql	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/apps/change.sql	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,32 @@
++BEGIN;
++CREATE TABLE &quot;website_advertisements&quot; (
++    &quot;id&quot; serial NOT NULL PRIMARY KEY,
++    &quot;title&quot; varchar(250) NOT NULL,
++    &quot;date&quot; timestamp with time zone NOT NULL,
++    &quot;expires&quot; date NULL,
++    &quot;lead&quot; varchar(250) NOT NULL,
++    &quot;photo&quot; varchar(100) NULL,
++    &quot;matter&quot; text NULL,
++    UNIQUE (&quot;title&quot;, &quot;date&quot;)
++);
++CREATE TABLE &quot;website_facilitys&quot; (
++    &quot;id&quot; serial NOT NULL PRIMARY KEY,
++    &quot;title&quot; varchar(250) NOT NULL,
++    &quot;type&quot; varchar(2) NOT NULL,
++    &quot;layout&quot; varchar(2) NOT NULL,
++    &quot;photo&quot; varchar(100) NULL,
++    &quot;blurb&quot; varchar(250) NULL,
++    &quot;matter&quot; text NULL,
++    &quot;priority&quot; integer NOT NULL,
++    UNIQUE (&quot;title&quot;, &quot;type&quot;)
++);
++INSERT INTO &quot;packages&quot; (&quot;label&quot;, &quot;name&quot;) VALUES ('website', 'website');
++INSERT INTO &quot;content_types&quot; (&quot;name&quot;, &quot;package&quot;, &quot;python_module_name&quot;) VALUES ('advertisement', 'website', 'advertisements');
++INSERT INTO &quot;auth_permissions&quot; (&quot;name&quot;, &quot;package&quot;, &quot;codename&quot;) VALUES ('Can add advertisement', 'website', 'add_advertisement');
++INSERT INTO &quot;auth_permissions&quot; (&quot;name&quot;, &quot;package&quot;, &quot;codename&quot;) VALUES ('Can change advertisement', 'website', 'change_advertisement');
++INSERT INTO &quot;auth_permissions&quot; (&quot;name&quot;, &quot;package&quot;, &quot;codename&quot;) VALUES ('Can delete advertisement', 'website', 'delete_advertisement');
++INSERT INTO &quot;content_types&quot; (&quot;name&quot;, &quot;package&quot;, &quot;python_module_name&quot;) VALUES ('facility', 'website', 'facilitys');
++INSERT INTO &quot;auth_permissions&quot; (&quot;name&quot;, &quot;package&quot;, &quot;codename&quot;) VALUES ('Can add facility', 'website', 'add_facility');
++INSERT INTO &quot;auth_permissions&quot; (&quot;name&quot;, &quot;package&quot;, &quot;codename&quot;) VALUES ('Can change facility', 'website', 'change_facility');
++INSERT INTO &quot;auth_permissions&quot; (&quot;name&quot;, &quot;package&quot;, &quot;codename&quot;) VALUES ('Can delete facility', 'website', 'delete_facility');
++COMMIT;
+
+Added: trunk/birbal/births/templates/base.html~
+===================================================================
+--- trunk/birbal/births/templates/base.html~	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/base.html~	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,70 @@
++&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
++&quot;DTD/xhtml1-transitional.dtd&quot;&gt;
++&lt;html&gt;&lt;head&gt;
++&lt;LINK REL=&quot;stylesheet&quot; type='text/css' href='/sitemedia/css/layout.css' title='default'&gt;
++{% load i18n %}
++&lt;title&gt;{% trans &quot;Birbal eGovernance Project&quot; %}&lt;/title&gt;
++&lt;/head&gt;
++&lt;body&gt;
++
++&lt;div id=&quot;centertop&quot;&gt;
++	&lt;br/&gt;
++	&lt;br/&gt;
++	&lt;h1&gt;&lt;span&gt;{% trans &quot;Municipal Corporation of Tuglaqabad&quot; %}&lt;/span&gt;&lt;/h1&gt;
++	&lt;h4&gt;{% trans &quot;Office of The Registrar of Births and Deaths&quot; %}&lt;/h4&gt;
++	&lt;/div&gt;
++
++&lt;div id=&quot;leftcontent&quot;&gt;
++	&lt;div id=&quot;button&quot;&gt;  
++		&lt;ul&gt;
++		{% block navsite %}
++		{% for p in mn %}
++			&lt;li &gt;
++			&lt;a href = &quot;/births/{{ p.url }}&quot; {{ p.id }}&gt; {{ p.name }}
++			&lt;/a&gt;
++			&lt;/li&gt;
++		{% endfor %}
++		{% endblock %}
++		&lt;/ul&gt;
++    &lt;/div&gt;
++&lt;/div&gt;
++
++
++
++
++&lt;div id=&quot;centercontent&quot;&gt;
++{% block centercontent %} {% endblock %}
++&lt;/div&gt;
++
++&lt;div id=&quot;rightcontent&quot;&gt;
++	{% block rightcontent %}
++	&lt;div id=&quot;rightbox&quot;&gt;
++		&lt;h4&gt;{% trans &quot;Classified&quot; %}&lt;/h4&gt;
++		{% block rightcontentads %}
++		{% if ads %}
++		{% for p in ads %}
++		&lt;p&gt;
++		&lt;b&gt;{{ p.title }}&lt;/b&gt;
++		&lt;div id=&quot;more&quot;&gt;
++		&lt;a href=&quot;/births/full/{{ p.id }}/&quot;&gt;{% trans &quot;details ...&quot; %}&lt;/a&gt;
++		&lt;/div&gt;
++		&lt;/p&gt;
++		{% endfor %}
++		{% else %}
++		&lt;p&gt; No recent items &lt;/P&gt;
++		{% endif %}
++		{% endblock %}
++	&lt;/div&gt;
++	{% endblock %}
++&lt;/div&gt;
++
++
++&lt;div id=&quot;footer&quot;&gt;
++&lt;p&gt;Built by &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/birbal-svn">webmaster at birbal.org.in</A>&quot;&gt;XLQuest&lt;/a&gt;, 
++powered by FreeBSD, Apache, Python, Postgresql and Django
++ copyright 2005  
++ &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/birbal-svn">webmaster at birbal.org.in</A>&quot;&gt;The Birbal Project&lt;/a&gt;&lt;/p&gt;
++ &lt;/div&gt;
++&lt;/div&gt;
++&lt;/body&gt;
++&lt;/html&gt;
+\ No newline at end of file
+
+Added: trunk/birbal/births/templates/website/gal.html
+===================================================================
+--- trunk/birbal/births/templates/website/gal.html	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/website/gal.html	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,37 @@
++{% extends &quot;base&quot; %}
++{% load thumbnails %}
++{% block centercontent %}
++&lt;h1&gt;Tags:&lt;/h1&gt;
++&lt;h3&gt;
++{% for g in gals %}
++&lt;a href=&quot;/births/galls/{{ g.id }}/&quot;&gt;
++{{ g.name }}
++&lt;/a&gt;
++{% endfor %}
++&lt;/h3&gt;
++{% if list %}
++
++{% for p in list %}
++ &lt;table align='center'&gt;
++&lt;tr &gt;
++&lt;th align='center'&gt; 
++{{ p.title }}
++&lt;/th&gt;
++&lt;/tr&gt;
++&lt;tr&gt;
++&lt;td align='center'&gt;
++
++&lt;img src = &quot;{{ p.get_photo_url }}&quot; width = 75%/&gt;
++
++&lt;/td&gt;
++&lt;/tr&gt;
++&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;
++{{ p.blurb }}
++&lt;/td&gt;&lt;/tr&gt;
++&lt;/table&gt;
++
++  {% endfor %}
++{% else %}
++    &lt;p&gt; photos not found&lt;/p&gt;
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Added: trunk/birbal/births/templates/website/gallall.html
+===================================================================
+--- trunk/birbal/births/templates/website/gallall.html	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/website/gallall.html	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,48 @@
++{% extends &quot;base&quot; %}
++{% load thumbnails %}
++{% block centercontent %}
++&lt;h1&gt;Tags:&lt;/h1&gt;
++&lt;h3&gt;
++{% for g in gals %}
++&lt;a href=&quot;/births/galls/{{ g.id }}/&quot;&gt;
++{{ g.name }}
++&lt;/a&gt;
++{% endfor %}
++&lt;/h3&gt;
++&lt;br/&gt;
++{% if list %}
++&lt;h2&gt;Tag Name: {{ gal }}&lt;/h2&gt;
++ &lt;table align='center'&gt;
++{% for p in list %}
++{% if forloop.counter|add:&quot;-1&quot;|divisibleby:&quot;4&quot; %} 
++&lt;tr&gt;
++{% endif %}   
++
++&lt;td&gt;   
++&lt;table&gt;
++&lt;tr &gt;
++&lt;th align='center' width=25%&gt; 
++{{ p.title }}
++&lt;/th&gt;
++&lt;/tr&gt;
++&lt;tr&gt;
++&lt;td align='center' width=25%&gt;
++&lt;a href=&quot;/births/gal/{{ p.id }}/&quot;&gt;
++&lt;img src = &quot;{{ p.get_photo_url|thumbnail:&quot;width=120&quot; }}&quot; width=&quot;120&quot; height=&quot;120&quot;/&gt;
++&lt;/a&gt;
++&lt;/td&gt;
++&lt;/tr&gt;
++
++&lt;/table&gt;
++&lt;/td&gt;
++{% if forloop.counter|divisibleby:&quot;4&quot; %} 
++&lt;tr&gt;
++{% endif %}
++
++
++    {% endfor %}
++&lt;/table&gt;
++{% else %}
++    &lt;p&gt;No photos available&lt;/p&gt;
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Added: trunk/birbal/births/templates/website/table.html
+===================================================================
+--- trunk/birbal/births/templates/website/table.html	2006-01-05 14:01:57 UTC (rev 49)
++++ trunk/birbal/births/templates/website/table.html	2006-01-05 14:10:35 UTC (rev 50)
+@@ -0,0 +1,29 @@
++&lt;table align='center'&gt;
++&lt;dtml-in getpeople&gt;
++{% ifequal (forloopcounter-1)%4 0 %} 
++&lt;tr&gt;
++{% endif %}
++&lt;td&gt;   
++&lt;table&gt;
++&lt;tr &gt;
++&lt;td align='center' width=25%&gt; 
++&lt;dtml-if thumb&gt;
++&lt;img src=&quot;<A HREF="http://www.keystone-foundation.net/masimg?nme=&lt;dtml-var">http://www.keystone-foundation.net/masimg?nme=&lt;dtml-var</A> id&gt;&amp;table=people&amp;thumb=1&quot;
++width=75 height=75&gt;
++&lt;/dtml-if&gt;
++&lt;/td&gt;
++&lt;/tr&gt;
++&lt;tr&gt;
++     &lt;td align='center' width=25%&gt;&lt;a href=&quot;<A HREF="http://www.keystone-foundation.net/people/displayperson?idu=&lt;dtml-var">http://www.keystone-foundation.net/people/displayperson?idu=&lt;dtml-var</A> id&gt;&quot;&gt;&lt;dtml-var fname&gt;
++     &lt;dtml-var lname&gt;&lt;a&gt;&lt;/td&gt;
++&lt;/tr&gt;
++&lt;tr&gt;
++&lt;td align='center' width=25%&gt;&lt;dtml-var designation&gt;&lt;/td&gt;
++&lt;/tr&gt;
++&lt;/table&gt;
++&lt;/td&gt;
++{% ifequal forloopcounter%4 0 %}
++&lt;/tr&gt;
++{% endif %}
++
++&lt;/table&gt;
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000041.html">[Birbal-svn] r49 - in trunk/birbal/births: . apps/website apps/website/models
+</A></li>
+	<LI>Next message: <A HREF="000043.html">[Birbal-svn] r51 - in trunk/birbal/births/apps/website: . templatetags
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

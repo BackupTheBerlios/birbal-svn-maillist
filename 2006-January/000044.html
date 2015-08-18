@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Birbal-svn] r52 - in trunk/birbal/births: . thumbnails
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/birbal-svn/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r52%20-%20in%20trunk/birbal/births%3A%20.%20thumbnails&In-Reply-To=%3C200601051520.k05FKLcv031095%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000043.html">
+   <LINK REL="Next"  HREF="000045.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Birbal-svn] r52 - in trunk/birbal/births: . thumbnails</H1>
+    <B>lawgon at BerliOS</B> 
+    <A HREF="mailto:birbal-svn%40lists.berlios.de?Subject=Re%3A%20%5BBirbal-svn%5D%20r52%20-%20in%20trunk/birbal/births%3A%20.%20thumbnails&In-Reply-To=%3C200601051520.k05FKLcv031095%40sheep.berlios.de%3E"
+       TITLE="[Birbal-svn] r52 - in trunk/birbal/births: . thumbnails">lawgon at berlios.de
+       </A><BR>
+    <I>Thu Jan  5 16:20:21 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000043.html">[Birbal-svn] r51 - in trunk/birbal/births/apps/website: . templatetags
+</A></li>
+        <LI>Next message: <A HREF="000045.html">[Birbal-svn] r53 - trunk/birbal/births/apps/website
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#44">[ date ]</a>
+              <a href="thread.html#44">[ thread ]</a>
+              <a href="subject.html#44">[ subject ]</a>
+              <a href="author.html#44">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: lawgon
+Date: 2006-01-05 16:20:21 +0100 (Thu, 05 Jan 2006)
+New Revision: 52
+
+Added:
+   trunk/birbal/births/thumbnails/
+   trunk/birbal/births/thumbnails/__init__.py
+   trunk/birbal/births/thumbnails/decorators.py
+   trunk/birbal/births/thumbnails/field.py
+Log:
+solved?
+
+Added: trunk/birbal/births/thumbnails/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/thumbnails/decorators.py
+===================================================================
+--- trunk/birbal/births/thumbnails/decorators.py	2006-01-05 15:05:05 UTC (rev 51)
++++ trunk/birbal/births/thumbnails/decorators.py	2006-01-05 15:20:21 UTC (rev 52)
+@@ -0,0 +1,20 @@
++def debug(obj, msg, *args):
++    import sys
++    print &gt;&gt;sys.stderr, '[%s] %s' % (obj.__class__.__name__, (msg % args))
++#
++
++def thumbnail_cleanup(post_delete=None):
++    def new_post_delete(self):
++        from thumbnails.utils import remove_thumbnails
++        from django.core.meta.fields import ImageField
++        for obj in self._meta.fields:
++            if isinstance(obj, ImageField):
++                url = getattr(self, 'get_%s_url' % obj.name)()
++                remove_thumbnails(url)
++        #
++        if post_delete:
++            post_delete(self)
++    #
++    
++    return new_post_delete
++#
+
+Added: trunk/birbal/births/thumbnails/field.py
+===================================================================
+--- trunk/birbal/births/thumbnails/field.py	2006-01-05 15:05:05 UTC (rev 51)
++++ trunk/birbal/births/thumbnails/field.py	2006-01-05 15:20:21 UTC (rev 52)
+@@ -0,0 +1,19 @@
++from django.core.meta.fields import ImageField
++
++class ImageWithThumbnailField(ImageField):
++    def __init__(self, verbose_name=None, name=None, width_field=None, height_field=None, **kwargs):
++        super(ImageWithThumbnailField, self).__init__(verbose_name, name, width_field, height_field, **kwargs)
++    #
++
++    def get_internal_type(self):
++        return 'ImageField'
++    #
++    
++    def save_file(self, new_data, new_object, original_object, change, rel):
++        super(ImageWithThumbnailField, self).save_file(new_data, new_object, original_object, change, rel)
++#        if change:
++        url = getattr(new_object, 'get_%s_url' % self.name)()
++        from births.thumbnails.utils import make_thumbnail, _remove_thumbnails
++        _remove_thumbnails(url) # clear all of the old thumbnails
++        make_thumbnail(url, width=120) # make admin thumbnail
++    #
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000043.html">[Birbal-svn] r51 - in trunk/birbal/births/apps/website: . templatetags
+</A></li>
+	<LI>Next message: <A HREF="000045.html">[Birbal-svn] r53 - trunk/birbal/births/apps/website
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#44">[ date ]</a>
+              <a href="thread.html#44">[ thread ]</a>
+              <a href="subject.html#44">[ subject ]</a>
+              <a href="author.html#44">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/birbal-svn">More information about the Birbal-svn
+mailing list</a><br>
+</body></html>

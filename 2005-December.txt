@@ -1,0 +1,5105 @@
+From lawgon at berlios.de  Wed Dec  7 11:56:54 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 7 Dec 2005 11:56:54 +0100
+Subject: [Birbal-svn] r4 - in trunk/birbal: . sitemedia
+Message-ID: <200512071056.jB7AusO9009229@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-07 11:56:52 +0100 (Wed, 07 Dec 2005)
+New Revision: 4
+
+Added:
+   trunk/birbal/sitemedia/
+   trunk/birbal/sitemedia/css/
+   trunk/birbal/sitemedia/images/
+   trunk/birbal/sitemedia/js/
+Log:
+adding stuff
+
+
+
+From lawgon at berlios.de  Wed Dec  7 12:04:33 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 7 Dec 2005 12:04:33 +0100
+Subject: [Birbal-svn] r5 - trunk/birbal
+Message-ID: <200512071104.jB7B4Xxl010372@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-07 12:04:31 +0100 (Wed, 07 Dec 2005)
+New Revision: 5
+
+Added:
+   trunk/birbal/templates/
+Log:
+adding stuff
+
+
+
+From lawgon at berlios.de  Mon Dec 12 08:33:44 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 08:33:44 +0100
+Subject: [Birbal-svn] r6 - in trunk/birbal: . births docs
+Message-ID: <200512120733.jBC7XiIn024314@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 08:33:35 +0100 (Mon, 12 Dec 2005)
+New Revision: 6
+
+Added:
+   trunk/birbal/births/templates/
+   trunk/birbal/docs/
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+docs added
+
+Added: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-07 11:04:31 UTC (rev 5)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 07:33:35 UTC (rev 6)
+@@ -0,0 +1,37 @@
++Outline for registration of births and deaths
++
++1. registration of both is done by the registrar with jurisdication over a
++particular area. This simplifies addresses as country, state, area can be
++coded in one place in config itself
++
++2. Record keeping is essential for transparency. So we cant just have a
++simple form to be added/edited, but have to lay an audit trail
++
++3. Both births and deaths the process starts with a report from and
++informant. The report may be in official form or in writing. It could also
++be over the web, telephone or by email or oral.
++
++4. Once a report is filed, a file is created. The report is then
++scrutinised for completeness, and if any particulars are missing it is
++returned for rectification.
++
++5. A returned report may not be resubmitted - in this event the file is
++closed and marked no further action
++
++6. when the report is complete, verification is done. A negative
++verification will also NFA the file - verification remark is added and file
++closed.
++
++7. The complete and verified report is then scrutinised and approved
++
++8. On approval the details of the report are entered into the register
++
++9. An application may be made to change or remove an entry in the register
++
++10. this application also goes through scrutiny, verification and approval
++
++11. Applications may be made for birth/death certificates. On verification,
++if the party is entitled to it, the certificate is issued on payment of the
++fee. Else it is refused and the application filed along with the remark
++
++12. Birth and death statistics can be generated.
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Mon Dec 12 08:59:54 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 08:59:54 +0100
+Subject: [Birbal-svn] r7 - trunk/birbal/docs
+Message-ID: <200512120759.jBC7xs4Q009858@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 08:59:35 +0100 (Mon, 12 Dec 2005)
+New Revision: 7
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 07:33:35 UTC (rev 6)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 07:59:35 UTC (rev 7)
+@@ -26,6 +26,9 @@
+ 
+ 8. On approval the details of the report are entered into the register
+ 
++8(a). for births a provision is there to add the name of the child when the
++child is named - this also follows application-verification-approval route
++
+ 9. An application may be made to change or remove an entry in the register
+ 
+ 10. this application also goes through scrutiny, verification and approval
+
+
+
+From lawgon at berlios.de  Mon Dec 12 09:44:06 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 09:44:06 +0100
+Subject: [Birbal-svn] r8 - trunk/birbal/docs
+Message-ID: <200512120844.jBC8i6XT029838@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 09:43:52 +0100 (Mon, 12 Dec 2005)
+New Revision: 8
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 07:59:35 UTC (rev 7)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 08:43:52 UTC (rev 8)
+@@ -37,4 +37,39 @@
+ if the party is entitled to it, the certificate is issued on payment of the
+ fee. Else it is refused and the application filed along with the remark
+ 
+-12. Birth and death statistics can be generated.
+\ No newline at end of file
++12. Birth and death statistics can be generated.
++
++Database schema:
++
++master tables:
++1. areas - could be wards in a municipality or villages in rural areas
++2. officials - name, designation, authority (scrutinise, verify, add,
++approve)
++3. birthplacetypes - home, hospital, nursinghome etc
++4. deathplacetypes - same thing
++5. reportypes - form, letter, phone, oral, web etc
++
++birthregister:
++
++name
++fathers name
++mothers name
++address
++area
++report - foreignkey to reports table
++date of birth
++date registered
++sex
++identity code number
++birthplace - foreignkey to birthplaces
++
++deathregister:
++
++firstname
++lastname
++fathers/husbands/mothers name
++date of death
++deathplace - foreign key to deathplaces
++cause of death
++addresss
++date registered
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Mon Dec 12 09:57:34 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 09:57:34 +0100
+Subject: [Birbal-svn] r9 - trunk/birbal/docs
+Message-ID: <200512120857.jBC8vYbT000869@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 09:57:13 +0100 (Mon, 12 Dec 2005)
+New Revision: 9
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 08:43:52 UTC (rev 8)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 08:57:13 UTC (rev 9)
+@@ -20,7 +20,7 @@
+ 
+ 6. when the report is complete, verification is done. A negative
+ verification will also NFA the file - verification remark is added and file
+-closed.
++closed. Part of verification is a check for duplicate.
+ 
+ 7. The complete and verified report is then scrutinised and approved
+ 
+@@ -49,8 +49,22 @@
+ 4. deathplacetypes - same thing
+ 5. reportypes - form, letter, phone, oral, web etc
+ 
++Reportsregister:
++
++id
++date opened
++reportytpe - fk to reportypes
++filenumber
++physical location of report
++location of digital copy of report
++accepted/rejected
++dateclosed
++
++
++
+ birthregister:
+ 
++id
+ name
+ fathers name
+ mothers name
+@@ -65,6 +79,7 @@
+ 
+ deathregister:
+ 
++id
+ firstname
+ lastname
+ fathers/husbands/mothers name
+@@ -72,4 +87,7 @@
+ deathplace - foreign key to deathplaces
+ cause of death
+ addresss
+-date registered
+\ No newline at end of file
++date registered
++report - foreign key to reports table
++
++Transactions:
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Mon Dec 12 10:05:55 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 10:05:55 +0100
+Subject: [Birbal-svn] r10 - trunk/birbal/docs
+Message-ID: <200512120905.jBC95tXa002888@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 10:05:45 +0100 (Mon, 12 Dec 2005)
+New Revision: 10
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 08:57:13 UTC (rev 9)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 09:05:45 UTC (rev 10)
+@@ -48,6 +48,8 @@
+ 3. birthplacetypes - home, hospital, nursinghome etc
+ 4. deathplacetypes - same thing
+ 5. reportypes - form, letter, phone, oral, web etc
++6. transactiontypes - openingfile, scrutiny, returning, verification,
++approval, deletion, modification, certificateissue, certificaterefusal
+ 
+ Reportsregister:
+ 
+@@ -90,4 +92,11 @@
+ date registered
+ report - foreign key to reports table
+ 
+-Transactions:
+\ No newline at end of file
++Transactions:
++
++report - fk to reports table
++register - fk to register
++transactiontype - fk to transactiontypes
++date
++official - fk to officials
++note - text file
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Mon Dec 12 12:12:54 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 12:12:54 +0100
+Subject: [Birbal-svn] r11 - trunk/birbal/docs
+Message-ID: <200512121112.jBCBCsJg025016@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 12:12:52 +0100 (Mon, 12 Dec 2005)
+New Revision: 11
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 09:05:45 UTC (rev 10)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 11:12:52 UTC (rev 11)
+@@ -87,12 +87,15 @@
+ fathers/husbands/mothers name
+ date of death
+ deathplace - foreign key to deathplaces
++place of death
+ cause of death
++area - fk to areas
+ addresss
+ date registered
+ report - foreign key to reports table
+ 
+-Transactions:
++Transactions: should it be two tables - one for processing reports and the
++other for processing registers?
+ 
+ report - fk to reports table
+ register - fk to register
+
+
+
+From lawgon at berlios.de  Mon Dec 12 12:37:16 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 12 Dec 2005 12:37:16 +0100
+Subject: [Birbal-svn] r12 - trunk/birbal/docs
+Message-ID: <200512121137.jBCBbGfi003999@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-12 12:37:15 +0100 (Mon, 12 Dec 2005)
+New Revision: 12
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birth doc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 11:12:52 UTC (rev 11)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 11:37:15 UTC (rev 12)
+@@ -94,12 +94,20 @@
+ date registered
+ report - foreign key to reports table
+ 
+-Transactions: should it be two tables - one for processing reports and the
+-other for processing registers?
++Transactions: 
+ 
++reporthandling
++
+ report - fk to reports table
++transactiontype - fk to transactiontypes
++date
++official - fk to officials
++note - text
++
++registerhandling
++
+ register - fk to register
+ transactiontype - fk to transactiontypes
+ date
+ official - fk to officials
+-note - text file
+\ No newline at end of file
++note - text
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Tue Dec 13 04:54:36 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 04:54:36 +0100
+Subject: [Birbal-svn] r13 - trunk/birbal/docs
+Message-ID: <200512130354.jBD3saMA026555@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 04:54:34 +0100 (Tue, 13 Dec 2005)
+New Revision: 13
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+birthdoc finetuning
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-12 11:37:15 UTC (rev 12)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 03:54:34 UTC (rev 13)
+@@ -110,4 +110,12 @@
+ transactiontype - fk to transactiontypes
+ date
+ official - fk to officials
+-note - text
+\ No newline at end of file
++note - text
++
++certificatehandling
++
++report - fk to reports table
++date
++approved/rejected
++note
++do we need to store to whom issued?
+\ No newline at end of file
+
+
+
+From ghoseb at berlios.de  Tue Dec 13 05:12:57 2005
+From: ghoseb at berlios.de (ghoseb at berlios.de)
+Date: Tue, 13 Dec 2005 05:12:57 +0100
+Subject: [Birbal-svn] r14 - trunk/birbal/docs
+Message-ID: <200512130412.jBD4Cvs3017346@sheep.berlios.de>
+
+Author: ghoseb
+Date: 2005-12-13 05:12:50 +0100 (Tue, 13 Dec 2005)
+New Revision: 14
+
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+Added a comment
+
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 03:54:34 UTC (rev 13)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 04:12:50 UTC (rev 14)
+@@ -118,4 +118,6 @@
+ date
+ approved/rejected
+ note
+-do we need to store to whom issued?
+\ No newline at end of file
++do we need to store to whom issued?
++Since people will pay for the certificates, I guess we should store the
++name of the person to whom it was issued, money taken, date, etc. too.
+
+
+
+From lawgon at berlios.de  Tue Dec 13 06:56:49 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 06:56:49 +0100
+Subject: [Birbal-svn] r15 - in trunk/birbal: docs sitemedia/css
+Message-ID: <200512130556.jBD5unMd022371@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 06:55:41 +0100 (Tue, 13 Dec 2005)
+New Revision: 15
+
+Added:
+   trunk/birbal/sitemedia/css/layout.css
+   trunk/birbal/sitemedia/css/layout.css~
+   trunk/birbal/sitemedia/css/test.html
+Modified:
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+restructuring
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-13 05:55:41 UTC (rev 15)
+@@ -7,7 +7,7 @@
+ 2. Record keeping is essential for transparency. So we cant just have a
+ simple form to be added/edited, but have to lay an audit trail
+ 
+-3. Both births and deaths the process starts with a report from and
++3. Both births and deaths the process starts with a report from an
+ informant. The report may be in official form or in writing. It could also
+ be over the web, telephone or by email or oral.
+ 
+@@ -35,7 +35,8 @@
+ 
+ 11. Applications may be made for birth/death certificates. On verification,
+ if the party is entitled to it, the certificate is issued on payment of the
+-fee. Else it is refused and the application filed along with the remark
++fee. Else it is refused and the application filed along with the remark.
++Provision has to be made for paying the fee - either online or offline.
+ 
+ 12. Birth and death statistics can be generated.
+ 
+@@ -51,19 +52,30 @@
+ 6. transactiontypes - openingfile, scrutiny, returning, verification,
+ approval, deletion, modification, certificateissue, certificaterefusal
+ 
+-Reportsregister:
++Reportsregister (births):
+ 
+ id
+ date opened
++informant name
+ reportytpe - fk to reportypes
+ filenumber
+ physical location of report
+ location of digital copy of report
++name
++fathers name
++mothers name
++address
++area
++date of birth
++date registered
++sex
++birthplace - foreignkey to birthplaces
+ accepted/rejected
+ dateclosed
+ 
++(some information is duplicated in both tables, but this is necessary for
++audit trail)
+ 
+-
+ birthregister:
+ 
+ id
+@@ -79,6 +91,27 @@
+ identity code number
+ birthplace - foreignkey to birthplaces
+ 
++Reportsregister (deaths):
++
++id
++informant name
++date opened
++reportytpe - fk to reportypes
++filenumber
++physical location of report
++location of digital copy of report
++fname
++lname
++fathers name
++address
++area
++date of death
++sex
++deathplace - foreignkey to deathplaces
++cause of death
++accepted/rejected
++dateclosed
++
+ deathregister:
+ 
+ id
+
+Added: trunk/birbal/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/sitemedia/css/layout.css	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/sitemedia/css/layout.css	2005-12-13 05:55:41 UTC (rev 15)
+@@ -0,0 +1,313 @@
++	body {
++    		font: 90% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
++    		background-color: White;
++    		color: Black;
++    		margin: 0;
++    		padding: 0;
++		}
++		
++table {
++    font-size: 100%;
++}
++
++th {
++    background:#d5c99f;
++    border-top: 1px solid #388050;
++    border-bottom: 1px solid #388050;
++    border-right: 1px solid #388050;
++    font-weight: bold;
++    padding: 0em 1em 0em 1em;
++}
++
++#newsimage {
++	text-align:center;
++	padding: 2em 2em 2em 2em;
++	};
++	
++
++	
++td {
++    border-right: 1px solid #388050;
++    padding: 0em 1em;
++    text-align: left;
++    font-weight:bold;
++}
++
++#num {
++    text-align: right;
++}
++
++table .odd {
++    /*every second line should be shaded */
++    background-color: transparent;
++}
++table .even {
++    background-color: #f7f9fa;
++}
++
++a {
++    text-decoration: none;
++    color: #436976;
++    background-color: transparent;
++}
++img {
++    border: none;
++    vertical-align: middle;
++}
++p {
++    margin: 0.5em 0em 1em 0em;
++    line-height: 1.5em;
++}
++p a {
++    text-decoration: underline;
++}
++p a:visited {
++    color: Purple;
++    background-color: transparent;
++}
++p a:active {
++    color: Red;
++    background-color: transparent;
++}
++p img {
++    border: 0;
++    margin: 0;
++}
++
++hr {
++    height: 1px;
++    color: #388050;
++    background-color: transparent;
++}
++
++
++h1, h2, h3, h4, h5, h6 {
++    color: #388050;
++    background-color: transparent;
++    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
++    font-size: 100%;
++    font-weight: normal;
++    margin: 0;
++    padding-top: 0.5em;
++    border-bottom: 1px solid #388050;
++}
++
++h1 a,
++h2 a,
++h3 a,
++h4 a,
++h5 a,
++h6 a {
++    color: Black ! important; 
++}
++
++h1 {
++    font-size: 160%;
++    padding-right: 4em;
++}
++
++h2 {
++    font-size: 150%;
++}
++
++h3 {
++    font-size: 140%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h4 {
++    font-size: 120%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h5 {
++    font-size: 100%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h6 {
++    font-size: 85%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++
++ul { 
++   # line-height: 1.5em;
++    list-style-type: square;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++    
++}
++
++ol {
++    line-height: 1.5em;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++}
++ul a, ol a {
++    text-decoration: underline;
++}
++li {
++    margin-bottom: 1em;
++}
++dt {
++    font-weight: bold;    
++}
++dt a {
++    text-decoration: underline;
++}
++
++dd {
++    line-height: 1.5em;
++    margin-bottom: 1em;
++}
++dd a {
++    text-decoration: underline;
++}
++
++dd.link a {
++    text-decoration: none;
++    color: Black;
++}
++	
++	
++
++		
++	#centertop {
++		margin-top:10px;
++		float:left;
++		width:97%;
++		margin-left:1%;
++		margin-right:1%;
++		height:120px;
++		background:#d5c99f;
++		voice-family: "\"}\"";
++		voice-family: inherit;
++		text-align: center; 
++		margin-bottom:10px;
++		border-bottom: 3px solid #388050
++		clear:both;
++		}
++
++	#centercontent {
++		float:left;
++		width:78%;
++		margin-top: 10px;
++		margin-left:1%;
++		margin-right:1%;
++		background:#fff;
++		voice-family: "\"}\"";
++		voice-family: inherit;
++		margin-bottom:10px;
++		padding:5px;
++		}
++		
++
++
++
++	#leftcontent {
++		float:left;
++		overflow: hidden;
++		margin-top: 10px;
++		margin-left:2%;
++		width:15%;
++		margin-bottom:10px;
++		}
++		
++	
++	h1 {
++		background:#d5c99f;
++		}
++	h1 span
++		{
++		font-size:120%;
++		}
++		
++	#navsite ul
++		{
++		margin: 0;
++		padding: 0;
++		list-style: none;
++		width: 150px;
++		border-bottom: 1px solid #ccc;
++		}
++		
++	#navsite ul li
++		{
++		position: relative;
++		}
++		
++	#navsite li ul 
++		{
++		position: absolute;
++		left: 149px;
++		top: 0;
++		display: none;
++		}
++		
++	#navsite ul li a 
++		{
++		display: block;
++		text-decoration: none;
++		color: #abcdef;
++		background: #eeefff;
++		padding: 5px;
++		border: 1px solid #ccc;
++		
++		}
++		
++	#navsite li:hover ul { display: block; }
++	
++	
++		
++	#footer
++		{
++		width:95%
++		float:left;
++		clear:both;
++		padding:1px;
++		border-top:3px solid #d5c99f;
++		font-size:xx-small;
++		font-weight:bold;
++		color:green;
++		text-align:center;
++		margin-left:1%;
++		margin-right:1%;
++		margin-top:15px;
++		}
++		
++	#more
++		{
++		font-weight:bold;
++		text-align:right;
++		margin-right:5%;
++		margin-top:3px;
++		}
++		
++	#blurb
++		{
++		font-weight:bold;
++		text-align:center;
++		margin-top:3px;
++		margin-bottom:5px;
++		}
++	#more a
++		{color:"green";}
++		
++	#warning p
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	#warning li
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	
+\ No newline at end of file
+
+Added: trunk/birbal/sitemedia/css/layout.css~
+===================================================================
+--- trunk/birbal/sitemedia/css/layout.css~	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/sitemedia/css/layout.css~	2005-12-13 05:55:41 UTC (rev 15)
+@@ -0,0 +1,313 @@
++	body {
++    		font: 90% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
++    		background-color: White;
++    		color: Black;
++    		margin: 0;
++    		padding: 0;
++		}
++		
++table {
++    font-size: 100%;
++}
++
++th {
++    background:#d5c99f;
++    border-top: 1px solid #388050;
++    border-bottom: 1px solid #388050;
++    border-right: 1px solid #388050;
++    font-weight: bold;
++    padding: 0em 1em 0em 1em;
++}
++
++#newsimage {
++	text-align:center;
++	padding: 2em 2em 2em 2em;
++	};
++	
++
++	
++td {
++    border-right: 1px solid #388050;
++    padding: 0em 1em;
++    text-align: left;
++    font-weight:bold;
++}
++
++#num {
++    text-align: right;
++}
++
++table .odd {
++    /*every second line should be shaded */
++    background-color: transparent;
++}
++table .even {
++    background-color: #f7f9fa;
++}
++
++a {
++    text-decoration: none;
++    color: #436976;
++    background-color: transparent;
++}
++img {
++    border: none;
++    vertical-align: middle;
++}
++p {
++    margin: 0.5em 0em 1em 0em;
++    line-height: 1.5em;
++}
++p a {
++    text-decoration: underline;
++}
++p a:visited {
++    color: Purple;
++    background-color: transparent;
++}
++p a:active {
++    color: Red;
++    background-color: transparent;
++}
++p img {
++    border: 0;
++    margin: 0;
++}
++
++hr {
++    height: 1px;
++    color: #388050;
++    background-color: transparent;
++}
++
++
++h1, h2, h3, h4, h5, h6 {
++    color: #388050;
++    background-color: transparent;
++    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
++    font-size: 100%;
++    font-weight: normal;
++    margin: 0;
++    padding-top: 0.5em;
++    border-bottom: 1px solid #388050;
++}
++
++h1 a,
++h2 a,
++h3 a,
++h4 a,
++h5 a,
++h6 a {
++    color: Black ! important; 
++}
++
++h1 {
++    font-size: 160%;
++    padding-right: 4em;
++}
++
++h2 {
++    font-size: 150%;
++}
++
++h3 {
++    font-size: 140%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h4 {
++    font-size: 120%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h5 {
++    font-size: 100%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++h6 {
++    font-size: 85%;
++    border-bottom: none;
++    font-weight: bold;
++}
++
++
++ul { 
++    line-height: 1.5em;
++    list-style-type: square;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++    
++}
++
++ol {
++    line-height: 1.5em;
++    margin: 0.5em 0 0 1.5em;
++    padding: 0;
++}
++ul a, ol a {
++    text-decoration: underline;
++}
++li {
++    margin-bottom: 1em;
++}
++dt {
++    font-weight: bold;    
++}
++dt a {
++    text-decoration: underline;
++}
++
++dd {
++    line-height: 1.5em;
++    margin-bottom: 1em;
++}
++dd a {
++    text-decoration: underline;
++}
++
++dd.link a {
++    text-decoration: none;
++    color: Black;
++}
++	
++	
++
++		
++	#centertop {
++		margin-top:10px;
++		float:left;
++		width:97%;
++		margin-left:1%;
++		margin-right:1%;
++		height:120px;
++		background:#d5c99f;
++		voice-family: "\"}\"";
++		voice-family: inherit;
++		text-align: center; 
++		margin-bottom:10px;
++		border-bottom: 3px solid #388050
++		clear:both;
++		}
++
++	#centercontent {
++		float:left;
++		width:78%;
++		margin-top: 10px;
++		margin-left:1%;
++		margin-right:1%;
++		background:#fff;
++		voice-family: "\"}\"";
++		voice-family: inherit;
++		margin-bottom:10px;
++		padding:5px;
++		}
++		
++
++
++
++	#leftcontent {
++		float:left;
++		overflow: hidden;
++		margin-top: 10px;
++		margin-left:2%;
++		width:15%;
++		margin-bottom:10px;
++		}
++		
++	
++	h1 {
++		background:#d5c99f;
++		}
++	h1 span
++		{
++		font-size:120%;
++		}
++		
++	#navsite ul
++		{
++		margin: 0;
++		padding: 0;
++		list-style: none;
++		width: 150px;
++		border-bottom: 1px solid #ccc;
++		}
++		
++	#navsite ul li
++		{
++		position: relative;
++		}
++		
++	#navsite li ul 
++		{
++		position: absolute;
++		left: 149px;
++		top: 0;
++		display: none;
++		}
++		
++	#navsite ul li a 
++		{
++		display: block;
++		text-decoration: none;
++		color: #abcdef;
++		background: #eeefff;
++		padding: 5px;
++		border: 1px solid #ccc;
++		
++		}
++		
++	#navsite li:hover ul { display: block; }
++	
++	
++		
++	#footer
++		{
++		width:95%
++		float:left;
++		clear:both;
++		padding:1px;
++		border-top:3px solid #d5c99f;
++		font-size:xx-small;
++		font-weight:bold;
++		color:green;
++		text-align:center;
++		margin-left:1%;
++		margin-right:1%;
++		margin-top:15px;
++		}
++		
++	#more
++		{
++		font-weight:bold;
++		text-align:right;
++		margin-right:5%;
++		margin-top:3px;
++		}
++		
++	#blurb
++		{
++		font-weight:bold;
++		text-align:center;
++		margin-top:3px;
++		margin-bottom:5px;
++		}
++	#more a
++		{color:"green";}
++		
++	#warning p
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	#warning li
++		{
++		font-weight:bold;
++		color:red;
++		}
++		
++	
+\ No newline at end of file
+
+Added: trunk/birbal/sitemedia/css/test.html
+===================================================================
+--- trunk/birbal/sitemedia/css/test.html	2005-12-13 04:12:50 UTC (rev 14)
++++ trunk/birbal/sitemedia/css/test.html	2005-12-13 05:55:41 UTC (rev 15)
+@@ -0,0 +1,28 @@
++<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
++<html>
++
++<head>
++  <title></title>
++  <LINK REL="stylesheet" type='text/css' href='layout.css' title='default'>
++  <meta name="GENERATOR" content="Quanta Plus">
++</head>
++<body>
++<div id="navsite">
++<ul>
++<LI><a href="something">some menu</a></LI>
++<LI><a href="something">some menu</a>
++	<ul>
++	<LI><a href="something">some menu</a></LI>
++	<LI><a href="something">some menu</a></LI>
++	</ul></LI>
++<LI><a href="something">some menu</a>
++<ul>
++	<LI><a href="something">some menu</a></LI>
++	<LI><a href="something">some menu</a></LI>
++	</ul>
++</LI>
++</ul>
++</div>
++
++</body>
++</html>
+
+
+
+From lawgon at berlios.de  Tue Dec 13 06:59:31 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 06:59:31 +0100
+Subject: [Birbal-svn] r16 - in trunk/birbal: . births births/sitemedia
+Message-ID: <200512130559.jBD5xVA3023585@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 06:59:22 +0100 (Tue, 13 Dec 2005)
+New Revision: 16
+
+Added:
+   trunk/birbal/births/sitemedia/
+   trunk/birbal/births/sitemedia/css/
+Removed:
+   trunk/birbal/births/sitemedia/css/
+   trunk/birbal/sitemedia/
+Log:
+restructuring
+
+Copied: trunk/birbal/births/sitemedia (from rev 14, trunk/birbal/sitemedia)
+
+Copied: trunk/birbal/births/sitemedia/css (from rev 15, trunk/birbal/sitemedia/css)
+
+
+
+From lawgon at berlios.de  Tue Dec 13 07:05:38 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 07:05:38 +0100
+Subject: [Birbal-svn] r17 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512130605.jBD65cm3026626@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 07:05:34 +0100 (Tue, 13 Dec 2005)
+New Revision: 17
+
+Removed:
+   trunk/birbal/births/sitemedia/css/layout.css~
+Log:
+restructuring
+
+Deleted: trunk/birbal/births/sitemedia/css/layout.css~
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css~	2005-12-13 05:59:22 UTC (rev 16)
++++ trunk/birbal/births/sitemedia/css/layout.css~	2005-12-13 06:05:34 UTC (rev 17)
+@@ -1,313 +0,0 @@
+-	body {
+-    		font: 90% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+-    		background-color: White;
+-    		color: Black;
+-    		margin: 0;
+-    		padding: 0;
+-		}
+-		
+-table {
+-    font-size: 100%;
+-}
+-
+-th {
+-    background:#d5c99f;
+-    border-top: 1px solid #388050;
+-    border-bottom: 1px solid #388050;
+-    border-right: 1px solid #388050;
+-    font-weight: bold;
+-    padding: 0em 1em 0em 1em;
+-}
+-
+-#newsimage {
+-	text-align:center;
+-	padding: 2em 2em 2em 2em;
+-	};
+-	
+-
+-	
+-td {
+-    border-right: 1px solid #388050;
+-    padding: 0em 1em;
+-    text-align: left;
+-    font-weight:bold;
+-}
+-
+-#num {
+-    text-align: right;
+-}
+-
+-table .odd {
+-    /*every second line should be shaded */
+-    background-color: transparent;
+-}
+-table .even {
+-    background-color: #f7f9fa;
+-}
+-
+-a {
+-    text-decoration: none;
+-    color: #436976;
+-    background-color: transparent;
+-}
+-img {
+-    border: none;
+-    vertical-align: middle;
+-}
+-p {
+-    margin: 0.5em 0em 1em 0em;
+-    line-height: 1.5em;
+-}
+-p a {
+-    text-decoration: underline;
+-}
+-p a:visited {
+-    color: Purple;
+-    background-color: transparent;
+-}
+-p a:active {
+-    color: Red;
+-    background-color: transparent;
+-}
+-p img {
+-    border: 0;
+-    margin: 0;
+-}
+-
+-hr {
+-    height: 1px;
+-    color: #388050;
+-    background-color: transparent;
+-}
+-
+-
+-h1, h2, h3, h4, h5, h6 {
+-    color: #388050;
+-    background-color: transparent;
+-    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+-    font-size: 100%;
+-    font-weight: normal;
+-    margin: 0;
+-    padding-top: 0.5em;
+-    border-bottom: 1px solid #388050;
+-}
+-
+-h1 a,
+-h2 a,
+-h3 a,
+-h4 a,
+-h5 a,
+-h6 a {
+-    color: Black ! important; 
+-}
+-
+-h1 {
+-    font-size: 160%;
+-    padding-right: 4em;
+-}
+-
+-h2 {
+-    font-size: 150%;
+-}
+-
+-h3 {
+-    font-size: 140%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-h4 {
+-    font-size: 120%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-h5 {
+-    font-size: 100%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-h6 {
+-    font-size: 85%;
+-    border-bottom: none;
+-    font-weight: bold;
+-}
+-
+-
+-ul { 
+-    line-height: 1.5em;
+-    list-style-type: square;
+-    margin: 0.5em 0 0 1.5em;
+-    padding: 0;
+-    
+-}
+-
+-ol {
+-    line-height: 1.5em;
+-    margin: 0.5em 0 0 1.5em;
+-    padding: 0;
+-}
+-ul a, ol a {
+-    text-decoration: underline;
+-}
+-li {
+-    margin-bottom: 1em;
+-}
+-dt {
+-    font-weight: bold;    
+-}
+-dt a {
+-    text-decoration: underline;
+-}
+-
+-dd {
+-    line-height: 1.5em;
+-    margin-bottom: 1em;
+-}
+-dd a {
+-    text-decoration: underline;
+-}
+-
+-dd.link a {
+-    text-decoration: none;
+-    color: Black;
+-}
+-	
+-	
+-
+-		
+-	#centertop {
+-		margin-top:10px;
+-		float:left;
+-		width:97%;
+-		margin-left:1%;
+-		margin-right:1%;
+-		height:120px;
+-		background:#d5c99f;
+-		voice-family: "\"}\"";
+-		voice-family: inherit;
+-		text-align: center; 
+-		margin-bottom:10px;
+-		border-bottom: 3px solid #388050
+-		clear:both;
+-		}
+-
+-	#centercontent {
+-		float:left;
+-		width:78%;
+-		margin-top: 10px;
+-		margin-left:1%;
+-		margin-right:1%;
+-		background:#fff;
+-		voice-family: "\"}\"";
+-		voice-family: inherit;
+-		margin-bottom:10px;
+-		padding:5px;
+-		}
+-		
+-
+-
+-
+-	#leftcontent {
+-		float:left;
+-		overflow: hidden;
+-		margin-top: 10px;
+-		margin-left:2%;
+-		width:15%;
+-		margin-bottom:10px;
+-		}
+-		
+-	
+-	h1 {
+-		background:#d5c99f;
+-		}
+-	h1 span
+-		{
+-		font-size:120%;
+-		}
+-		
+-	#navsite ul
+-		{
+-		margin: 0;
+-		padding: 0;
+-		list-style: none;
+-		width: 150px;
+-		border-bottom: 1px solid #ccc;
+-		}
+-		
+-	#navsite ul li
+-		{
+-		position: relative;
+-		}
+-		
+-	#navsite li ul 
+-		{
+-		position: absolute;
+-		left: 149px;
+-		top: 0;
+-		display: none;
+-		}
+-		
+-	#navsite ul li a 
+-		{
+-		display: block;
+-		text-decoration: none;
+-		color: #abcdef;
+-		background: #eeefff;
+-		padding: 5px;
+-		border: 1px solid #ccc;
+-		
+-		}
+-		
+-	#navsite li:hover ul { display: block; }
+-	
+-	
+-		
+-	#footer
+-		{
+-		width:95%
+-		float:left;
+-		clear:both;
+-		padding:1px;
+-		border-top:3px solid #d5c99f;
+-		font-size:xx-small;
+-		font-weight:bold;
+-		color:green;
+-		text-align:center;
+-		margin-left:1%;
+-		margin-right:1%;
+-		margin-top:15px;
+-		}
+-		
+-	#more
+-		{
+-		font-weight:bold;
+-		text-align:right;
+-		margin-right:5%;
+-		margin-top:3px;
+-		}
+-		
+-	#blurb
+-		{
+-		font-weight:bold;
+-		text-align:center;
+-		margin-top:3px;
+-		margin-bottom:5px;
+-		}
+-	#more a
+-		{color:"green";}
+-		
+-	#warning p
+-		{
+-		font-weight:bold;
+-		color:red;
+-		}
+-		
+-	#warning li
+-		{
+-		font-weight:bold;
+-		color:red;
+-		}
+-		
+-	
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Tue Dec 13 08:08:28 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 08:08:28 +0100
+Subject: [Birbal-svn] r18 - in trunk/birbal/births: . apps apps/register apps/register/models
+Message-ID: <200512130708.jBD78Sdg020828@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 08:08:23 +0100 (Tue, 13 Dec 2005)
+New Revision: 18
+
+Added:
+   trunk/birbal/births/apps/register/
+   trunk/birbal/births/apps/register/__init__.py
+   trunk/birbal/births/apps/register/models/
+   trunk/birbal/births/apps/register/models/__init__.py
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+Modified:
+   trunk/birbal/births/settings.py
+Log:
+real work starts here
+
+Added: trunk/birbal/births/apps/register/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/register/models/__init__.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/__init__.py	2005-12-13 06:05:34 UTC (rev 17)
++++ trunk/birbal/births/apps/register/models/__init__.py	2005-12-13 07:08:23 UTC (rev 18)
+@@ -0,0 +1 @@
++__all__ = ['register']
+
+Added: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-13 06:05:34 UTC (rev 17)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-13 07:08:23 UTC (rev 18)
+@@ -0,0 +1,3 @@
++from django.core import meta
++
++# Create your models here.
+
+Added: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-13 06:05:34 UTC (rev 17)
++++ trunk/birbal/births/apps/register/views.py	2005-12-13 07:08:23 UTC (rev 18)
+@@ -0,0 +1 @@
++# Create your views here.
+
+Modified: trunk/birbal/births/settings.py
+===================================================================
+--- trunk/birbal/births/settings.py	2005-12-13 06:05:34 UTC (rev 17)
++++ trunk/birbal/births/settings.py	2005-12-13 07:08:23 UTC (rev 18)
+@@ -10,15 +10,15 @@
+ MANAGERS = ADMINS
+ 
+ DATABASE_ENGINE = 'postgresql' # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
+-DATABASE_NAME = ''             # Or path to database file if using sqlite3.
+-DATABASE_USER = ''             # Not used with sqlite3.
++DATABASE_NAME = 'births'             # Or path to database file if using sqlite3.
++DATABASE_USER = 'lawgon'             # Not used with sqlite3.
+ DATABASE_PASSWORD = ''         # Not used with sqlite3.
+ DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+ DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+ 
+ # Local time zone for this installation. All choices can be found here:
+ # http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
+-TIME_ZONE = 'America/Chicago'
++TIME_ZONE = 'Asia/Calcutta'
+ 
+ # Language code for this installation. All choices can be found here:
+ # http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+@@ -29,11 +29,11 @@
+ 
+ # Absolute path to the directory that holds media.
+ # Example: "/home/media/media.lawrence.com/"
+-MEDIA_ROOT = ''
++MEDIA_ROOT = '/home/lawgon/media/'
+ 
+ # URL that handles the media served from MEDIA_ROOT.
+ # Example: "http://media.lawrence.com"
+-MEDIA_URL = ''
++MEDIA_URL = 'http://thenilgiris.web/smedia/'
+ 
+ # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+ # trailing slash.
+@@ -60,6 +60,7 @@
+ 
+ TEMPLATE_DIRS = (
+     # Put strings here, like "/home/html/django_templates".
++    '/home/lawgon/birbal/births/templates/',
+ )
+ 
+ INSTALLED_APPS = (
+
+
+
+From lawgon at berlios.de  Tue Dec 13 08:55:46 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 08:55:46 +0100
+Subject: [Birbal-svn] r19 - in trunk/birbal: . births/sitemedia/css births/templates
+Message-ID: <200512130755.jBD7tkuE004983@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 08:55:39 +0100 (Tue, 13 Dec 2005)
+New Revision: 19
+
+Added:
+   trunk/birbal/births/templates/base.html
+Removed:
+   trunk/birbal/templates/
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+   trunk/birbal/births/sitemedia/css/test.html
+Log:
+restructuring
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 07:08:23 UTC (rev 18)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 07:55:39 UTC (rev 19)
+@@ -1,5 +1,6 @@
+ 	body {
+-    		font: 90% "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
++    		font: 90% "Lucida Grande", Verdana, Lucida, Helvetica, Arial,
++sans-serif;
+     		background-color: White;
+     		color: Black;
+     		margin: 0;
+@@ -84,7 +85,8 @@
+ h1, h2, h3, h4, h5, h6 {
+     color: #388050;
+     background-color: transparent;
+-    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
++    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial,
++sans-serif;
+     font-size: 100%;
+     font-weight: normal;
+     margin: 0;
+@@ -136,7 +138,7 @@
+ 
+ 
+ ul { 
+-   # line-height: 1.5em;
++    line-height: 1.5em;
+     list-style-type: square;
+     margin: 0.5em 0 0 1.5em;
+     padding: 0;
+@@ -195,7 +197,7 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:78%;
++		width:65%;
+ 		margin-top: 10px;
+ 		margin-left:1%;
+ 		margin-right:1%;
+@@ -213,11 +215,20 @@
+ 		float:left;
+ 		overflow: hidden;
+ 		margin-top: 10px;
+-		margin-left:2%;
++		margin-left:1%;
+ 		width:15%;
+ 		margin-bottom:10px;
+ 		}
+ 		
++	#rightcontent {
++		float:left;
++		overflow: hidden;
++		margin-top: 10px;
++		margin-left:1%;
++		width:15%;
++		margin-bottom:10px;
++		}
++		
+ 	
+ 	h1 {
+ 		background:#d5c99f;
+@@ -227,43 +238,57 @@
+ 		font-size:120%;
+ 		}
+ 		
+-	#navsite ul
+-		{
+-		margin: 0;
+-		padding: 0;
+-		list-style: none;
+-		width: 150px;
+-		border-bottom: 1px solid #ccc;
++	#navsite 
++		{	
++		float:left;
++		margin-left:1%;
++		margin-right:1%;
++		margin-top:20px;
++		width:97%;
++		clear:both;
+ 		}
++	#navsite h5 {
++		display:none;
++		}
++	#navsite ul {
++		padding:3px 0;
++		margin-left: 0;
++		font: bold 12px Verdana, sans-serif;
++		}
+ 		
+-	#navsite ul li
+-		{
+-		position: relative;
++	#navsite ul li {
++		list-style:none;
++		margin:0;
+ 		}
+ 		
+-	#navsite li ul 
+-		{
+-		position: absolute;
+-		left: 149px;
+-		top: 0;
+-		display: none;
++	#navsite ul li a {
++		padding:3px 0.5em;
++		border:2px solid #388050;
++		background:#d5c99f;
++		text-decoration:none;
+ 		}
+ 		
+-	#navsite ul li a 
+-		{
+-		display: block;
+-		text-decoration: none;
+-		color: #abcdef;
+-		background: #eeefff;
+-		padding: 5px;
+-		border: 1px solid #ccc;
++	#navsite ul li a:link {
++		color:black;
++		}
+ 		
++	#navsite ul li a:visited {
++		color:#667;
+ 		}
+ 		
+-	#navsite li:hover ul { display: block; }
++	#navsite ul li a:link:hover,#navsite ul li a:link:visited:hover
++		{
++		color:#000;
++		background:#AAE;
++		border-color:#227;
++		}
++	#navsite ul li a#current
++		{
++		background:white;
++		border-right:3px solid white;
++		}
++		
+ 	
+-	
+-		
+ 	#footer
+ 		{
+ 		width:95%
+
+Modified: trunk/birbal/births/sitemedia/css/test.html
+===================================================================
+--- trunk/birbal/births/sitemedia/css/test.html	2005-12-13 07:08:23 UTC (rev 18)
++++ trunk/birbal/births/sitemedia/css/test.html	2005-12-13 07:55:39 UTC (rev 19)
+@@ -7,22 +7,16 @@
+   <meta name="GENERATOR" content="Quanta Plus">
+ </head>
+ <body>
++<div id="leftcontent">
+ <div id="navsite">
+ <ul>
+ <LI><a href="something">some menu</a></LI>
++<LI><a href="something">some menu</a></LI>
+ <LI><a href="something">some menu</a>
+-	<ul>
+-	<LI><a href="something">some menu</a></LI>
+-	<LI><a href="something">some menu</a></LI>
+-	</ul></LI>
+-<LI><a href="something">some menu</a>
+-<ul>
+-	<LI><a href="something">some menu</a></LI>
+-	<LI><a href="something">some menu</a></LI>
+-	</ul>
+ </LI>
+ </ul>
+ </div>
++</div>
+ 
+ </body>
+ </html>
+
+Added: trunk/birbal/births/templates/base.html
+===================================================================
+--- trunk/birbal/births/templates/base.html	2005-12-13 07:08:23 UTC (rev 18)
++++ trunk/birbal/births/templates/base.html	2005-12-13 07:55:39 UTC (rev 19)
+@@ -0,0 +1,68 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
++"DTD/xhtml1-transitional.dtd">
++<html><head>
++<LINK REL="stylesheet" type='text/css' href='/sitemedia/css/layout.css' title='default'>
++<title>{% trans "Birbal eGovernance Project" %}</title>
++
++
++</head>
++<body>
++
++<div id="centertop">
++	<br/>
++	<img src="/sitemedia/pics/masthead.jpg" width="800"/>
++	<br/>
++	<h1><span>{% trans "Open Source eGovernance" %}</span></h1>
++	</div>
++
++<div id="navsite">
++  
++  <h5>Site Navigation</h5>
++    <ul>
++     {% block navsite %}
++     {% for p in mn %}
++	<li >
++	<a href = "/bambanks/{{ p.url }}" {{ p.id }}> {{ p.name }}
++	</a>
++	</li>
++	{% endfor %}
++
++     {% endblock %}
++    </ul>
++    
++</div>
++<div id="navsite2">
++  
++  <h5>Site Navigation</h5>
++    <ul>
++     {% block navsite2 %}
++     {% for p in mn2 %}
++	<li >
++	<a href = "/bambanks/{{ p.url }}" {{ p.id }}> {{ p.name }}
++	</a>
++	</li>
++	{% endfor %}
++
++     {% endblock %}
++    </ul>
++    
++</div>
++
++<div id="leftcontent">
++<img src="/sitemedia/pics/bamboogreen.jpg" width="140" />
++</div>
++
++<div id="centercontent">
++{% block centercontent %} {% endblock %}
++</div>
++
++
++<div id="footer">
++<p>Built by <a href="mailto:lawgon at thenilgiris.com">XLQuest</a>, 
++powered by FreeBSD, Apache, Python, Postgresql and Django
++ copyright 2005  
++ <a href="mailto:webmaster at bamboobanks.in">Bamboo Banks</a></p>
++ </div>
++</div>
++</body>
++</html>
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Tue Dec 13 08:56:43 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 08:56:43 +0100
+Subject: [Birbal-svn] r20 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512130756.jBD7uhNj005494@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 08:56:40 +0100 (Tue, 13 Dec 2005)
+New Revision: 20
+
+Removed:
+   trunk/birbal/births/sitemedia/css/test.html
+Log:
+restructuring
+
+Deleted: trunk/birbal/births/sitemedia/css/test.html
+===================================================================
+--- trunk/birbal/births/sitemedia/css/test.html	2005-12-13 07:55:39 UTC (rev 19)
++++ trunk/birbal/births/sitemedia/css/test.html	2005-12-13 07:56:40 UTC (rev 20)
+@@ -1,22 +0,0 @@
+-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+-<html>
+-
+-<head>
+-  <title></title>
+-  <LINK REL="stylesheet" type='text/css' href='layout.css' title='default'>
+-  <meta name="GENERATOR" content="Quanta Plus">
+-</head>
+-<body>
+-<div id="leftcontent">
+-<div id="navsite">
+-<ul>
+-<LI><a href="something">some menu</a></LI>
+-<LI><a href="something">some menu</a></LI>
+-<LI><a href="something">some menu</a>
+-</LI>
+-</ul>
+-</div>
+-</div>
+-
+-</body>
+-</html>
+
+
+
+From lawgon at berlios.de  Tue Dec 13 12:21:50 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 12:21:50 +0100
+Subject: [Birbal-svn] r21 - in trunk/birbal/births: . apps/register apps/register/models sitemedia/css templates templates/register
+Message-ID: <200512131121.jBDBLo7i013806@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 12:21:48 +0100 (Tue, 13 Dec 2005)
+New Revision: 21
+
+Added:
+   trunk/birbal/births/templates/register/
+   trunk/birbal/births/templates/register/index.html
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+   trunk/birbal/births/settings.py
+   trunk/birbal/births/sitemedia/css/layout.css
+   trunk/birbal/births/templates/base.html
+   trunk/birbal/births/urls.py
+Log:
+basic site design
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-13 11:21:48 UTC (rev 21)
+@@ -1,3 +1,17 @@
+ from django.core import meta
+ 
+ # Create your models here.
++
++class Advertisement(meta.Model):
++    title = meta.CharField('Title',maxlength=250)
++    date = meta.DateTimeField('Date',default=meta.LazyDate())
++    expires = meta.DateField('Expiry Date',blank=True,null=True)
++    lead = meta.CharField('Lead',maxlength=250)
++    photo = meta.ImageField('Photo',upload_to='images/',blank=True,null=True)
++    matter = meta.TextField('Matter',blank=True,null=True)
++    class META:
++        admin = meta.Admin(
++        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
++        unique_together = (("title","date"),)
++    def __repr__(self):
++            return "%s, Date: %s" %(self.title.capitalize(),self.date)
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/apps/register/views.py	2005-12-13 11:21:48 UTC (rev 21)
+@@ -1 +1,36 @@
+-# Create your views here.
++from django.core import template_loader
++from django.core.extensions import DjangoContext as Context
++from django.utils.httpwrappers import HttpResponse
++from births.apps.register.models.register import advertisements
++import datetime
++from django.core.exceptions import Http404
++
++menu_items = [
++              {'name':'Home','url':'','id':''},
++              {'name':'Mission','url':'mission/','id':''},
++              {'name':'News','url':'news/NW/','id':''},
++              
++              ]
++
++
++        
++
++def extract():
++    list = advertisements.get_values(fields=['title','id'],
++                              expires__gt=datetime.datetime.now(),
++                           order_by=('-date',),
++                              limit=5)
++    return list
++
++
++def index(request):
++    
++    t = template_loader.get_template('register/index')
++    c = Context(request,
++                {'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
++
++
+
+Modified: trunk/birbal/births/settings.py
+===================================================================
+--- trunk/birbal/births/settings.py	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/settings.py	2005-12-13 11:21:48 UTC (rev 21)
+@@ -33,7 +33,7 @@
+ 
+ # URL that handles the media served from MEDIA_ROOT.
+ # Example: "http://media.lawrence.com"
+-MEDIA_URL = 'http://thenilgiris.web/smedia/'
++MEDIA_URL = 'http://birbal.web/smedia/'
+ 
+ # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+ # trailing slash.
+@@ -64,4 +64,6 @@
+ )
+ 
+ INSTALLED_APPS = (
++    'django.contrib.admin',
++    'births.apps.register',
+ )
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 11:21:48 UTC (rev 21)
+@@ -12,7 +12,7 @@
+ }
+ 
+ th {
+-    background:#d5c99f;
++    background:#2586d7;
+     border-top: 1px solid #388050;
+     border-bottom: 1px solid #388050;
+     border-right: 1px solid #388050;
+@@ -83,7 +83,7 @@
+ 
+ 
+ h1, h2, h3, h4, h5, h6 {
+-    color: #388050;
++    color: black;
+     background-color: transparent;
+     font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial,
+ sans-serif;
+@@ -186,7 +186,7 @@
+ 		margin-left:1%;
+ 		margin-right:1%;
+ 		height:120px;
+-		background:#d5c99f;
++		background:#2586d7;
+ 		voice-family: "\"}\"";
+ 		voice-family: inherit;
+ 		text-align: center; 
+@@ -197,10 +197,10 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:65%;
++		width:67%;
+ 		margin-top: 10px;
+-		margin-left:1%;
+-		margin-right:1%;
++		margin-left:2px;
++		margin-right:2px;
+ 		background:#fff;
+ 		voice-family: "\"}\"";
+ 		voice-family: inherit;
+@@ -213,80 +213,75 @@
+ 
+ 	#leftcontent {
+ 		float:left;
+-		overflow: hidden;
++		overflow:auto;
+ 		margin-top: 10px;
+-		margin-left:1%;
+-		width:15%;
++		margin-left: 1%;
++		width:12%;
+ 		margin-bottom:10px;
+ 		}
+ 		
+ 	#rightcontent {
+ 		float:left;
+-		overflow: hidden;
++		overflow:auto;
+ 		margin-top: 10px;
+-		margin-left:1%;
+-		width:15%;
++		width:18%;
+ 		margin-bottom:10px;
+ 		}
+ 		
+ 	
+ 	h1 {
+-		background:#d5c99f;
++		background:#2586d7;
+ 		}
+ 	h1 span
+ 		{
+ 		font-size:120%;
+ 		}
+ 		
+-	#navsite 
+-		{	
+-		float:left;
+-		margin-left:1%;
+-		margin-right:1%;
+-		margin-top:20px;
+-		width:97%;
+-		clear:both;
++	#button {
++		width: 90%;
++		border-right: 1px solid #000;
++		padding: 0 0 1em 0;
++		margin-bottom: 1em;
++		font-family: 'Trebuchet MS', 'Lucida Grande',
++		Verdana, Lucida, Geneva, Helvetica, 
++		Arial, sans-serif;
++		background-color: #90bade;
++		color: #333;
+ 		}
+-	#navsite h5 {
+-		display:none;
+-		}
+-	#navsite ul {
+-		padding:3px 0;
+-		margin-left: 0;
+-		font: bold 12px Verdana, sans-serif;
+-		}
+ 		
+-	#navsite ul li {
+-		list-style:none;
+-		margin:0;
++	#button ul {
++		list-style: none;
++		margin: 0;
++		padding: 0;
++		border: none;
+ 		}
+ 		
+-	#navsite ul li a {
+-		padding:3px 0.5em;
+-		border:2px solid #388050;
+-		background:#d5c99f;
+-		text-decoration:none;
++	#button li {
++		border-bottom: 1px solid #90bade;
++		margin: 0;
+ 		}
+ 		
+-	#navsite ul li a:link {
+-		color:black;
++	#button li a {
++		display: block;
++		padding: 5px 5px 5px 0.5em;
++		border-left: 10px solid #1958b7;
++		border-right: 10px solid #508fc4;
++		background-color: #2175bc;
++		color: #fff;
++		text-decoration: none;
++		width: 100%;
+ 		}
+-		
+-	#navsite ul li a:visited {
+-		color:#667;
++
++	html>body #button li a {
++		width: auto;
+ 		}
+-		
+-	#navsite ul li a:link:hover,#navsite ul li a:link:visited:hover
+-		{
+-		color:#000;
+-		background:#AAE;
+-		border-color:#227;
++
++	#button li a:hover {
++		border-left: 10px solid #1c64d1;
++		border-right: 10px solid #5ba3e0;
++		background-color: #2586d7;
++		color: #fff;
+ 		}
+-	#navsite ul li a#current
+-		{
+-		background:white;
+-		border-right:3px solid white;
+-		}
+ 		
+ 	
+ 	#footer
+@@ -295,10 +290,10 @@
+ 		float:left;
+ 		clear:both;
+ 		padding:1px;
+-		border-top:3px solid #d5c99f;
++		border-top:3px solid #2586d7;
+ 		font-size:xx-small;
+ 		font-weight:bold;
+-		color:green;
++		color:black;
+ 		text-align:center;
+ 		margin-left:1%;
+ 		margin-right:1%;
+@@ -321,7 +316,7 @@
+ 		margin-bottom:5px;
+ 		}
+ 	#more a
+-		{color:"green";}
++		{color:"black";}
+ 		
+ 	#warning p
+ 		{
+
+Modified: trunk/birbal/births/templates/base.html
+===================================================================
+--- trunk/birbal/births/templates/base.html	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/templates/base.html	2005-12-13 11:21:48 UTC (rev 21)
+@@ -2,66 +2,68 @@
+ "DTD/xhtml1-transitional.dtd">
+ <html><head>
+ <LINK REL="stylesheet" type='text/css' href='/sitemedia/css/layout.css' title='default'>
++{% load i18n %}
+ <title>{% trans "Birbal eGovernance Project" %}</title>
+-
+-
+ </head>
+ <body>
+ 
+ <div id="centertop">
+ 	<br/>
+-	<img src="/sitemedia/pics/masthead.jpg" width="800"/>
+ 	<br/>
+-	<h1><span>{% trans "Open Source eGovernance" %}</span></h1>
++	<h1><span>{% trans "Municipal Corporation of Tuqlakabad" %}</span></h1>
++	<h4>{% trans "Office of The Registrar of Births and Deaths" %}</h4>
+ 	</div>
+ 
+-<div id="navsite">
+-  
+-  <h5>Site Navigation</h5>
+-    <ul>
+-     {% block navsite %}
+-     {% for p in mn %}
+-	<li >
+-	<a href = "/bambanks/{{ p.url }}" {{ p.id }}> {{ p.name }}
+-	</a>
+-	</li>
+-	{% endfor %}
+-
+-     {% endblock %}
+-    </ul>
+-    
++<div id="leftcontent">
++	<div id="button">  
++		<ul>
++		{% block navsite %}
++		{% for p in mn %}
++			<li >
++			<a href = "/births/{{ p.url }}" {{ p.id }}> {{ p.name }}
++			</a>
++			</li>
++		{% endfor %}
++		{% endblock %}
++		</ul>
++    </div>
+ </div>
+-<div id="navsite2">
+-  
+-  <h5>Site Navigation</h5>
+-    <ul>
+-     {% block navsite2 %}
+-     {% for p in mn2 %}
+-	<li >
+-	<a href = "/bambanks/{{ p.url }}" {{ p.id }}> {{ p.name }}
+-	</a>
+-	</li>
+-	{% endfor %}
+ 
+-     {% endblock %}
+-    </ul>
+-    
+-</div>
+ 
+-<div id="leftcontent">
+-<img src="/sitemedia/pics/bamboogreen.jpg" width="140" />
+-</div>
+ 
++
+ <div id="centercontent">
+ {% block centercontent %} {% endblock %}
+ </div>
+ 
++<div id="rightcontent">
++	{% block rightcontent %}
++	<div id="rightbox">
++		<h4>{% trans "Classified" %}</h4>
++		{% block rightcontentads %}
++		{% if ads %}
++		{% for p in ads %}
++		<p>
++		<b>{{ p.title }}</b>
++		<div id="more">
++		<a href="/births/full/{{ p.id }}/">{% trans "details ..." %}</a>
++		</div>
++		</p>
++		{% endfor %}
++		{% else %}
++		<p> No recent items </P>
++		{% endif %}
++		{% endblock %}
++	</div>
++	{% endblock %}
++</div>
+ 
++
+ <div id="footer">
+-<p>Built by <a href="mailto:lawgon at thenilgiris.com">XLQuest</a>, 
++<p>Built by <a href="mailto:webmaster at birbal.org.in">XLQuest</a>, 
+ powered by FreeBSD, Apache, Python, Postgresql and Django
+  copyright 2005  
+- <a href="mailto:webmaster at bamboobanks.in">Bamboo Banks</a></p>
++ <a href="mailto:webmaster at birbal.org.in">The Birbal Project</a></p>
+  </div>
+ </div>
+ </body>
+
+Added: trunk/birbal/births/templates/register/index.html
+===================================================================
+--- trunk/birbal/births/templates/register/index.html	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/templates/register/index.html	2005-12-13 11:21:48 UTC (rev 21)
+@@ -0,0 +1,4 @@
++{% extends "base" %}
++{% block centercontent %}
++<h1>Just testing</h1>
++{% endblock %}
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2005-12-13 07:56:40 UTC (rev 20)
++++ trunk/birbal/births/urls.py	2005-12-13 11:21:48 UTC (rev 21)
+@@ -5,5 +5,7 @@
+     # (r'^births/', include('births.apps.foo.urls.foo')),
+ 
+     # Uncomment this for admin:
+-#     (r'^admin/', include('django.contrib.admin.urls.admin')),
++     (r'^births/admin/', include('django.contrib.admin.urls.admin')),
++    (r'^births/$', 'births.apps.register.views.index'),
++    (r'^brths/ads/(?P<id>\d+)/$', 'births.apps.register.views.ads'),
+ )
+
+
+
+From lawgon at berlios.de  Tue Dec 13 12:26:37 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 12:26:37 +0100
+Subject: [Birbal-svn] r22 - trunk/birbal/births
+Message-ID: <200512131126.jBDBQboK014720@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 12:26:36 +0100 (Tue, 13 Dec 2005)
+New Revision: 22
+
+Removed:
+   trunk/birbal/births/settings.py
+Log:
+removing settings
+
+Deleted: trunk/birbal/births/settings.py
+===================================================================
+--- trunk/birbal/births/settings.py	2005-12-13 11:21:48 UTC (rev 21)
++++ trunk/birbal/births/settings.py	2005-12-13 11:26:36 UTC (rev 22)
+@@ -1,69 +0,0 @@
+-# Django settings for births project.
+-
+-DEBUG = True
+-TEMPLATE_DEBUG = DEBUG
+-
+-ADMINS = (
+-    # ('Your Name', 'your_email at domain.com'),
+-)
+-
+-MANAGERS = ADMINS
+-
+-DATABASE_ENGINE = 'postgresql' # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
+-DATABASE_NAME = 'births'             # Or path to database file if using sqlite3.
+-DATABASE_USER = 'lawgon'             # Not used with sqlite3.
+-DATABASE_PASSWORD = ''         # Not used with sqlite3.
+-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+-
+-# Local time zone for this installation. All choices can be found here:
+-# http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
+-TIME_ZONE = 'Asia/Calcutta'
+-
+-# Language code for this installation. All choices can be found here:
+-# http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+-# http://blogs.law.harvard.edu/tech/stories/storyReader$15
+-LANGUAGE_CODE = 'en-us'
+-
+-SITE_ID = 1
+-
+-# Absolute path to the directory that holds media.
+-# Example: "/home/media/media.lawrence.com/"
+-MEDIA_ROOT = '/home/lawgon/media/'
+-
+-# URL that handles the media served from MEDIA_ROOT.
+-# Example: "http://media.lawrence.com"
+-MEDIA_URL = 'http://birbal.web/smedia/'
+-
+-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+-# trailing slash.
+-# Examples: "http://foo.com/media/", "/media/".
+-ADMIN_MEDIA_PREFIX = '/media/'
+-
+-# Make this unique, and don't share it with anybody.
+-SECRET_KEY = '!#qs(k9e*1xg()2!8=hp5035sl82k1hxtzs4_pg_ca8sj**!bk'
+-
+-# List of callables that know how to import templates from various sources.
+-TEMPLATE_LOADERS = (
+-    'django.core.template.loaders.filesystem.load_template_source',
+-    'django.core.template.loaders.app_directories.load_template_source',
+-#     'django.core.template.loaders.eggs.load_template_source',
+-)
+-
+-MIDDLEWARE_CLASSES = (
+-    "django.middleware.common.CommonMiddleware",
+-    "django.middleware.sessions.SessionMiddleware",
+-    "django.middleware.doc.XViewMiddleware",
+-)
+-
+-ROOT_URLCONF = 'births.urls'
+-
+-TEMPLATE_DIRS = (
+-    # Put strings here, like "/home/html/django_templates".
+-    '/home/lawgon/birbal/births/templates/',
+-)
+-
+-INSTALLED_APPS = (
+-    'django.contrib.admin',
+-    'births.apps.register',
+-)
+
+
+
+From lawgon at berlios.de  Tue Dec 13 13:18:36 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 13:18:36 +0100
+Subject: [Birbal-svn] r23 - trunk/birbal/births/templates
+Message-ID: <200512131218.jBDCIaBF013279@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 13:18:33 +0100 (Tue, 13 Dec 2005)
+New Revision: 23
+
+Modified:
+   trunk/birbal/births/templates/base.html
+Log:
+small change
+
+Modified: trunk/birbal/births/templates/base.html
+===================================================================
+--- trunk/birbal/births/templates/base.html	2005-12-13 11:26:36 UTC (rev 22)
++++ trunk/birbal/births/templates/base.html	2005-12-13 12:18:33 UTC (rev 23)
+@@ -10,7 +10,7 @@
+ <div id="centertop">
+ 	<br/>
+ 	<br/>
+-	<h1><span>{% trans "Municipal Corporation of Tuqlakabad" %}</span></h1>
++	<h1><span>{% trans "Municipal Corporation of Tuglaqabad" %}</span></h1>
+ 	<h4>{% trans "Office of The Registrar of Births and Deaths" %}</h4>
+ 	</div>
+ 
+
+
+
+From lawgon at berlios.de  Tue Dec 13 13:22:03 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Tue, 13 Dec 2005 13:22:03 +0100
+Subject: [Birbal-svn] r24 - trunk/birbal/births/templates
+Message-ID: <200512131222.jBDCM39U014680@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-13 13:21:50 +0100 (Tue, 13 Dec 2005)
+New Revision: 24
+
+Modified:
+   trunk/birbal/births/templates/base.html
+Log:
+small change
+
+Modified: trunk/birbal/births/templates/base.html
+===================================================================
+--- trunk/birbal/births/templates/base.html	2005-12-13 12:18:33 UTC (rev 23)
++++ trunk/birbal/births/templates/base.html	2005-12-13 12:21:50 UTC (rev 24)
+@@ -60,7 +60,7 @@
+ 
+ 
+ <div id="footer">
+-<p>Built by <a href="mailto:webmaster at birbal.org.in">XLQuest</a>, 
++<p>Built by <a href="mailto:webmaster at birbal.org.in">Birbal</a>, 
+ powered by FreeBSD, Apache, Python, Postgresql and Django
+  copyright 2005  
+  <a href="mailto:webmaster at birbal.org.in">The Birbal Project</a></p>
+
+
+
+From lawgon at berlios.de  Wed Dec 14 06:19:12 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 14 Dec 2005 06:19:12 +0100
+Subject: [Birbal-svn] r25 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512140519.jBE5JCGv007087@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-14 06:19:09 +0100 (Wed, 14 Dec 2005)
+New Revision: 25
+
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+Log:
+tweaking css
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-13 12:21:50 UTC (rev 24)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 05:19:09 UTC (rev 25)
+@@ -197,7 +197,7 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:67%;
++		width:64%;
+ 		margin-top: 10px;
+ 		margin-left:2px;
+ 		margin-right:2px;
+
+
+
+From lawgon at berlios.de  Wed Dec 14 09:39:31 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 14 Dec 2005 09:39:31 +0100
+Subject: [Birbal-svn] r26 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512140839.jBE8dVXM031882@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-14 09:39:12 +0100 (Wed, 14 Dec 2005)
+New Revision: 26
+
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+Log:
+tweaking css
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 05:19:09 UTC (rev 25)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 08:39:12 UTC (rev 26)
+@@ -197,7 +197,7 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:64%;
++		width:59%;
+ 		margin-top: 10px;
+ 		margin-left:2px;
+ 		margin-right:2px;
+@@ -216,7 +216,7 @@
+ 		overflow:auto;
+ 		margin-top: 10px;
+ 		margin-left: 1%;
+-		width:12%;
++		width:20%;
+ 		margin-bottom:10px;
+ 		}
+ 		
+
+
+
+From lawgon at berlios.de  Wed Dec 14 09:54:26 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 14 Dec 2005 09:54:26 +0100
+Subject: [Birbal-svn] r27 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512140854.jBE8sQsm004840@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-14 09:54:20 +0100 (Wed, 14 Dec 2005)
+New Revision: 27
+
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+Log:
+tweaking css
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 08:39:12 UTC (rev 26)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 08:54:20 UTC (rev 27)
+@@ -197,7 +197,7 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:59%;
++		width:68%;
+ 		margin-top: 10px;
+ 		margin-left:2px;
+ 		margin-right:2px;
+@@ -213,16 +213,16 @@
+ 
+ 	#leftcontent {
+ 		float:left;
+-		overflow:auto;
++		overflow:hidden;
+ 		margin-top: 10px;
+ 		margin-left: 1%;
+-		width:20%;
++		width:10%;
+ 		margin-bottom:10px;
+ 		}
+ 		
+ 	#rightcontent {
+ 		float:left;
+-		overflow:auto;
++		overflow:hidden;
+ 		margin-top: 10px;
+ 		width:18%;
+ 		margin-bottom:10px;
+@@ -238,7 +238,7 @@
+ 		}
+ 		
+ 	#button {
+-		width: 90%;
++		width: 100px;
+ 		border-right: 1px solid #000;
+ 		padding: 0 0 1em 0;
+ 		margin-bottom: 1em;
+
+
+
+From lawgon at berlios.de  Wed Dec 14 10:57:13 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 14 Dec 2005 10:57:13 +0100
+Subject: [Birbal-svn] r28 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512140957.jBE9vD7f017935@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-14 10:57:07 +0100 (Wed, 14 Dec 2005)
+New Revision: 28
+
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+Log:
+tweaking css
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 08:54:20 UTC (rev 27)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 09:57:07 UTC (rev 28)
+@@ -197,10 +197,10 @@
+ 
+ 	#centercontent {
+ 		float:left;
+-		width:68%;
++		width:66%;
+ 		margin-top: 10px;
+-		margin-left:2px;
+-		margin-right:2px;
++		margin-left:1%;
++		margin-right:1%;
+ 		background:#fff;
+ 		voice-family: "\"}\"";
+ 		voice-family: inherit;
+@@ -213,18 +213,18 @@
+ 
+ 	#leftcontent {
+ 		float:left;
+-		overflow:hidden;
++/*		overflow:scroll; */
+ 		margin-top: 10px;
+ 		margin-left: 1%;
+-		width:10%;
++		width:12%;
+ 		margin-bottom:10px;
+ 		}
+ 		
+ 	#rightcontent {
+ 		float:left;
+-		overflow:hidden;
++/*		overflow:scroll; */
+ 		margin-top: 10px;
+-		width:18%;
++		width:16%;
+ 		margin-bottom:10px;
+ 		}
+ 		
+@@ -238,9 +238,9 @@
+ 		}
+ 		
+ 	#button {
+-		width: 100px;
++		width:80%;
+ 		border-right: 1px solid #000;
+-		padding: 0 0 1em 0;
++/*		padding: 0 0 1em 0; */
+ 		margin-bottom: 1em;
+ 		font-family: 'Trebuchet MS', 'Lucida Grande',
+ 		Verdana, Lucida, Geneva, Helvetica, 
+
+
+
+From lawgon at berlios.de  Thu Dec 15 14:59:34 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 15 Dec 2005 14:59:34 +0100
+Subject: [Birbal-svn] r29 - in trunk/birbal: births births/apps/register births/apps/register/models births/sitemedia/css births/templates/register docs
+Message-ID: <200512151359.jBFDxYkZ025518@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-15 14:59:33 +0100 (Thu, 15 Dec 2005)
+New Revision: 29
+
+Added:
+   trunk/birbal/births/templates/register/fac.html
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+   trunk/birbal/births/sitemedia/css/layout.css
+   trunk/birbal/births/urls.py
+   trunk/birbal/docs/BIRTHSANDDEATHS.txt
+Log:
+the next stage
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-15 13:59:33 UTC (rev 29)
+@@ -15,3 +15,37 @@
+         unique_together = (("title","date"),)
+     def __repr__(self):
+             return "%s, Date: %s" %(self.title.capitalize(),self.date)
++
++
++facility_types =(
++    ('HM', 'Home'),
++    ('FQ', 'Faq'),
++    ('DC', 'Documentation'),
++    
++    )
++
++layout_types =(
++    ('TB', 'TopBottom'),
++    ('LR', 'LeftRight'),
++    ('RL', 'RightLeft'),
++    )
++
++class Facility(meta.Model):
++    title = meta.CharField('Title',maxlength=250)
++    type = meta.CharField('Entry Type',maxlength=2,choices=facility_types)
++    layout = meta.CharField('Layout',maxlength=2,choices=layout_types)
++    photo = meta.ImageField('Photo',upload_to='images/',blank=True,null=True)
++    blurb = meta.CharField('Blurb for photo',maxlength=250,blank=True,null=True)
++    matter = meta.TextField('Matter',blank=True,null=True)
++    priority = meta.IntegerField('Priority',default=1)
++    class META:
++        unique_together = (("title","type"),)
++        ordering = ['type','priority']
++        admin = meta.Admin(
++        list_display = ('title','type','layout','priority'),
++            search_fields = ['type'],
++        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
++    def __repr__(self):
++            return "%s, Type: %s, Priority: %d, layout: %s\
++            " %(self.title.capitalize(),self.get_type_display(),self.priority,\
++                self.get_layout_display())
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/apps/register/views.py	2005-12-15 13:59:33 UTC (rev 29)
+@@ -1,18 +1,24 @@
+ from django.core import template_loader
+ from django.core.extensions import DjangoContext as Context
+ from django.utils.httpwrappers import HttpResponse
+-from births.apps.register.models.register import advertisements
++from births.apps.register.models.register import advertisements,facilitys
+ import datetime
+ from django.core.exceptions import Http404
+ 
+ menu_items = [
+-              {'name':'Home','url':'','id':''},
+-              {'name':'Mission','url':'mission/','id':''},
+-              {'name':'News','url':'news/NW/','id':''},
+-              
++                {'name':'Home','url':'fac/HM/','id':''},
++              {'name':'FAQ','url':'fac/FQ/','id':''},
++              {'name':'Documents','url':'fac/DC/','id':''},
+               ]
+ 
++fac_types ={
++    'HM': 'Home',
++    'FQ': 'Faq',
++    'DC': 'Documentation',
++    'AM': 'Amenities'
++    }
+ 
++
+         
+ 
+ def extract():
+@@ -33,4 +39,15 @@
+     
+     return HttpResponse(t.render(c))
+ 
++def fac(request,type):
++    list = facilitys.get_list(type__exact=type,)
++    t = template_loader.get_template('register/fac')
++    c = Context(request,
++                {'list':list,'tp':type,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
+ 
++
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-15 13:59:33 UTC (rev 29)
+@@ -226,6 +226,7 @@
+ 		margin-top: 10px;
+ 		width:16%;
+ 		margin-bottom:10px;
++		background:#2586d7;
+ 		}
+ 		
+ 	
+@@ -247,6 +248,7 @@
+ 		Arial, sans-serif;
+ 		background-color: #90bade;
+ 		color: #333;
++		font-size: 80%;
+ 		}
+ 		
+ 	#button ul {
+
+Added: trunk/birbal/births/templates/register/fac.html
+===================================================================
+--- trunk/birbal/births/templates/register/fac.html	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/templates/register/fac.html	2005-12-15 13:59:33 UTC (rev 29)
+@@ -0,0 +1,79 @@
++{% extends "base" %}
++{% block centercontent %}
++{% if list %}
++    {% for p in list %}
++    	<h2>{{ p.title }}</h2>
++	<br/>
++	{% ifequal p.layout "TB" %}
++		{% if p.photo %}
++		<div id="newsimage">
++		<img src="{{ p.get_photo_url }}" width="75%">
++		</div>
++		{% endif %}
++		{% if p.blurb %}
++		<div id="blurb">
++		{{ p.blurb }}
++		</div>
++		<br/>
++		<br/>
++		{% endif %}
++		{{ p.matter }}
++	{% endifequal %}
++	
++	{% ifequal p.layout "LR" %}
++		<table>
++		<tr>
++		<TD width="65%">
++			{% if p.photo %}
++			<img src="{{ p.get_photo_url }}" width="450"/>
++			{% endif %}
++		</TD>
++		<TD rowspan="2">
++			{{ p.matter }}
++		</TD>
++		</tr>
++		<tr><TD>
++			{% if p.blurb %}
++			<div id="blurb">
++			{{ p.blurb }}
++			</div>
++			{% endif %}
++		</TD>
++		
++		</tr>
++		</table>	
++	{% endifequal %}
++	
++	{% ifequal p.layout "RL" %}
++		<table>
++		<tr>
++		<TD rowspan="2">
++			{{ p.matter }}
++		</TD>
++		<TD width="65%">
++			{% if p.photo %}
++			<img src="{{ p.get_photo_url }}" width="450"/>
++			{% endif %}
++		</TD>
++		
++		</tr>
++		<tr>
++		
++		<TD>
++			{% if p.blurb %}
++			<div id="blurb">
++			{{ p.blurb }}
++			</div>
++			{% endif %}
++		</TD>
++		
++		</tr>
++		</table>	
++	{% endifequal %}
++	
++
++    {% endfor %}
++{% else %}
++    <h2>Still Under Construction</h2>
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/births/urls.py	2005-12-15 13:59:33 UTC (rev 29)
+@@ -7,5 +7,6 @@
+     # Uncomment this for admin:
+      (r'^births/admin/', include('django.contrib.admin.urls.admin')),
+     (r'^births/$', 'births.apps.register.views.index'),
+-    (r'^brths/ads/(?P<id>\d+)/$', 'births.apps.register.views.ads'),
++    (r'^births/ads/(?P<id>\d+)/$', 'births.apps.register.views.ads'),
++    (r'^births/fac/(?P<type>\w+)/$', 'births.apps.register.views.fac'),
+ )
+
+Modified: trunk/birbal/docs/BIRTHSANDDEATHS.txt
+===================================================================
+--- trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-14 09:57:07 UTC (rev 28)
++++ trunk/birbal/docs/BIRTHSANDDEATHS.txt	2005-12-15 13:59:33 UTC (rev 29)
+@@ -39,118 +39,3 @@
+ Provision has to be made for paying the fee - either online or offline.
+ 
+ 12. Birth and death statistics can be generated.
+-
+-Database schema:
+-
+-master tables:
+-1. areas - could be wards in a municipality or villages in rural areas
+-2. officials - name, designation, authority (scrutinise, verify, add,
+-approve)
+-3. birthplacetypes - home, hospital, nursinghome etc
+-4. deathplacetypes - same thing
+-5. reportypes - form, letter, phone, oral, web etc
+-6. transactiontypes - openingfile, scrutiny, returning, verification,
+-approval, deletion, modification, certificateissue, certificaterefusal
+-
+-Reportsregister (births):
+-
+-id
+-date opened
+-informant name
+-reportytpe - fk to reportypes
+-filenumber
+-physical location of report
+-location of digital copy of report
+-name
+-fathers name
+-mothers name
+-address
+-area
+-date of birth
+-date registered
+-sex
+-birthplace - foreignkey to birthplaces
+-accepted/rejected
+-dateclosed
+-
+-(some information is duplicated in both tables, but this is necessary for
+-audit trail)
+-
+-birthregister:
+-
+-id
+-name
+-fathers name
+-mothers name
+-address
+-area
+-report - foreignkey to reports table
+-date of birth
+-date registered
+-sex
+-identity code number
+-birthplace - foreignkey to birthplaces
+-
+-Reportsregister (deaths):
+-
+-id
+-informant name
+-date opened
+-reportytpe - fk to reportypes
+-filenumber
+-physical location of report
+-location of digital copy of report
+-fname
+-lname
+-fathers name
+-address
+-area
+-date of death
+-sex
+-deathplace - foreignkey to deathplaces
+-cause of death
+-accepted/rejected
+-dateclosed
+-
+-deathregister:
+-
+-id
+-firstname
+-lastname
+-fathers/husbands/mothers name
+-date of death
+-deathplace - foreign key to deathplaces
+-place of death
+-cause of death
+-area - fk to areas
+-addresss
+-date registered
+-report - foreign key to reports table
+-
+-Transactions: 
+-
+-reporthandling
+-
+-report - fk to reports table
+-transactiontype - fk to transactiontypes
+-date
+-official - fk to officials
+-note - text
+-
+-registerhandling
+-
+-register - fk to register
+-transactiontype - fk to transactiontypes
+-date
+-official - fk to officials
+-note - text
+-
+-certificatehandling
+-
+-report - fk to reports table
+-date
+-approved/rejected
+-note
+-do we need to store to whom issued?
+-Since people will pay for the certificates, I guess we should store the
+-name of the person to whom it was issued, money taken, date, etc. too.
+
+
+
+From lawgon at berlios.de  Thu Dec 15 15:00:37 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Thu, 15 Dec 2005 15:00:37 +0100
+Subject: [Birbal-svn] r30 - trunk/birbal/docs
+Message-ID: <200512151400.jBFE0b1k025669@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-15 15:00:37 +0100 (Thu, 15 Dec 2005)
+New Revision: 30
+
+Added:
+   trunk/birbal/docs/births_db_schema.txt
+Log:
+the next stage
+
+Added: trunk/birbal/docs/births_db_schema.txt
+===================================================================
+--- trunk/birbal/docs/births_db_schema.txt	2005-12-15 13:59:33 UTC (rev 29)
++++ trunk/birbal/docs/births_db_schema.txt	2005-12-15 14:00:37 UTC (rev 30)
+@@ -0,0 +1,114 @@
++Database schema:
++
++master tables:
++1. areas - could be wards in a municipality or villages in rural areas
++2. officials - name, designation, authority (scrutinise, verify, add,
++approve)
++3. birthplacetypes - home, hospital, nursinghome etc
++4. deathplacetypes - same thing
++5. reportypes - form, letter, phone, oral, web etc
++6. transactiontypes - openingfile, scrutiny, returning, verification,
++approval, deletion, modification, certificateissue, certificaterefusal
++
++Reportsregister (births):
++
++id
++date opened
++informant name
++reportytpe - fk to reportypes
++filenumber
++physical location of report
++location of digital copy of report
++name
++fathers name
++mothers name
++address
++area
++date of birth
++date registered
++sex
++birthplace - foreignkey to birthplaces
++accepted/rejected
++dateclosed
++
++(some information is duplicated in both tables, but this is necessary for
++audit trail)
++
++birthregister:
++
++id
++name
++fathers name
++mothers name
++address
++area
++report - foreignkey to reports table
++date of birth
++date registered
++sex
++identity code number
++birthplace - foreignkey to birthplaces
++
++Reportsregister (deaths):
++
++id
++informant name
++date opened
++reportytpe - fk to reportypes
++filenumber
++physical location of report
++location of digital copy of report
++fname
++lname
++fathers name
++address
++area
++date of death
++sex
++deathplace - foreignkey to deathplaces
++cause of death
++accepted/rejected
++dateclosed
++
++deathregister:
++
++id
++firstname
++lastname
++fathers/husbands/mothers name
++date of death
++deathplace - foreign key to deathplaces
++place of death
++cause of death
++area - fk to areas
++addresss
++date registered
++report - foreign key to reports table
++
++Transactions: 
++
++reporthandling
++
++report - fk to reports table
++transactiontype - fk to transactiontypes
++date
++official - fk to officials
++note - text
++
++registerhandling
++
++register - fk to register
++transactiontype - fk to transactiontypes
++date
++official - fk to officials
++note - text
++
++certificatehandling
++
++report - fk to reports table
++date
++approved/rejected
++note
++do we need to store to whom issued?
++Since people will pay for the certificates, I guess we should store the
++name of the person to whom it was issued, money taken, date, etc. too.
+\ No newline at end of file
+
+
+
+From lawgon at berlios.de  Fri Dec 16 08:02:44 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 16 Dec 2005 08:02:44 +0100
+Subject: [Birbal-svn] r32 - trunk/birbal/births/sitemedia/css
+Message-ID: <200512160702.jBG72isT013321@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-16 08:02:37 +0100 (Fri, 16 Dec 2005)
+New Revision: 32
+
+Modified:
+   trunk/birbal/births/sitemedia/css/layout.css
+Log:
+tweaking css
+
+Modified: trunk/birbal/births/sitemedia/css/layout.css
+===================================================================
+--- trunk/birbal/births/sitemedia/css/layout.css	2005-12-16 05:31:42 UTC (rev 31)
++++ trunk/birbal/births/sitemedia/css/layout.css	2005-12-16 07:02:37 UTC (rev 32)
+@@ -1,5 +1,5 @@
+ 	body {
+-    		font: 90% "Lucida Grande", Verdana, Lucida, Helvetica, Arial,
++    		font: 75% "Lucida Grande", Verdana, Lucida, Helvetica, Arial,
+ sans-serif;
+     		background-color: White;
+     		color: Black;
+
+
+
+From lawgon at berlios.de  Fri Dec 16 13:36:16 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Fri, 16 Dec 2005 13:36:16 +0100
+Subject: [Birbal-svn] r33 - trunk/birbal/births/apps/register/models
+Message-ID: <200512161236.jBGCaGfT028829@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-16 13:36:14 +0100 (Fri, 16 Dec 2005)
+New Revision: 33
+
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+Log:
+it goes on
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-16 07:02:37 UTC (rev 32)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-16 12:36:14 UTC (rev 33)
+@@ -1,14 +1,77 @@
+ from django.core import meta
+ 
+-# Create your models here.
+ 
++#######################################################################
++
++# application specific stuff - website specific stuff at the end
++
++#######################################################
++# define officials, persons, powers, ranks and statuses
++
++class Power(meta.Model):
++    name = meta.CharField(_("Power"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(_(self.name))
++
++class Status(meta.Model):
++    name = meta.CharField(_("Status"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(_(self.name))
++
++class Official(meta.Model):
++    rank = meta.CharField(_("Rank"),maxlength=50,unique=True)
++    powers = meta.ManyToManyField(Power)
++    class META:
++        admin = meta.Admin(
++        list_display = ('rank',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s has %s powers" %(self.rank,self.get_power_list())
++
++class Person(meta.Model):
++    name = meta.CharField(_("Name"),maxlength=50,unique=True)
++    rank = meta.ForeignKey(Official)
++    status = meta.ForeignKey(Status)
++    class META:
++        admin = meta.Admin(
++        list_display = ('name','rank','status',),
++            search_fields = ['name','rank'],)
++    def __repr__(self):
++            return "%s  %s" %(self.name,self.get_rank())
++
++#############################################end of persons
++
++# master tables for actual data
++
++##############################################end of actual data master
++
++
++# detail tables for actual data
++
++##############################################end of actual data details
++
++
++########################################################################
++
++# Website specific stuff
++
+ class Advertisement(meta.Model):
+-    title = meta.CharField('Title',maxlength=250)
+-    date = meta.DateTimeField('Date',default=meta.LazyDate())
+-    expires = meta.DateField('Expiry Date',blank=True,null=True)
+-    lead = meta.CharField('Lead',maxlength=250)
+-    photo = meta.ImageField('Photo',upload_to='images/',blank=True,null=True)
+-    matter = meta.TextField('Matter',blank=True,null=True)
++    title = meta.CharField(_("Title"),maxlength=250)
++    date = meta.DateTimeField(_("Date"),default=meta.LazyDate())
++    expires = meta.DateField(_("Expiry Date"),blank=True,null=True)
++    lead = meta.CharField(_("Lead"),maxlength=250)
++    photo = meta.ImageField(_("Photo"),upload_to='images/',blank=True,null=True)
++    matter = meta.TextField(_("Matter"),blank=True,null=True)
+     class META:
+         admin = meta.Admin(
+         js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
+@@ -18,26 +81,26 @@
+ 
+ 
+ facility_types =(
+-    ('HM', 'Home'),
+-    ('FQ', 'Faq'),
+-    ('DC', 'Documentation'),
++    ('HM', _("Home")),
++    ('FQ', _("Faq")),
++    ('DC', _("Documentation")),
+     
+     )
+ 
+ layout_types =(
+-    ('TB', 'TopBottom'),
+-    ('LR', 'LeftRight'),
+-    ('RL', 'RightLeft'),
++    ('TB', _("TopBottom")),
++    ('LR', _("LeftRight")),
++    ('RL', _("RightLeft")),
+     )
+ 
+ class Facility(meta.Model):
+-    title = meta.CharField('Title',maxlength=250)
+-    type = meta.CharField('Entry Type',maxlength=2,choices=facility_types)
+-    layout = meta.CharField('Layout',maxlength=2,choices=layout_types)
+-    photo = meta.ImageField('Photo',upload_to='images/',blank=True,null=True)
+-    blurb = meta.CharField('Blurb for photo',maxlength=250,blank=True,null=True)
+-    matter = meta.TextField('Matter',blank=True,null=True)
+-    priority = meta.IntegerField('Priority',default=1)
++    title = meta.CharField(_("Title"),maxlength=250)
++    type = meta.CharField(_("Entry Type"),maxlength=2,choices=facility_types)
++    layout = meta.CharField(_("Layout"),maxlength=2,choices=layout_types)
++    photo = meta.ImageField(_("Photo"),upload_to='images/',blank=True,null=True)
++    blurb = meta.CharField(_("Blurb for photo"),maxlength=250,blank=True,null=True)
++    matter = meta.TextField(_("Matter"),blank=True,null=True)
++    priority = meta.IntegerField(_("Priority"),default=1)
+     class META:
+         unique_together = (("title","type"),)
+         ordering = ['type','priority']
+
+
+
+From lawgon at berlios.de  Sat Dec 17 08:00:18 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 17 Dec 2005 08:00:18 +0100
+Subject: [Birbal-svn] r34 - in trunk/birbal: births/apps/register/models docs
+Message-ID: <200512170700.jBH70IaG021242@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-17 08:00:12 +0100 (Sat, 17 Dec 2005)
+New Revision: 34
+
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/docs/births_db_schema.txt
+Log:
+adding models
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-16 12:36:14 UTC (rev 33)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-17 07:00:12 UTC (rev 34)
+@@ -16,7 +16,7 @@
+         list_display = ('name',),
+             search_fields = ['name'],)
+     def __repr__(self):
+-            return "%s" %(_(self.name))
++            return "%s" %(self.name)
+ 
+ class Status(meta.Model):
+     name = meta.CharField(_("Status"),maxlength=50,unique=True)
+@@ -26,7 +26,7 @@
+         list_display = ('name',),
+             search_fields = ['name'],)
+     def __repr__(self):
+-            return "%s" %(_(self.name))
++            return "%s" %(self.name)
+ 
+ class Official(meta.Model):
+     rank = meta.CharField(_("Rank"),maxlength=50,unique=True)
+@@ -53,6 +53,58 @@
+ 
+ # master tables for actual data
+ 
++class Area(meta.Model):
++    name = meta.CharField(_("Area"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
++        
++
++class Street(meta.Model):
++    name = meta.CharField(_("Street"),maxlength=50,unique=True)
++    area = meta.ForeignKey(Area)
++    class META:
++        admin = meta.Admin(
++        list_display = ('name','area',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return _("Street: %s Area %s") %(self.name,self.get_area)
++
++class Deathplace(meta.Model):
++    name = meta.CharField(_("Area"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
++class Birthplace(meta.Model):
++    name = meta.CharField(_("Area"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
++class Reporttype(meta.Model):
++    name = meta.CharField(_("Area"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
+ ##############################################end of actual data master
+ 
+ 
+
+Modified: trunk/birbal/docs/births_db_schema.txt
+===================================================================
+--- trunk/birbal/docs/births_db_schema.txt	2005-12-16 12:36:14 UTC (rev 33)
++++ trunk/birbal/docs/births_db_schema.txt	2005-12-17 07:00:12 UTC (rev 34)
+@@ -2,8 +2,7 @@
+ 
+ master tables:
+ 1. areas - could be wards in a municipality or villages in rural areas
+-2. authority (scrutinise, verify, add,
+-approve)
++
+ 2. officials - name, designation, status
+ 3. birthplacetypes - home, hospital, nursinghome etc
+ 4. deathplacetypes - same thing
+
+
+
+From lawgon at berlios.de  Sat Dec 17 08:36:15 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 17 Dec 2005 08:36:15 +0100
+Subject: [Birbal-svn] r35 - trunk/birbal/births/apps/register/models
+Message-ID: <200512170736.jBH7aFSL003148@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-17 08:36:04 +0100 (Sat, 17 Dec 2005)
+New Revision: 35
+
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+Log:
+adding models
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-17 07:00:12 UTC (rev 34)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-17 07:36:04 UTC (rev 35)
+@@ -110,9 +110,17 @@
+ 
+ # detail tables for actual data
+ 
++#birth reports, death reports, birth register death register
++
+ ##############################################end of actual data details
+ 
++# transaction tables
+ 
++# report, register and certificate handling - basically file noting
++
++##############################################end of actual data details
++
++
+ ########################################################################
+ 
+ # Website specific stuff
+
+
+
+From lawgon at berlios.de  Mon Dec 19 11:31:00 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Mon, 19 Dec 2005 11:31:00 +0100
+Subject: [Birbal-svn] r36 - in trunk/birbal/births: . apps/register apps/register/models templates/register
+Message-ID: <200512191031.jBJAV0U6018585@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-19 11:30:58 +0100 (Mon, 19 Dec 2005)
+New Revision: 36
+
+Added:
+   trunk/birbal/births/templates/register/officials.html
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+   trunk/birbal/births/urls.py
+Log:
+lot of new stuff
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-19 10:30:58 UTC (rev 36)
+@@ -3,6 +3,11 @@
+ 
+ #######################################################################
+ 
++sexes = (
++    ('M','Male'),
++    ('F','Female'),
++    )
++
+ # application specific stuff - website specific stuff at the end
+ 
+ #######################################################
+@@ -36,7 +41,7 @@
+         list_display = ('rank',),
+             search_fields = ['name'],)
+     def __repr__(self):
+-            return "%s has %s powers" %(self.rank,self.get_power_list())
++            return "%s" %(self.rank)
+ 
+ class Person(meta.Model):
+     name = meta.CharField(_("Name"),maxlength=50,unique=True)
+@@ -47,7 +52,8 @@
+         list_display = ('name','rank','status',),
+             search_fields = ['name','rank'],)
+     def __repr__(self):
+-            return "%s  %s" %(self.name,self.get_rank())
++            return "%s %s %s %s"\
++            %(self.name,self.get_rank(),self.get_status())
+ 
+ #############################################end of persons
+ 
+@@ -66,9 +72,10 @@
+         
+ 
+ class Street(meta.Model):
+-    name = meta.CharField(_("Street"),maxlength=50,unique=True)
++    name = meta.CharField(_("Street"),maxlength=50)
+     area = meta.ForeignKey(Area)
+     class META:
++        unique_together = (("name","area"),)
+         admin = meta.Admin(
+         list_display = ('name','area',),
+             search_fields = ['name'],)
+@@ -112,6 +119,49 @@
+ 
+ #birth reports, death reports, birth register death register
+ 
++class Birthreport(meta.Model):
++    fileno = meta.CharField(_("File Number"),maxlength=50,unique=True)
++    dateopened = meta.DateTimeField(
++        _("Date Opened"),default=meta.LazyDate(),editable=False)
++    reporttype = meta.ForeignKey(Reporttype,
++                    verbose_name=_("Report Type"))
++    informant = meta.CharField(_("Informant"),maxlength=50)
++    informantaddress = meta.TextField(_("Informants Address"))
++    informantsarea = meta.ForeignKey(Area,
++                    verbose_name=_("Informants Area Address"))
++    informantstreet = meta.ForeignKey(Street,
++                    verbose_name=_("Informants Street Address"))
++    father = meta.CharField(_("Fathers Name"),maxlength=80)
++    mother = meta.CharField(_("Mothers Name"),maxlength=80)
++    address = meta.TextField(_("Childs Address"))
++    area = meta.ForeignKey(Area,verbose_name=_("Childs Area"))
++    street = meta.ForeignKey(Street,verbose_name=_("Childs Street"))
++    dob = meta.DateField(_("Date of birth"))
++    sex = meta.CharField('Sex',maxlength=2,choices=sexes)
++    birthplace = meta.CharField(_("Place of birth"),maxlength=50)
++    birthaddress = meta.TextField(_("Birth Place Address"))
++    birtharea = meta.ForeignKey(Area,
++                    verbose_name=_("Place of birth Area Address"))
++    birthstreet = meta.ForeignKey(Street,
++                    verbose_name=_("Place of birth Street Address"))
++    birthplacetype = meta.ForeignKey(Birthplace)
++    scrutinised = meta.BooleanField(_("Scrutinised"),default=False)
++    verified = meta.BooleanField(_("Verified"),default=False)
++    accepted = meta.BooleanField(_("Accepted"),default=False)
++    open = meta.BooleanField(_("File Open"),default=True,editable=False)
++    dateclosed = meta.DateField(_("Date Closed"),
++                                blank=True,null=True,
++                                editable=False)
++    reportfile = meta.ImageField(_("Scanned Report"),
++                                 upload_to='images/reports/',
++                                 blank=True,null=True)
++    class META:
++        admin = meta.Admin(
++        list_display = ('fileno',),
++            search_fields = ['fileno'],)
++    def __repr__(self):
++            return "%s" %(self.fileno)
++
+ ##############################################end of actual data details
+ 
+ # transaction tables
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/apps/register/views.py	2005-12-19 10:30:58 UTC (rev 36)
+@@ -1,14 +1,15 @@
+ from django.core import template_loader
+ from django.core.extensions import DjangoContext as Context
+ from django.utils.httpwrappers import HttpResponse
+-from births.apps.register.models.register import advertisements,facilitys
++from births.apps.register.models.register import *
+ import datetime
+ from django.core.exceptions import Http404
+ 
+ menu_items = [
+-                {'name':'Home','url':'fac/HM/','id':''},
++              {'name':'Home','url':'fac/HM/','id':''},
+               {'name':'FAQ','url':'fac/FQ/','id':''},
+               {'name':'Documents','url':'fac/DC/','id':''},
++              {'name':'Officials','url':'officials/','id':''},
+               ]
+ 
+ fac_types ={
+@@ -50,4 +51,15 @@
+     
+     return HttpResponse(t.render(c))
+ 
++def dutyroster(request):
++    list = persons.get_list()
++    t = template_loader.get_template('register/officials')
++    c = Context(request,
++                {'list':list,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
+ 
++
+
+Added: trunk/birbal/births/templates/register/officials.html
+===================================================================
+--- trunk/birbal/births/templates/register/officials.html	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/templates/register/officials.html	2005-12-19 10:30:58 UTC (rev 36)
+@@ -0,0 +1,32 @@
++{% extends "base" %}
++{% load i18n %}
++{% block centercontent %}
++<h2>List of Officials in the Office of The Registrar of Births and Deaths</h2>
++<br/>
++{% if list %}
++    <table border="1">
++    <TR>
++    <Th>{% trans "Name" %}</Th>
++    <th>{% trans "Designation" %}</th>
++    <th>{% trans "Powers" %}</th>
++    <th>{% trans "Status" %}</th>
++    </TR>
++    
++    {% for p in list %}
++    <tr>
++    <td>{{ p.name }}</td>
++    <td>{{ p.get_rank }}</td>
++    <td>
++    {% for m in p.get_rank.get_power_list %}
++    {{ m }}
++    {% endfor %}
++    </td>
++    <td>{{ p.get_status }}</td>
++    </tr>		
++
++    {% endfor %}
++    </table>
++{% else %}
++    <h2>List of officials not yet posted</h2>
++{% endif %}
++{% endblock %}
+\ No newline at end of file
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2005-12-17 07:36:04 UTC (rev 35)
++++ trunk/birbal/births/urls.py	2005-12-19 10:30:58 UTC (rev 36)
+@@ -7,6 +7,7 @@
+     # Uncomment this for admin:
+      (r'^births/admin/', include('django.contrib.admin.urls.admin')),
+     (r'^births/$', 'births.apps.register.views.index'),
++    (r'^births/officials/$', 'births.apps.register.views.dutyroster'),
+     (r'^births/ads/(?P<id>\d+)/$', 'births.apps.register.views.ads'),
+     (r'^births/fac/(?P<type>\w+)/$', 'births.apps.register.views.fac'),
+ )
+
+
+
+From lawgon at berlios.de  Wed Dec 21 14:45:24 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Wed, 21 Dec 2005 14:45:24 +0100
+Subject: [Birbal-svn] r40 - in trunk/birbal/births/apps/register: . models
+Message-ID: <200512211345.jBLDjOL7001623@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-21 14:45:02 +0100 (Wed, 21 Dec 2005)
+New Revision: 40
+
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/register/views.py
+Log:
+basic structure and documentation complete
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-21 11:00:16 UTC (rev 39)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-21 13:45:02 UTC (rev 40)
+@@ -14,6 +14,10 @@
+ # define officials, persons, powers, ranks and statuses
+ 
+ class Power(meta.Model):
++    """ Powers that officials have to take actions
++        will be attached to officials with a check that
++        if there is no power the action will not take place
++        """
+     name = meta.CharField(_("Power"),maxlength=50,unique=True)
+ 
+     class META:
+@@ -23,17 +27,15 @@
+     def __repr__(self):
+             return "%s" %(self.name)
+ 
+-class Status(meta.Model):
++class Status(Power):
++    """ A field describing what a person is doing - should be
++        set by changes in the movement register
++        """
+     name = meta.CharField(_("Status"),maxlength=50,unique=True)
+ 
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.name)
+-
+ class Official(meta.Model):
++    """ Types of officials with their powers
++        """
+     rank = meta.CharField(_("Rank"),maxlength=50,unique=True)
+     powers = meta.ManyToManyField(Power)
+     class META:
+@@ -44,6 +46,9 @@
+             return "%s" %(self.rank)
+ 
+ class Person(meta.Model):
++    """ Persons working - rank and status. Once movement register is
++        set up we could remove the status field
++        """
+     name = meta.CharField(_("Name"),maxlength=50,unique=True)
+     rank = meta.ForeignKey(Official)
+     status = meta.ForeignKey(Status)
+@@ -60,19 +65,17 @@
+ 
+ # master tables for actual data
+ 
+-class Area(meta.Model):
++class Area(Power):
++    """ Each jurisdiction is divided into areas. Areas can be wards,
++        mohallas, sectors etc
++        """
+     name = meta.CharField(_("Area"),maxlength=50,unique=True)
+ 
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.name)
+ 
+-        
+-
+ class Street(meta.Model):
++    """ Streets may be streets or colonies or slums or whatever
++        they have to be unique in an area
++        """
+     name = meta.CharField(_("Street"),maxlength=50)
+     area = meta.ForeignKey(Area)
+     class META:
+@@ -83,35 +86,25 @@
+     def __repr__(self):
+             return _("Street: %s Area %s") %(self.name,self.get_area)
+ 
+-class Deathplace(meta.Model):
++class Deathplace(Power):
++    """ Type of death place - at home, hospital, on the street ...
++        """
+     name = meta.CharField(_("Area"),maxlength=50,unique=True)
+ 
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.name)
+ 
+-class Birthplace(meta.Model):
++class Birthplace(Power):
++    """ Type of death place - at home, hospital, on the street,
++        found abandoned, given up for adoption etc
++        """
+     name = meta.CharField(_("Area"),maxlength=50,unique=True)
+ 
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.name)
+ 
+-class Reporttype(meta.Model):
++class Reporttype(Power):
++    """ By email, over the web, phone, in person: how did the
++        report come?
++        """
+     name = meta.CharField(_("Area"),maxlength=50,unique=True)
+ 
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.name)
+ 
+ ##############################################end of actual data master
+ 
+@@ -124,6 +117,8 @@
+ #in the admin. 
+ 
+ class Birthreport(meta.Model):
++    """ Actual report of birth - not to be altered
++        """
+     fileno = meta.CharField(_("File Number"),maxlength=50,unique=True)
+     dateopened = meta.DateTimeField(
+         _("Date Opened"),default=meta.LazyDate(),editable=False)
+@@ -215,6 +210,8 @@
+ 
+ 
+ class Birthregister(meta.Model):
++    """ Final entry in the birth register
++        """
+     report = meta.ForeignKey(Birthreport,
+                              verbose_name=_("Original Report"))
+     dateopened = meta.DateTimeField(
+@@ -282,6 +279,8 @@
+ # all repeated for deaths
+ 
+ class Deathreport(meta.Model):
++    """ Actual report of death - not to be altered
++        """
+     fileno = meta.CharField(_("File Number"),maxlength=50,unique=True)
+     dateopened = meta.DateTimeField(
+         _("Date Opened"),default=meta.LazyDate(),editable=False)
+@@ -375,6 +374,8 @@
+ 
+ 
+ class Deathregister(meta.Model):
++    """ Final entry in the death register
++        """
+     report = meta.ForeignKey(Deathreport,
+                              verbose_name=_("Original Report"))
+     dateopened = meta.DateTimeField(
+@@ -444,7 +445,68 @@
+ # transaction tables
+ 
+ # report, register and certificate handling - basically file noting
++# one generic noting thingie that does everything - cant have that
++# foreign key problem - so subclass 
+ 
++class Notingdeathreport(meta.Model):
++    """ Processing the death report
++        """
++    report = meta.ForeignKey(Deathreport,
++                             verbose_name=_("Death Report File"))
++    date = meta.DateTimeField(
++        _("Date Opened"),default=meta.LazyDate(),editable=False)
++    action = meta.ForeignKey(Power,
++                             verbose_name=_("Action Taken"))
++    person = meta.ForeignKey(Person,
++                             verbose_name=_("Person making the note"))
++    note = meta.TextField(_("Note"))
++    addedby = meta.CharField(_("Added By"),maxlength=100,editable=False)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('report','date'),
++            search_fields = ['report'],
++        fields =
++            (
++                (
++                None,
++                    {
++                    'fields': ('report',
++                               'action',
++                               'person',
++                               'note')
++                    }
++                ),
++                
++                
++                
++            ),
++        )
++    def __repr__(self):
++            return "%s %s" %(self.report,self.date)
++
++class Notingbirthreport(Notingdeathreport):
++    """ Processing the birth report
++        """
++    report = meta.ForeignKey(Birthreport,
++                             verbose_name=_("Birth Report File"))
++
++class Notingdeathregister(Notingdeathreport):
++    """ Processing the death register
++        """
++    report = meta.ForeignKey(Birthregister,
++                             verbose_name=_("Death Register Entry"))
++
++class Notingbirthregister(Notingdeathreport):
++    """ Processing the birth register
++        """
++    report = meta.ForeignKey(Birthregister,
++                             verbose_name=_("Birth Register Entry"))
++
++
++
++    
++
+ ##############################################end of actual data details
+ 
+ 
+@@ -453,6 +515,8 @@
+ # Website specific stuff
+ 
+ class Advertisement(meta.Model):
++    """ advertisements and announcements for the site
++        """
+     title = meta.CharField(_("Title"),maxlength=250)
+     date = meta.DateTimeField(_("Date"),default=meta.LazyDate())
+     expires = meta.DateField(_("Expiry Date"),blank=True,null=True)
+@@ -481,6 +545,8 @@
+     )
+ 
+ class Facility(meta.Model):
++    """ Documentation - self explanatory
++        """
+     title = meta.CharField(_("Title"),maxlength=250)
+     type = meta.CharField(_("Entry Type"),maxlength=2,choices=facility_types)
+     layout = meta.CharField(_("Layout"),maxlength=2,choices=layout_types)
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-21 11:00:16 UTC (rev 39)
++++ trunk/birbal/births/apps/register/views.py	2005-12-21 13:45:02 UTC (rev 40)
+@@ -23,6 +23,9 @@
+         
+ 
+ def extract():
++    """ Gets the advertisements and announcements for the
++        right column
++        """
+     list = advertisements.get_values(fields=['title','id'],
+                               expires__gt=datetime.datetime.now(),
+                            order_by=('-date',),
+@@ -31,7 +34,8 @@
+ 
+ 
+ def index(request):
+-    
++    """ Not used
++        """
+     t = template_loader.get_template('register/index')
+     c = Context(request,
+                 {'ads':extract(),
+@@ -41,6 +45,9 @@
+     return HttpResponse(t.render(c))
+ 
+ def fac(request,type):
++    """ View for display of the documentation
++        generates all pages on the fly
++        """
+     list = facilitys.get_list(type__exact=type,)
+     t = template_loader.get_template('register/fac')
+     c = Context(request,
+@@ -52,6 +59,8 @@
+     return HttpResponse(t.render(c))
+ 
+ def dutyroster(request):
++    """ Shows attendance status for employees
++        """
+     list = persons.get_list()
+     t = template_loader.get_template('register/officials')
+     c = Context(request,
+
+
+
+From lawgon at berlios.de  Sat Dec 31 08:39:28 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 08:39:28 +0100
+Subject: [Birbal-svn] r41 - in trunk/birbal/births/apps: . accounts accounts/models payroll payroll/models register/models website website/models
+Message-ID: <200512310739.jBV7dSbO012150@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 08:39:27 +0100 (Sat, 31 Dec 2005)
+New Revision: 41
+
+Added:
+   trunk/birbal/births/apps/accounts/
+   trunk/birbal/births/apps/accounts/__init__.py
+   trunk/birbal/births/apps/accounts/models/
+   trunk/birbal/births/apps/accounts/models/__init__.py
+   trunk/birbal/births/apps/accounts/models/accounts.py
+   trunk/birbal/births/apps/accounts/views.py
+   trunk/birbal/births/apps/payroll/
+   trunk/birbal/births/apps/payroll/__init__.py
+   trunk/birbal/births/apps/payroll/models/
+   trunk/birbal/births/apps/payroll/models/__init__.py
+   trunk/birbal/births/apps/payroll/models/payroll.py
+   trunk/birbal/births/apps/payroll/views.py
+   trunk/birbal/births/apps/website/
+   trunk/birbal/births/apps/website/__init__.py
+   trunk/birbal/births/apps/website/models/
+   trunk/birbal/births/apps/website/models/__init__.py
+   trunk/birbal/births/apps/website/models/website.py
+   trunk/birbal/births/apps/website/views.py
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+Log:
+restructuring into something that looks sane
+
+Added: trunk/birbal/births/apps/accounts/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/accounts/models/__init__.py
+===================================================================
+--- trunk/birbal/births/apps/accounts/models/__init__.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/accounts/models/__init__.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1 @@
++__all__ = ['accounts']
+
+Added: trunk/birbal/births/apps/accounts/models/accounts.py
+===================================================================
+--- trunk/birbal/births/apps/accounts/models/accounts.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/accounts/models/accounts.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1,3 @@
++from django.core import meta
++
++# Create your models here.
+
+Added: trunk/birbal/births/apps/accounts/views.py
+===================================================================
+--- trunk/birbal/births/apps/accounts/views.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/accounts/views.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1 @@
++# Create your views here.
+
+Added: trunk/birbal/births/apps/payroll/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/payroll/models/__init__.py
+===================================================================
+--- trunk/birbal/births/apps/payroll/models/__init__.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/payroll/models/__init__.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1 @@
++__all__ = ['payroll']
+
+Added: trunk/birbal/births/apps/payroll/models/payroll.py
+===================================================================
+--- trunk/birbal/births/apps/payroll/models/payroll.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/payroll/models/payroll.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1,3 @@
++from django.core import meta
++
++# Create your models here.
+
+Added: trunk/birbal/births/apps/payroll/views.py
+===================================================================
+--- trunk/birbal/births/apps/payroll/views.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/payroll/views.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1 @@
++# Create your views here.
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -1,4 +1,5 @@
+ from django.core import meta
++from births.apps.payroll.models.payroll import *
+ 
+ 
+ #######################################################################
+@@ -8,18 +9,14 @@
+     ('F','Female'),
+     )
+ 
+-# application specific stuff - website specific stuff at the end
+ 
+-#######################################################
+-# define officials, persons, powers, ranks and statuses
++# master tables for actual data
+ 
+-class Power(meta.Model):
+-    """ Powers that officials have to take actions
+-        will be attached to officials with a check that
+-        if there is no power the action will not take place
++class Area(meta.Model):
++    """ Each jurisdiction is divided into areas. Areas can be wards,
++        mohallas, sectors etc
+         """
+-    name = meta.CharField(_("Power"),maxlength=50,unique=True)
+-
++    name = meta.CharField(_("Area"),maxlength=50,unique=True)
+     class META:
+         admin = meta.Admin(
+         list_display = ('name',),
+@@ -27,51 +24,7 @@
+     def __repr__(self):
+             return "%s" %(self.name)
+ 
+-class Status(Power):
+-    """ A field describing what a person is doing - should be
+-        set by changes in the movement register
+-        """
+-    name = meta.CharField(_("Status"),maxlength=50,unique=True)
+ 
+-class Official(meta.Model):
+-    """ Types of officials with their powers
+-        """
+-    rank = meta.CharField(_("Rank"),maxlength=50,unique=True)
+-    powers = meta.ManyToManyField(Power)
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('rank',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.rank)
+-
+-class Person(meta.Model):
+-    """ Persons working - rank and status. Once movement register is
+-        set up we could remove the status field
+-        """
+-    name = meta.CharField(_("Name"),maxlength=50,unique=True)
+-    rank = meta.ForeignKey(Official)
+-    status = meta.ForeignKey(Status)
+-    class META:
+-        ordering = ['rank','name'.lower()]
+-        admin = meta.Admin(
+-        list_display = ('name','rank','status',),
+-            search_fields = ['name','rank'],)
+-    def __repr__(self):
+-            return "%s %s %s"\
+-            %(self.name,self.get_rank(),self.get_status())
+-
+-#############################################end of persons
+-
+-# master tables for actual data
+-
+-class Area(Power):
+-    """ Each jurisdiction is divided into areas. Areas can be wards,
+-        mohallas, sectors etc
+-        """
+-    name = meta.CharField(_("Area"),maxlength=50,unique=True)
+-
+-
+ class Street(meta.Model):
+     """ Streets may be streets or colonies or slums or whatever
+         they have to be unique in an area
+@@ -86,20 +39,20 @@
+     def __repr__(self):
+             return _("Street: %s Area %s") %(self.name,self.get_area)
+ 
+-class Deathplace(Power):
++class Deathplace(Area):
+     """ Type of death place - at home, hospital, on the street ...
+         """
+     name = meta.CharField(_("Area"),maxlength=50,unique=True)
+ 
+ 
+-class Birthplace(Power):
++class Birthplace(Area):
+     """ Type of death place - at home, hospital, on the street,
+         found abandoned, given up for adoption etc
+         """
+     name = meta.CharField(_("Area"),maxlength=50,unique=True)
+ 
+ 
+-class Reporttype(Power):
++class Reporttype(Area):
+     """ By email, over the web, phone, in person: how did the
+         report come?
+         """
+@@ -510,58 +463,4 @@
+ ##############################################end of actual data details
+ 
+ 
+-########################################################################
+ 
+-# Website specific stuff
+-
+-class Advertisement(meta.Model):
+-    """ advertisements and announcements for the site
+-        """
+-    title = meta.CharField(_("Title"),maxlength=250)
+-    date = meta.DateTimeField(_("Date"),default=meta.LazyDate())
+-    expires = meta.DateField(_("Expiry Date"),blank=True,null=True)
+-    lead = meta.CharField(_("Lead"),maxlength=250)
+-    photo = meta.ImageField(_("Photo"),upload_to='images/',blank=True,null=True)
+-    matter = meta.TextField(_("Matter"),blank=True,null=True)
+-    class META:
+-        admin = meta.Admin(
+-        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
+-        unique_together = (("title","date"),)
+-    def __repr__(self):
+-            return "%s, Date: %s" %(self.title.capitalize(),self.date)
+-
+-
+-facility_types =(
+-    ('HM', _("Home")),
+-    ('FQ', _("Faq")),
+-    ('DC', _("Documentation")),
+-    
+-    )
+-
+-layout_types =(
+-    ('TB', _("TopBottom")),
+-    ('LR', _("LeftRight")),
+-    ('RL', _("RightLeft")),
+-    )
+-
+-class Facility(meta.Model):
+-    """ Documentation - self explanatory
+-        """
+-    title = meta.CharField(_("Title"),maxlength=250)
+-    type = meta.CharField(_("Entry Type"),maxlength=2,choices=facility_types)
+-    layout = meta.CharField(_("Layout"),maxlength=2,choices=layout_types)
+-    photo = meta.ImageField(_("Photo"),upload_to='images/',blank=True,null=True)
+-    blurb = meta.CharField(_("Blurb for photo"),maxlength=250,blank=True,null=True)
+-    matter = meta.TextField(_("Matter"),blank=True,null=True)
+-    priority = meta.IntegerField(_("Priority"),default=1)
+-    class META:
+-        unique_together = (("title","type"),)
+-        ordering = ['type','priority']
+-        admin = meta.Admin(
+-        list_display = ('title','type','layout','priority'),
+-            search_fields = ['type'],
+-        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
+-    def __repr__(self):
+-            return "%s, Type: %s, Priority: %d, layout: %s\
+-            " %(self.title.capitalize(),self.get_type_display(),self.priority,\
+-                self.get_layout_display())
+
+Added: trunk/birbal/births/apps/website/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/website/models/__init__.py
+===================================================================
+--- trunk/birbal/births/apps/website/models/__init__.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/website/models/__init__.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1 @@
++__all__ = ['website']
+
+Added: trunk/birbal/births/apps/website/models/website.py
+===================================================================
+--- trunk/birbal/births/apps/website/models/website.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/website/models/website.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1,61 @@
++from django.core import meta
++
++# Create your models here.
++
++
++########################################################################
++
++# Website specific stuff
++
++class Advertisement(meta.Model):
++    """ advertisements and announcements for the site
++        """
++    title = meta.CharField(_("Title"),maxlength=250)
++    date = meta.DateTimeField(_("Date"),default=meta.LazyDate())
++    expires = meta.DateField(_("Expiry Date"),blank=True,null=True)
++    lead = meta.CharField(_("Lead"),maxlength=250)
++    photo = meta.ImageField(_("Photo"),upload_to='images/',blank=True,null=True)
++    matter = meta.TextField(_("Matter"),blank=True,null=True)
++    class META:
++        admin = meta.Admin(
++        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
++        unique_together = (("title","date"),)
++    def __repr__(self):
++            return "%s, Date: %s" %(self.title.capitalize(),self.date)
++
++
++facility_types =(
++    ('HM', _("Home")),
++    ('FQ', _("Faq")),
++    ('DC', _("Documentation")),
++    
++    )
++
++layout_types =(
++    ('TB', _("TopBottom")),
++    ('LR', _("LeftRight")),
++    ('RL', _("RightLeft")),
++    )
++
++class Facility(meta.Model):
++    """ Documentation - self explanatory
++        """
++    title = meta.CharField(_("Title"),maxlength=250)
++    type = meta.CharField(_("Entry Type"),maxlength=2,choices=facility_types)
++    layout = meta.CharField(_("Layout"),maxlength=2,choices=layout_types)
++    photo = meta.ImageField(_("Photo"),upload_to='images/',blank=True,null=True)
++    blurb = meta.CharField(_("Blurb for photo"),maxlength=250,blank=True,null=True)
++    matter = meta.TextField(_("Matter"),blank=True,null=True)
++    priority = meta.IntegerField(_("Priority"),default=1)
++    class META:
++        unique_together = (("title","type"),)
++        ordering = ['type','priority']
++        admin = meta.Admin(
++        list_display = ('title','type','layout','priority'),
++            search_fields = ['type'],
++        js = ('js/tiny_mce/tiny_mce.js','js/tiny_mce/textareas.js'),)
++    def __repr__(self):
++            return "%s, Type: %s, Priority: %d, layout: %s\
++            " %(self.title.capitalize(),self.get_type_display(),self.priority,\
++                self.get_layout_display())
++
+
+Added: trunk/birbal/births/apps/website/views.py
+===================================================================
+--- trunk/birbal/births/apps/website/views.py	2005-12-21 13:45:02 UTC (rev 40)
++++ trunk/birbal/births/apps/website/views.py	2005-12-31 07:39:27 UTC (rev 41)
+@@ -0,0 +1,63 @@
++# Create your views here.
++
++
++from django.core import template_loader
++from django.core.extensions import DjangoContext as Context
++from django.utils.httpwrappers import HttpResponse
++from births.apps.website.models.website import *
++import datetime
++from django.core.exceptions import Http404
++
++
++menu_items = [
++              {'name':'Home','url':'fac/HM/','id':''},
++              {'name':'FAQ','url':'fac/FQ/','id':''},
++              {'name':'Documents','url':'fac/DC/','id':''},
++              {'name':'Officials','url':'officials/','id':''},
++              ]
++
++fac_types ={
++    'HM': 'Home',
++    'FQ': 'Faq',
++    'DC': 'Documentation',
++    'AM': 'Amenities'
++    }
++
++
++        
++
++def extract():
++    """ Gets the advertisements and announcements for the
++        right column
++        """
++    list = advertisements.get_values(fields=['title','id'],
++                              expires__gt=datetime.datetime.now(),
++                           order_by=('-date',),
++                              limit=5)
++    return list
++
++
++def index(request):
++    """ Not used
++        """
++    t = template_loader.get_template('register/index')
++    c = Context(request,
++                {'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
++
++def fac(request,type):
++    """ View for display of the documentation
++        generates all pages on the fly
++        """
++    list = facilitys.get_list(type__exact=type,)
++    t = template_loader.get_template('register/fac')
++    c = Context(request,
++                {'list':list,'tp':type,
++                 'ads':extract(),
++                 'mn': menu_items,
++                 })
++    
++    return HttpResponse(t.render(c))
+
+
+
+From lawgon at berlios.de  Sat Dec 31 08:40:48 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 08:40:48 +0100
+Subject: [Birbal-svn] r42 - in trunk/birbal/births/apps: register/models website
+Message-ID: <200512310740.jBV7emHu012302@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 08:40:47 +0100 (Sat, 31 Dec 2005)
+New Revision: 42
+
+Modified:
+   trunk/birbal/births/apps/register/models/register.py
+   trunk/birbal/births/apps/website/views.py
+Log:
+restructuring into something that looks sane
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-31 07:39:27 UTC (rev 41)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-31 07:40:47 UTC (rev 42)
+@@ -462,5 +462,3 @@
+ 
+ ##############################################end of actual data details
+ 
+-
+-
+
+Modified: trunk/birbal/births/apps/website/views.py
+===================================================================
+--- trunk/birbal/births/apps/website/views.py	2005-12-31 07:39:27 UTC (rev 41)
++++ trunk/birbal/births/apps/website/views.py	2005-12-31 07:40:47 UTC (rev 42)
+@@ -1,6 +1,3 @@
+-# Create your views here.
+-
+-
+ from django.core import template_loader
+ from django.core.extensions import DjangoContext as Context
+ from django.utils.httpwrappers import HttpResponse
+
+
+
+From lawgon at berlios.de  Sat Dec 31 08:41:40 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 08:41:40 +0100
+Subject: [Birbal-svn] r43 - trunk/birbal/births/apps/payroll/models
+Message-ID: <200512310741.jBV7feas012363@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 08:41:40 +0100 (Sat, 31 Dec 2005)
+New Revision: 43
+
+Modified:
+   trunk/birbal/births/apps/payroll/models/payroll.py
+Log:
+restructuring into something that looks sane
+
+Modified: trunk/birbal/births/apps/payroll/models/payroll.py
+===================================================================
+--- trunk/birbal/births/apps/payroll/models/payroll.py	2005-12-31 07:40:47 UTC (rev 42)
++++ trunk/birbal/births/apps/payroll/models/payroll.py	2005-12-31 07:41:40 UTC (rev 43)
+@@ -1,3 +1,57 @@
+ from django.core import meta
+ 
+-# Create your models here.
++# complete attendance and personal management
++
++
++#######################################################
++# define officials, persons, powers, ranks and statuses
++
++class Power(meta.Model):
++    """ Powers that officials have to take actions
++        will be attached to officials with a check that
++        if there is no power the action will not take place
++        """
++    name = meta.CharField(_("Power"),maxlength=50,unique=True)
++
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
++class Status(Power):
++    """ A field describing what a person is doing - should be
++        set by changes in the movement register
++        """
++    name = meta.CharField(_("Status"),maxlength=50,unique=True)
++
++class Official(meta.Model):
++    """ Types of officials with their powers
++        """
++    rank = meta.CharField(_("Rank"),maxlength=50,unique=True)
++    powers = meta.ManyToManyField(Power)
++    class META:
++        admin = meta.Admin(
++        list_display = ('rank',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.rank)
++
++class Person(meta.Model):
++    """ Persons working - rank and status. Once movement register is
++        set up we could remove the status field
++        """
++    name = meta.CharField(_("Name"),maxlength=50,unique=True)
++    rank = meta.ForeignKey(Official)
++    status = meta.ForeignKey(Status)
++    class META:
++        ordering = ['rank','name'.lower()]
++        admin = meta.Admin(
++        list_display = ('name','rank','status',),
++            search_fields = ['name','rank'],)
++    def __repr__(self):
++            return "%s %s %s"\
++            %(self.name,self.get_rank(),self.get_status())
++
++#############################################end of persons
+
+
+
+From lawgon at berlios.de  Sat Dec 31 08:53:45 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 08:53:45 +0100
+Subject: [Birbal-svn] r44 - in trunk/birbal/births: . apps/register
+Message-ID: <200512310753.jBV7rjA8013156@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 08:53:44 +0100 (Sat, 31 Dec 2005)
+New Revision: 44
+
+Added:
+   trunk/birbal/births/DIRECTORY_STRUCTURE.txt
+Modified:
+   trunk/birbal/births/apps/register/views.py
+   trunk/birbal/births/urls.py
+Log:
+restructuring description
+
+Added: trunk/birbal/births/DIRECTORY_STRUCTURE.txt
+===================================================================
+--- trunk/birbal/births/DIRECTORY_STRUCTURE.txt	2005-12-31 07:41:40 UTC (rev 43)
++++ trunk/birbal/births/DIRECTORY_STRUCTURE.txt	2005-12-31 07:53:44 UTC (rev 44)
+@@ -0,0 +1,17 @@
++Directory structure:
++
++Under apps, a series of apps
++
++website - specfic to website, documentation, advertisements faqs etc
++
++payroll - people management
++
++accounts - basically a reworked subset of avsap
++
++register - the main births and deaths module
++
++should we go the whole hog and make one more for addresses?
++
++yep
++
++address - town and street mapping (to do)
+\ No newline at end of file
+
+Modified: trunk/birbal/births/apps/register/views.py
+===================================================================
+--- trunk/birbal/births/apps/register/views.py	2005-12-31 07:41:40 UTC (rev 43)
++++ trunk/birbal/births/apps/register/views.py	2005-12-31 07:53:44 UTC (rev 44)
+@@ -4,60 +4,10 @@
+ from births.apps.register.models.register import *
+ import datetime
+ from django.core.exceptions import Http404
++from births.apps.website.views import menu_items,extract
+ 
+-menu_items = [
+-              {'name':'Home','url':'fac/HM/','id':''},
+-              {'name':'FAQ','url':'fac/FQ/','id':''},
+-              {'name':'Documents','url':'fac/DC/','id':''},
+-              {'name':'Officials','url':'officials/','id':''},
+-              ]
+ 
+-fac_types ={
+-    'HM': 'Home',
+-    'FQ': 'Faq',
+-    'DC': 'Documentation',
+-    'AM': 'Amenities'
+-    }
+ 
+-
+-        
+-
+-def extract():
+-    """ Gets the advertisements and announcements for the
+-        right column
+-        """
+-    list = advertisements.get_values(fields=['title','id'],
+-                              expires__gt=datetime.datetime.now(),
+-                           order_by=('-date',),
+-                              limit=5)
+-    return list
+-
+-
+-def index(request):
+-    """ Not used
+-        """
+-    t = template_loader.get_template('register/index')
+-    c = Context(request,
+-                {'ads':extract(),
+-                 'mn': menu_items,
+-                 })
+-    
+-    return HttpResponse(t.render(c))
+-
+-def fac(request,type):
+-    """ View for display of the documentation
+-        generates all pages on the fly
+-        """
+-    list = facilitys.get_list(type__exact=type,)
+-    t = template_loader.get_template('register/fac')
+-    c = Context(request,
+-                {'list':list,'tp':type,
+-                 'ads':extract(),
+-                 'mn': menu_items,
+-                 })
+-    
+-    return HttpResponse(t.render(c))
+-
+ def dutyroster(request):
+     """ Shows attendance status for employees
+         """
+
+Modified: trunk/birbal/births/urls.py
+===================================================================
+--- trunk/birbal/births/urls.py	2005-12-31 07:41:40 UTC (rev 43)
++++ trunk/birbal/births/urls.py	2005-12-31 07:53:44 UTC (rev 44)
+@@ -6,8 +6,8 @@
+ 
+     # Uncomment this for admin:
+      (r'^births/admin/', include('django.contrib.admin.urls.admin')),
+-    (r'^births/$', 'births.apps.register.views.index'),
++    (r'^births/$', 'births.apps.website.views.index'),
+     (r'^births/officials/$', 'births.apps.register.views.dutyroster'),
+-    (r'^births/ads/(?P<id>\d+)/$', 'births.apps.register.views.ads'),
+-    (r'^births/fac/(?P<type>\w+)/$', 'births.apps.register.views.fac'),
++    (r'^births/ads/(?P<id>\d+)/$', 'births.apps.website.views.ads'),
++    (r'^births/fac/(?P<type>\w+)/$', 'births.apps.website.views.fac'),
+ )
+
+
+
+From lawgon at berlios.de  Sat Dec 31 08:57:32 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 08:57:32 +0100
+Subject: [Birbal-svn] r45 - in trunk/birbal/births/apps: . address address/models
+Message-ID: <200512310757.jBV7vWdS013460@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 08:57:32 +0100 (Sat, 31 Dec 2005)
+New Revision: 45
+
+Added:
+   trunk/birbal/births/apps/address/
+   trunk/birbal/births/apps/address/__init__.py
+   trunk/birbal/births/apps/address/models/
+   trunk/birbal/births/apps/address/models/__init__.py
+   trunk/birbal/births/apps/address/models/address.py
+   trunk/birbal/births/apps/address/views.py
+Log:
+restructuring into something that looks sane
+
+Added: trunk/birbal/births/apps/address/__init__.py
+===================================================================
+
+Added: trunk/birbal/births/apps/address/models/__init__.py
+===================================================================
+--- trunk/birbal/births/apps/address/models/__init__.py	2005-12-31 07:53:44 UTC (rev 44)
++++ trunk/birbal/births/apps/address/models/__init__.py	2005-12-31 07:57:32 UTC (rev 45)
+@@ -0,0 +1 @@
++__all__ = ['address']
+
+Added: trunk/birbal/births/apps/address/models/address.py
+===================================================================
+--- trunk/birbal/births/apps/address/models/address.py	2005-12-31 07:53:44 UTC (rev 44)
++++ trunk/birbal/births/apps/address/models/address.py	2005-12-31 07:57:32 UTC (rev 45)
+@@ -0,0 +1,3 @@
++from django.core import meta
++
++# Create your models here.
+
+Added: trunk/birbal/births/apps/address/views.py
+===================================================================
+--- trunk/birbal/births/apps/address/views.py	2005-12-31 07:53:44 UTC (rev 44)
++++ trunk/birbal/births/apps/address/views.py	2005-12-31 07:57:32 UTC (rev 45)
+@@ -0,0 +1 @@
++# Create your views here.
+
+
+
+From lawgon at berlios.de  Sat Dec 31 09:31:32 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 09:31:32 +0100
+Subject: [Birbal-svn] r46 - in trunk/birbal/births: . apps/address/models apps/register/models
+Message-ID: <200512310831.jBV8VWLw015427@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 09:31:31 +0100 (Sat, 31 Dec 2005)
+New Revision: 46
+
+Modified:
+   trunk/birbal/births/DIRECTORY_STRUCTURE.txt
+   trunk/birbal/births/apps/address/models/address.py
+   trunk/birbal/births/apps/register/models/register.py
+Log:
+restructuring into something that looks sane
+
+Modified: trunk/birbal/births/DIRECTORY_STRUCTURE.txt
+===================================================================
+--- trunk/birbal/births/DIRECTORY_STRUCTURE.txt	2005-12-31 07:57:32 UTC (rev 45)
++++ trunk/birbal/births/DIRECTORY_STRUCTURE.txt	2005-12-31 08:31:31 UTC (rev 46)
+@@ -2,6 +2,12 @@
+ 
+ Under apps, a series of apps
+ 
++idea being that since production and development are going side by side,
++there will be constant tinkering with the db - if split up, sqlreset can be
++freely used without disturbing more mature apps like the main website which
++is complete. Have to be careful to import stuff across apps, but that is
++do-able 
++
+ website - specfic to website, documentation, advertisements faqs etc
+ 
+ payroll - people management
+@@ -10,8 +16,4 @@
+ 
+ register - the main births and deaths module
+ 
+-should we go the whole hog and make one more for addresses?
+-
+-yep
+-
+-address - town and street mapping (to do)
+\ No newline at end of file
++address - town and street mapping
+\ No newline at end of file
+
+Modified: trunk/birbal/births/apps/address/models/address.py
+===================================================================
+--- trunk/birbal/births/apps/address/models/address.py	2005-12-31 07:57:32 UTC (rev 45)
++++ trunk/birbal/births/apps/address/models/address.py	2005-12-31 08:31:31 UTC (rev 46)
+@@ -1,3 +1,31 @@
+ from django.core import meta
+ 
+-# Create your models here.
++# All address related data here. There should be a clickable map
++# to populate the Area and Street tables/fields
++
++class Area(meta.Model):
++    """ Each jurisdiction is divided into areas. Areas can be wards,
++        mohallas, sectors etc
++        """
++    name = meta.CharField(_("Area"),maxlength=50,unique=True)
++    class META:
++        admin = meta.Admin(
++        list_display = ('name',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return "%s" %(self.name)
++
++
++class Street(meta.Model):
++    """ Streets may be streets or colonies or slums or whatever
++        they have to be unique in an area
++        """
++    name = meta.CharField(_("Street"),maxlength=50)
++    area = meta.ForeignKey(Area)
++    class META:
++        unique_together = (("name","area"),)
++        admin = meta.Admin(
++        list_display = ('name','area',),
++            search_fields = ['name'],)
++    def __repr__(self):
++            return _("Street: %s Area %s") %(self.name,self.get_area)
+
+Modified: trunk/birbal/births/apps/register/models/register.py
+===================================================================
+--- trunk/birbal/births/apps/register/models/register.py	2005-12-31 07:57:32 UTC (rev 45)
++++ trunk/birbal/births/apps/register/models/register.py	2005-12-31 08:31:31 UTC (rev 46)
+@@ -1,5 +1,6 @@
+ from django.core import meta
+ from births.apps.payroll.models.payroll import *
++from births.apps.address.models.address import *
+ 
+ 
+ #######################################################################
+@@ -12,33 +13,8 @@
+ 
+ # master tables for actual data
+ 
+-class Area(meta.Model):
+-    """ Each jurisdiction is divided into areas. Areas can be wards,
+-        mohallas, sectors etc
+-        """
+-    name = meta.CharField(_("Area"),maxlength=50,unique=True)
+-    class META:
+-        admin = meta.Admin(
+-        list_display = ('name',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return "%s" %(self.name)
+ 
+ 
+-class Street(meta.Model):
+-    """ Streets may be streets or colonies or slums or whatever
+-        they have to be unique in an area
+-        """
+-    name = meta.CharField(_("Street"),maxlength=50)
+-    area = meta.ForeignKey(Area)
+-    class META:
+-        unique_together = (("name","area"),)
+-        admin = meta.Admin(
+-        list_display = ('name','area',),
+-            search_fields = ['name'],)
+-    def __repr__(self):
+-            return _("Street: %s Area %s") %(self.name,self.get_area)
+-
+ class Deathplace(Area):
+     """ Type of death place - at home, hospital, on the street ...
+         """
+
+
+
+From lawgon at berlios.de  Sat Dec 31 15:38:33 2005
+From: lawgon at berlios.de (lawgon at BerliOS)
+Date: Sat, 31 Dec 2005 15:38:33 +0100
+Subject: [Birbal-svn] r47 - trunk/birbal/births/apps/payroll/models
+Message-ID: <200512311438.jBVEcXT9009326@sheep.berlios.de>
+
+Author: lawgon
+Date: 2005-12-31 15:38:33 +0100 (Sat, 31 Dec 2005)
+New Revision: 47
+
+Modified:
+   trunk/birbal/births/apps/payroll/models/payroll.py
+Log:
+last commit for the year
+
+Modified: trunk/birbal/births/apps/payroll/models/payroll.py
+===================================================================
+--- trunk/birbal/births/apps/payroll/models/payroll.py	2005-12-31 08:31:31 UTC (rev 46)
++++ trunk/birbal/births/apps/payroll/models/payroll.py	2005-12-31 14:38:33 UTC (rev 47)
+@@ -43,7 +43,8 @@
+         set up we could remove the status field
+         """
+     name = meta.CharField(_("Name"),maxlength=50,unique=True)
+-    rank = meta.ForeignKey(Official)
++    rank = meta.ForeignKey(Official,
++                           verbose_name=_("Rank"))
+     status = meta.ForeignKey(Status)
+     class META:
+         ordering = ['rank','name'.lower()]
+@@ -55,3 +56,60 @@
+             %(self.name,self.get_rank(),self.get_status())
+ 
+ #############################################end of persons
++
++#############################################transactions
++# basically the attendance/movement register. Will have to define
++# holidays, earned leave, causal leave, medical leave etc
++
++class Leave(Power):
++    """Types of leave available
++       """
++    name = meta.CharField(_("Leave Type"),maxlength=50,unique=True)
++
++class Leaveallotment(meta.Model):
++    """This gives the amount of leave available for each
++       type of leave for each type of official
++       """
++    year = meta.IntegerField(_("Year"))
++    leave = meta.ForeignKey(Leave,
++                            verbose_name=_("Type of leave"))
++    rank =  meta.ForeignKey(Official,
++                           verbose_name=_("Rank"))
++    monthly = meta.IntegerField(_("Monthly quota"))
++    yearly = meta.IntegerField(_("Yearly quota"))
++    carriedforward = meta.BooleanField(_("Can be carried forward"),
++                                       default=True)
++    encashed = meta.BooleanField(_("Can be encashed"),
++                                       default=True)
++
++    class META:
++        
++        admin = meta.Admin(
++        list_display = ('year','leave','rank',),
++            search_fields = ['leave','rank'],)
++        unique_together = (("year","leave","rank"),)
++    def __repr__(self):
++            return "%s %s %s"\
++            %(self.year,self.get_rank(),self.get_leave())
++
++class Holiday(meta.Model):
++    """This gives the holidays announced for each year
++       """
++    name = meta.CharField(_("Holiday Name"),maxlength=50,unique=True)
++    year = meta.IntegerField(_("Year"))
++    date = meta.DateField(_("Date"))
++    general = meta.BooleanField(_("General or Restricted"),
++                                       default=True)
++
++    class META:
++        ordering = ['-date','name'.lower()]
++        admin = meta.Admin(
++        list_display = ('year','name','date',),
++            search_fields = ['leave','rank'],)
++    def __repr__(self):
++            return "%s %s %s"\
++            %(self.year,self.date,self.name)
++    
++    
++    
++    
+
+
+
